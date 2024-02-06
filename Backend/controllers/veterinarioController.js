@@ -62,10 +62,25 @@ const perfil = (req, res) =>{
         msg: 'Mostrando perfil'
     });
 }
+//Autentificar veterinario
+const autenticar = (req,res)=>{
+    //Se requiere solo el password y el email para autenticar al veterinario.
+    //Primero se valida si la cuenta existe
 
+    //Despues validar que la cuenta este confirmada
+
+    //Despues que su password este bien escrito
+
+    //Y despues autenticar
+    
+    res.json({
+        msg: 'Autentificado'
+    });
+}
 
 export{
     registrar,
     perfil,
-    confirmar
+    confirmar,
+    autenticar
 }
