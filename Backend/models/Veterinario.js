@@ -47,8 +47,13 @@ veterinarioSchema.pre('save',async function(next){
     }
     const salt = await bcrypt.genSalt(10);
     //El this.password ya va estar hasheado, y ya lo va almacenar en el campo password
-    this.password = await bcrypt.hash(this.password,salt)
+    this.password = await bcrypt.hash(this.password,salt);
 });
+//Metodo para validar el password del usuario
+veterinarioSchema.methods.comprobarPassword= async function (passwordFormulario){
+    //compare permite  comparar dos hashes y retorna un true o false
+    return await bcrypt.compare(passwordFormulario,this.password);
+}
 
 //Registra el modelo
 const Veterinario = mongoose.model('Veterinario',veterinarioSchema);
