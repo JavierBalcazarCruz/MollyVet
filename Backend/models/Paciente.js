@@ -15,17 +15,13 @@ const pacientesSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    nombre: {
-        type: String,
-        required: true
-    },    
-    historialMedico: {
-        type: String,
-        default: null,
-        trim: true
-    },
-    fechaRegistro: {
+    fecha: {
         type: Date,
+        required: true,
+        default:Date.now()
+    },
+    sintomas: {
+        type: String,
         required: true
     },
     veterinario: {
