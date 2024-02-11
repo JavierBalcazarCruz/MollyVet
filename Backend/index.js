@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import conectarDB from "./config/db.js";
 import veterinarioRoutes from './routes/veterinarioRoutes.js';
+import pacienteRoutes from './routes/pacienteRoutes.js';
 
 const app = express();
 app.use(express.json());
@@ -11,8 +12,10 @@ conectarDB();
 console.log('***')
 console.log(process.env.MONGO_URI);
 
-//Cuando visitemos esa url, va llamar ese routing
+//Cuando visitemos esa url, va llamar ese routing de veterinarios
 app.use("/api/veterinarios", veterinarioRoutes);
+//Cuando visitemos esa url, va llamar ese routing de pacientes
+app.use("/api/pacientes", pacienteRoutes);
 
 
 //Si no existe el puerto 4000 lo va asignar
