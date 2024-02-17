@@ -75,7 +75,28 @@ const actualizarPaciente = async (req, res) => {
 };
 
 const eliminarPaciente = async (req, res) => {
-
+        //Se va pasar el id de cada paciente
+            const {id} = req.params;
+            const paciente = await Paciente.findById(id);
+            //Validar que ese paciente fue agregado por el doctor que esta autenticado, solo el puede verlo
+            //Si el medico que inicio sesion es diferente de la busqueda de el veterinario validado por el token entonces no tiene permisos
+            if(!paciente)
+            {
+               return res.status(404).json({msg:'Paciente no encontrado'});
+            }
+    
+            if(paciente.veterinario._id.toString() !== req.veterinario._id.toString())
+            {
+                return res.json({msg: 'No tienes permiso para eliminar a este paciente'});
+            }
+            
+            try {
+                //Esto me va permitir borrar este objeto
+                await paciente.deleteOne();
+                return res.json({msg: 'Paciente eliminado'});
+            } catch (error) {
+                console.log(error);
+            }    
 };
 
 export{
