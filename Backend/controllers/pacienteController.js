@@ -18,9 +18,36 @@ const obtenerPacientes = async (req, res) => {
     //Aqui ya consulto todos los pacientes en la BD por id del doctor
    const pacientes = await Paciente.find().where('veterinario').equals(req.veterinario);
    res.json(pacientes);
+};
+
+//Obtener paciente especifico
+const obtenerPaciente = async (req, res) => {
+    const {id} = req.params;
+    const paciente = await Paciente.findById(id);
+    //Validar que ese paciente fue agregado por el doctor que esta autenticado, solo el puede verlo
+    //Si el medico que inicio sesion es diferente de la busqueda de el veterinario validado por el token entonces no tiene permisos
+    if(paciente.veterinario._id.toString() !== req.veterinario._id.toString())
+    {
+        return res.json({msg: 'No tienes permiso para acceder a este paciente'});
+    }
+    if(paciente)
+    {
+        return res.json(paciente);
+    }
 }
+
+const actualizarPaciente = async (req, res) => {
+    //Se va pasar el id de cada paciente
+};
+
+const eliminarPaciente = async (req, res) => {
+
+};
 
 export{
     agregarPaciente,
-    obtenerPacientes
+    obtenerPacientes,
+    obtenerPaciente,
+    actualizarPaciente,
+    eliminarPaciente
 };
