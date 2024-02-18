@@ -1,6 +1,6 @@
 function App() {
   return(
-  <h1>Bienvenido</h1>
+  <h1 className="font-bold text-2xl">Bienvenido</h1>
   )
 }
 
