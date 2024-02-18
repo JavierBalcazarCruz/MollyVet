@@ -1,7 +1,18 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import  AuthLayout  from './layout/AuthLayout';
+import  Login  from './paginas/Login';
 function App() {
-  return(
-  <h1 className="font-bold text-2xl">Bienvenido</h1>
-  )
-}
+  return (
+    <BrowserRouter>
+      {/* Definición de rutas */}
+      <Routes>
+        {/* Ruta principal, todas las que esten agrupadas en AuthLayout estaran agrupadas en route*/}
+        <Route path="/" element={<AuthLayout/>} >
+         <Route index element={<Login/>}/>
 
-export default App
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+export default App;
