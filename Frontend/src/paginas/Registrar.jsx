@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import { useEffect,useState  } from 'react';
 import '../assets/registrar/styles/style.css'; // Importa los estilos CSS
 import logImg from '../assets/login/images/log.png';
-import regImg from '../assets/login/images/log.png';
+
 
 const Registrar = () => {
   const [signUpMode, setSignUpMode] = useState(false);
