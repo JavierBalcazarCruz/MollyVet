@@ -33,9 +33,6 @@ export const Login = () => {
             <nav className='olvide-password'>
               <Link to="/olvide-password" className="olvide-password-link" id="">Olvide mi password</Link>
             </nav>
-          
-
-
             <form action="#" className="sign-up-form">
               <h2 className="title">Registrate</h2>           
               <div className="input-field">
@@ -46,9 +43,7 @@ export const Login = () => {
                 <i className="fas fa-lock"></i>
                 <input type="password" placeholder="Contraseña" />
               </div>
-              <input type="submit" className="btn" value="Enviar" />
-          
-            
+              <input type="submit" className="btn" value="Enviar" />      
             </form>
           </div>
         </div>
