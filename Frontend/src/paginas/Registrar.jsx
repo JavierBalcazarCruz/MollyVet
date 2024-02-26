@@ -12,31 +12,19 @@ const Registrar = () => {
 }, [])
   return (
     <div className={`container ${signUpMode ? 'sign-up-mode' : ''}`}>
-   <div className="panel right-panel">
-    <div className="content">
-      <h3>¿Ya tienes cuenta?</h3>
-      <p>
-          Inicia sesión y comienza a administrar tus veterinaria
-      </p>
-      <button className="btn transparent" id="sign-in-btn">
-       Iniciar sesión
-      </button>
+      <div className="panel right-panel">
+      <div className="content">
+        <h3>¿Ya tienes cuenta?</h3>
+        <p>
+            Inicia sesión y comienza a administrar tus veterinaria
+        </p>
+        <button className="btn transparent" id="sign-in-btn">
+        Iniciar sesión
+        </button>
+      </div>
+      <img src={logImg} className="image" alt="" />        
+      </div>
     </div>
-    <img src={logImg} className="image" alt="" />        
-  </div>
-
-  </div>
-
-
-
-    
-
-
-
-
-
-
-   
   )
 }
 
