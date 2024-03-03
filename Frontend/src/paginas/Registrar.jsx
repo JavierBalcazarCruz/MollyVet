@@ -7,6 +7,28 @@ const Registrar = () => {
   const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
 
+  const [ nombre, setNombre ] = useState('');
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const [ repetirPassword, setRepetirPassword ] = useState('');
+  //Validacion donde todos los campos son obligatorios para el registro y los passwords deben ser iguales y minimo 6 caracteres
+  const handleSubmit = e =>{
+    e.preventDefault();
+   
+    if([nombre, email, password, repetirPassword].includes('')){
+      console.log('Hay campos vacios')
+      return;
+    }
+    if(password !== repetirPassword)
+    {
+      console.log('Los paswword no son iguales');
+      return;
+    }
+    if(password.length < 6){
+      console.log('El password es menor a 6 caracteres')
+    }
+  }
+
   useEffect(() => {
     setSignUpMode(true);
   }, []);
@@ -39,17 +61,25 @@ const Registrar = () => {
     
 
 
-          <form action="#" className="sign-up-form">
+          <form onSubmit={handleSubmit} className="sign-up-form">
             <h2 className="title">Registrate</h2>
             <div className="input-field">
+              <i className="fas fa-user"></i>
+              <input type="text" placeholder="Nombre Completo" value={nombre} onChange={e=>setNombre(e.target.value)} />
+            </div>
+            <div className="input-field">
               <i className="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" />
+              <input type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} />
             </div>
             <div className="input-field">
               <i className="fas fa-lock"></i>
-              <input type="password" placeholder="Contraseña" />
+              <input type="password" placeholder="Contraseña" value={password} onChange={e=>setPassword(e.target.value)} />
             </div>
-            <input type="submit" className="btn" value="Registrate" />
+            <div className="input-field">
+              <i className="fas fa-lock"></i>
+              <input type="password" placeholder="Repite tu Contraseña" value={repetirPassword} onChange={e=>setRepetirPassword(e.target.value)} />
+            </div>
+            <input type="submit" className="btn" value="Crear Cuenta" />
           </form>
         </div>
       </div>
