@@ -1,8 +1,11 @@
 import { Link,useNavigate  } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2'
 import '../assets/registrar/styles/style.css'; // Importa los estilos CSS
 import logImg from '../assets/login/images/log.svg';
-
+import cVacios from '../assets/registrar/images/CamposVacios.jpg';
+import cdif from '../assets/registrar/images/diferentesPass.jpg';
+import cPeque from '../assets/registrar/images/password-peque.jpg';
 const Registrar = () => {
   const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
@@ -11,21 +14,32 @@ const Registrar = () => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ repetirPassword, setRepetirPassword ] = useState('');
+
+  const mostrarAlerta = (titulo,texto,rutaImg,altImg) =>{
+    Swal.fire({
+      title: titulo,
+      text: texto,
+      imageUrl: rutaImg,        
+      imageAlt: altImg
+    });
+  }
+
   //Validacion donde todos los campos son obligatorios para el registro y los passwords deben ser iguales y minimo 6 caracteres
   const handleSubmit = e =>{
     e.preventDefault();
    
     if([nombre, email, password, repetirPassword].includes('')){
-      console.log('Hay campos vacios')
+      mostrarAlerta("⚠️ Los campos se encuentran vacios ⚠️","Alguno de los campos se encuentran vacios revisa la información que  ingresaste.",cVacios,"Perrito triste por que no  hay campos llenos");
       return;
     }
     if(password !== repetirPassword)
     {
-      console.log('Los paswword no son iguales');
+      mostrarAlerta("⚠️ Las contraseñas no son iguales ⚠️","Revisa la información que  ingresaste.",cdif,"Perritos diferentes");      
       return;
     }
     if(password.length < 6){
-      console.log('El password es menor a 6 caracteres')
+      mostrarAlerta("⚠️ La contraseña es pequeña  ⚠️","Agrega un minimo 6 caracteres",cPeque,"Perrito  pequeño");     
+      return; 
     }
   }
 
