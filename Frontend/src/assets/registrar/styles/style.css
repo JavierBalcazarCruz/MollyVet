@@ -169,7 +169,11 @@ form.sign-in-form {
   transition: 0.5s;
 }
 .btn.transparent:hover{
+<<<<<<< HEAD
   background-color: #5995fd;
+=======
+  background-color: #003083;
+>>>>>>> 9595723f60f191c38347a28dd4a6fbce45140304
 }
 .btn:hover {
   background-color: #003083;
@@ -182,7 +186,11 @@ form.sign-in-form {
   left: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+<<<<<<< HEAD
   background-color: rgb(255, 255, 255);
+=======
+  background-color: cyan;
+>>>>>>> 9595723f60f191c38347a28dd4a6fbce45140304
 }
 
 .container:before {
@@ -193,7 +201,11 @@ form.sign-in-form {
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
+<<<<<<< HEAD
   background-image: linear-gradient(-45deg, #FF7600 0%, #e60d0d 100%);
+=======
+  background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
+>>>>>>> 9595723f60f191c38347a28dd4a6fbce45140304
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
@@ -355,7 +367,11 @@ form.sign-in-form {
   }
 
   .btn.transparent {
+<<<<<<< HEAD
     width: 142px;
+=======
+    width: 110px;
+>>>>>>> 9595723f60f191c38347a28dd4a6fbce45140304
     height: 35px;
     font-size: 0.7rem;
   }
@@ -422,4 +438,8 @@ form.sign-in-form {
     bottom: 28%;
     left: 50%;
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9595723f60f191c38347a28dd4a6fbce45140304

@@ -15,8 +15,6 @@ function App() {
           <Route path="registrar" element={<Registrar/>}/>
           <Route path="olvide-passoword" element={<OlvidePassword/>}/>
           <Route path="confirmar/:id" element={<ConfirmarCuenta/>}/>
-
-
         </Route>
       </Routes>
     </BrowserRouter>

@@ -44,9 +44,6 @@ export const Login = () => {
             <nav className='olvide-password'>
               <Link to="/olvide-password" className="olvide-password-link" id="">Olvide mi password</Link>
             </nav>
-          
-
-
             <form action="#" className="sign-up-form">
               <h2 className="title">Registrate</h2>           
               <div className="input-field">
@@ -58,8 +55,6 @@ export const Login = () => {
                 <input type="password" placeholder="Contraseña" />
               </div>
               <input type="submit" className="btn" value="Enviar" />
-          
-            
             </form>
           </div>
         </div>
@@ -70,8 +65,7 @@ export const Login = () => {
           <div className="content">
             <h3>¿No tienes una cuenta?</h3>
             <p>Regístrate y comienza a administrar tu veterinaria con </p>
-            <h1 className='marca'>MollyVet</h1>
-            
+            <h1 className='marca'>MollyVet</h1>            
             <Link to="/registrar" className="btn transparent" id="sign-up-btn" onClick={handleSignUpClick}> Regístrate</Link>
           </div>
           <img src={regImg} alt="2 mascotas invitandote a registrar" className="image" />          
