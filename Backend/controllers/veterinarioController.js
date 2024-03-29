@@ -1,17 +1,18 @@
 import Veterinario from "../models/Veterinario.js";
 import generarJWT from "../helpers/generarJWT.js";
 import generarId from "../helpers/generarId.js";
+import emailRegistro from "../helpers/emailRegistro.js";
 //Registrando usuario Veterinario
 const registrar = async(req, res) =>{
     //Como leerlo en node
     console.log(req.body);
     
     //---Prevenir usuarios duplicados validando si uno de los emails ya existe.
-    const {email} = req.body;
+    const {email, nombre} = req.body;
     //findOnde permite buscar por los diferentes atributos que existen en los registros
     const existeUsuario = await Veterinario.findOne({email})
     if(existeUsuario){
-        const error = new Error('Usuario ya registrado');
+        const error = new Error('Oops! Usuario ya registrado');
         return res.status(400).json({msg:error.message});
     }
     //---Fin de prevenir usuarios
@@ -22,7 +23,13 @@ const registrar = async(req, res) =>{
         //el await  se utiliza para que espere a que termine el proceso de guardado y luego siga con lo siguiente, si hay un error se ira al catch
         //.save en mongoose ayuda a guardar o modificar el objeto
         const veterinarioGuardado = await veterinario.save();
-
+        //Enviar email
+        emailRegistro({
+            email,
+            nombre,
+            token:veterinarioGuardado.token
+        });
+        
         res.json({
             msg: 'Registrando usuario'
         });
