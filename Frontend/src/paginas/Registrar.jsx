@@ -1,11 +1,14 @@
 import { Link,useNavigate  } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import  axios from "axios";
 import '../assets/registrar/styles/style.css'; // Importa los estilos CSS
 import logImg from '../assets/login/images/log.svg';
 import cVacios from '../assets/registrar/images/CamposVacios.jpg';
 import cdif from '../assets/registrar/images/diferentesPass.jpg';
 import cPeque from '../assets/registrar/images/password-peque.jpg';
+import uRepetido from '../assets/registrar/images/usuarioRepetido.jpg';
+import rExistoso from '../assets/registrar/images/registroE.png';
 const Registrar = () => {
   const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
@@ -25,7 +28,7 @@ const Registrar = () => {
   }
 
   //Validacion donde todos los campos son obligatorios para el registro y los passwords deben ser iguales y minimo 6 caracteres
-  const handleSubmit = e =>{
+  const handleSubmit = async e =>{
     e.preventDefault();
    
     if([nombre, email, password, repetirPassword].includes('')){
@@ -40,6 +43,24 @@ const Registrar = () => {
     if(password.length < 6){
       mostrarAlerta("⚠️ La contraseña es pequeña  ⚠️","Agrega un minimo 6 caracteres",cPeque,"Perrito  pequeño");     
       return; 
+    }
+    //Ahora se creara  el usuario en la base de datos con la api
+    try {
+      const url = 'http://localhost:4000/api/veterinarios';
+
+      const respuesta = await axios.post(url, {nombre, email, password});
+      console.log(respuesta)
+      mostrarAlerta("Registrado correctamente","Revisa tu email y confirma tu registro.",rExistoso,"Perrito sonriendo");
+    } catch (error) {
+   
+        console.log(error)
+        console.log(error.response)
+        console.log('***');
+        console.log('Error:', error.message);
+      
+
+      mostrarAlerta("Error al registrarse", error.response.data.msg, uRepetido, "GatoConPan");
+    
     }
   }
 
