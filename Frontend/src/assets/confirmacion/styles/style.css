@@ -66,6 +66,12 @@ form.sign-in-form {
   margin-bottom: 10px;
   text-align: center;
 }
+.titleConfirm{
+  color: #444;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 
 .input-field {
   max-width: 380px;
