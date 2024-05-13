@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import '../assets/olvide-password/styles/style.css'; // Importa los estilos CSS
 import logImg from '../assets/olvide-password/images/olvidar-password.svg';
 export const OlvidePassword = () => {
+  console.log('Olvide pass');
   const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
 

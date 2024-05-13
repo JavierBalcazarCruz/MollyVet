@@ -14,6 +14,7 @@ const ScrollToTop = () => {
   };
   
 export const Login = () => {
+  console.log("Index");
   const [signUpMode, setSignUpMode] = useState(false);
     useEffect(() => {
     

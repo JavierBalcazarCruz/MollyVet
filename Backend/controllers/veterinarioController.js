@@ -57,7 +57,7 @@ const confirmar = async(req, res)=>{
         //Almacenamos en la BD el status confirmado.
         await usuarioConfirmar.save();
         res.json({
-            msg:'Usuario confirmando correctamente...'       
+            msg:'Cuenta confirmada bienvenido Serás redirigido al inicio de sesión, espere un momento ...'       
         });
     } catch (error) {
         console.log(error);
