@@ -2,10 +2,21 @@ import { Link,useNavigate  } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import '../assets/olvide-password/styles/style.css'; // Importa los estilos CSS
 import logImg from '../assets/olvide-password/images/olvidar-password.svg';
+import emailImg from '../assets/olvide-password/images/CampoVacio.png';
+import Swal from 'sweetalert2';
 export const OlvidePassword = () => {
   console.log('Olvide pass');
   const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
+  const [email, setEmail] = useState('');
+  const mostrarAlerta = (titulo,texto,rutaImg,altImg) =>{
+    Swal.fire({
+      title: titulo,
+      text: texto,
+      imageUrl: rutaImg,        
+      imageAlt: altImg
+    });
+  }
 
   useEffect(() => {
     setSignUpMode(true);
@@ -20,12 +31,22 @@ export const OlvidePassword = () => {
      }, 1800); // Espera a que termine la animación antes de navegar   
    };
 
+   const handleSubmit = async e =>{
+    e.preventDefault();  
+ 
+    if(email === ''){
+      mostrarAlerta("⚠️ Campo de email vacio ⚠️","El campo email se encuentra vacio, escribe tu email y restaura tu acceso",emailImg,"Perrito cafe se equivoca al entrar");      
+      return;
+    }    
+  }
+
+
   return (
    <>
      <div className={`container ${signUpMode ? 'sign-up-mode' : ''}`}>
       <div className="forms-container">
         <div className="signin-signup">    
-        <form action="#" className="sign-in-form">
+        <form  className="sign-in-form">
               <h2 className="title">Inicia sesión</h2>
               <div className="input-field">
                 <i className="fas fa-user"></i>
@@ -40,11 +61,11 @@ export const OlvidePassword = () => {
     
 
 
-          <form action="#" className="sign-up-form">
+          <form onSubmit={handleSubmit} className="sign-up-form">
             <h2 className="title">Recupera tu acceso</h2>          
             <div className="input-field">
               <i className="fas fa-envelope"></i>
-              <input type="email" placeholder="Email de registro" />
+              <input type="email" placeholder="Email de registro" value={email} onChange={e => setEmail(e.target.value)}/>
             </div>
          
             <input type="submit" className="btn" value="Recuperar" />
