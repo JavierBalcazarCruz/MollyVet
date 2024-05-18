@@ -10,8 +10,8 @@ app.use(express.json());
 dotenv.config();
 
 conectarDB();
-/*
-const dominiosPermitidos = ['http://192.168.0.6:3000'];
+
+const dominiosPermitidos = [process.env.FRONTEND_URL];
 var corsOptions = {
     origin: function (origin, callback) {
       if (!origin || dominiosPermitidos.indexOf(origin) !== -1) {
@@ -23,14 +23,16 @@ var corsOptions = {
     }
   }
   app.use(cors(corsOptions));
-*/
+
+/*
+//Puedo revisar desde cualquier dispositivo 
 const corsOptions = {
     origin: function (origin, callback) {
       // Permitir cualquier origen
       callback(null, true);
     }
   };
-  
+  */
   app.use(cors(corsOptions));
   
 //Cuando visitemos esa url, va llamar ese routing de veterinarios

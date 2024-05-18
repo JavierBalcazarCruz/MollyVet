@@ -1,12 +1,10 @@
 
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-
-import axios from "axios";
+import { useEffect, useState, useRef  } from "react";
 import "../assets/confirmacion/styles/style.css"; // Importa los estilos CSS
 import regImg from "../assets/confirmacion/images/registrar.svg";
 import Alerta from "../components/Alerta";
-
+import clienteAxios from "../config/axios";
 const ConfirmarCuenta = () => {
 console.log('******');
 
@@ -21,24 +19,25 @@ console.log('******');
   const handleSubmit = async (e) => {
     e.preventDefault();   
   };
-
+  const mostrarBotonRef = useRef(false);
   useEffect(() => {
     const confirmarCuenta = async () => {
       try {      
             //Confirmación de usuario a la BD
-            const url =  `http://localhost:4000/api/veterinarios/confirmar/${id}`;      
-            const { data } = await axios(url);
+            const url =  `/veterinarios/confirmar/${id}`;      
+            const { data } = await clienteAxios(url);
             setCuentaConfirmada(true);
             setAlerta({
               msg:data.msg,
               error:false              
             });
-            
+            mostrarBotonRef.current = true;
       } catch (error) {
         setAlerta({
           msg: error.response.data.msg,
           error:true
         });
+        mostrarBotonRef.current = true;
       }
       setCargando(false);
     }
@@ -64,6 +63,7 @@ console.log('******');
             <h3 className="titleConfirm">
               ¡Un momento, estamos preparando todo para ti!
             </h3>
+            <br></br>
             <h3 className="titleConfirm">
               {" "}
               Tu experiencia única de administrar tu veterinario está a punto de
@@ -81,13 +81,18 @@ console.log('******');
               alerta = {alerta}
             />}
            
-            <button
-              className="btn transparent"
-              id="sign-in-btn"
-              onClick={handleSignInClick}
-            >
-              Iniciar sesión
-            </button>
+           
+           {mostrarBotonRef.current && (
+  <button
+    className="btn transparent"
+    id="sign-in-btn"
+    onClick={handleSignInClick}
+  >
+    Iniciar sesión
+  </button>
+)}
+
+
           </div>
           <img src={regImg} className="image" alt="Imagen de confirmación" />
         </div>

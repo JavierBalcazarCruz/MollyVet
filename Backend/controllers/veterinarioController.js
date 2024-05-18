@@ -2,6 +2,7 @@ import Veterinario from "../models/Veterinario.js";
 import generarJWT from "../helpers/generarJWT.js";
 import generarId from "../helpers/generarId.js";
 import emailRegistro from "../helpers/emailRegistro.js";
+import emailOlvidePassword from "../helpers/emailOlvidePassword.js";
 //Registrando usuario Veterinario
 const registrar = async(req, res) =>{
     //Como leerlo en node
@@ -12,7 +13,7 @@ const registrar = async(req, res) =>{
     //findOnde permite buscar por los diferentes atributos que existen en los registros
     const existeUsuario = await Veterinario.findOne({email})
     if(existeUsuario){
-        const error = new Error('Oops! Usuario ya registrado');
+        const error = new Error('❌ Oops! Usuario ya registrado ❌');
         return res.status(400).json({msg:error.message});
     }
     //---Fin de prevenir usuarios
@@ -44,9 +45,9 @@ const confirmar = async(req, res)=>{
     //Buscar el usuario con el token en la BD
     const usuarioConfirmar = await Veterinario.findOne({token});
 
-    //valido que el token sea real
+    //valido que el token sea real -> Token no válido
     if(!usuarioConfirmar){
-        const error = new Error('Token no válido');
+        const error = new Error('⚠️ Enlace de verificación usado o ha expirado ⚠️. Intente iniciar sesión para verificar su cuenta');
         return res.status(400).json({msg:error.message});
     }
 
@@ -57,7 +58,7 @@ const confirmar = async(req, res)=>{
         //Almacenamos en la BD el status confirmado.
         await usuarioConfirmar.save();
         res.json({
-            msg:'Cuenta confirmada bienvenido Serás redirigido al inicio de sesión, espere un momento ...'       
+            msg:'🐶 Bienvenido, cuenta confirmada 🐶. Da clic al botón e inicia sesión 🌟.'       
         });
     } catch (error) {
         console.log(error);
@@ -116,6 +117,13 @@ const olvidePassword = async (req,res) =>{
         //se va generar el id unicocon la funcion importada de generarId.js y se guardara en la BD, se envia respuesta al usuario.
         existeVeterinario.token = generarId();
         await existeVeterinario.save();
+        //Enviar email al usuario con instrucciones
+        emailOlvidePassword({
+            email,
+            nombre: existeVeterinario.nombre,
+            token: existeVeterinario.token
+        });
+
         res.json({
             msg: 'Se ha enviado un correo electronico para restablecer tu contraseña'
         });

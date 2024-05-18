@@ -1,7 +1,7 @@
 import { Link,useNavigate  } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import  axios from "axios";
+import clienteAxios from '../config/axios';
 import '../assets/registrar/styles/style.css'; // Importa los estilos CSS
 import logImg from '../assets/login/images/log.svg';
 import cVacios from '../assets/registrar/images/CamposVacios.jpg';
@@ -47,9 +47,7 @@ const Registrar = () => {
     }
     //Ahora se creara  el usuario en la base de datos con la api
     try {
-      const url = 'http://localhost:4000/api/veterinarios';
-
-      const respuesta = await axios.post(url, {nombre, email, password});
+      const respuesta = await clienteAxios.post('/veterinarios', {nombre, email, password});
       console.log(respuesta)
       mostrarAlerta("Registrado correctamente","Revisa tu email y confirma tu registro.",rExistoso,"Perrito sonriendo");
     } catch (error) {
