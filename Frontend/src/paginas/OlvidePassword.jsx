@@ -3,6 +3,11 @@ import { useEffect, useState } from 'react';
 import '../assets/olvide-password/styles/style.css'; // Importa los estilos CSS
 import logImg from '../assets/olvide-password/images/olvidar-password.svg';
 import emailImg from '../assets/olvide-password/images/CampoVacio.png';
+import emailCImg from '../assets/olvide-password/images/emailCorto.png';
+import NoExisteUsuarioImg from '../assets/olvide-password/images/NoExisteUsuario.jpg';
+import EnvioInstruccionesImg from '../assets/olvide-password/images/EnvioInstrucciones.jpg';
+
+import clienteAxios from '../config/axios';
 import Swal from 'sweetalert2';
 export const OlvidePassword = () => {
   console.log('Olvide pass');
@@ -32,12 +37,24 @@ export const OlvidePassword = () => {
    };
 
    const handleSubmit = async e =>{
-    e.preventDefault();  
- 
+    e.preventDefault();   
     if(email === ''){
       mostrarAlerta("⚠️ Campo de email vacio ⚠️","El campo email se encuentra vacio, escribe tu email y restaura tu acceso",emailImg,"Perrito cafe se equivoca al entrar");      
       return;
-    }    
+    }
+    if(email.length < 7){
+      mostrarAlerta("⚠️ Campo de email corto ⚠️","Creemos que tu email es muy corto, escribe tu email y restaura tu acceso",emailCImg,"Perrito cafe se equivoca al entrar");      
+      return;
+    }
+
+    try {
+      const {data} = await clienteAxios.post('/veterinarios/olvide-password', {email});
+      mostrarAlerta("Instrucciones enviadas 📧",data.msg,EnvioInstruccionesImg,"Perrito con paquete de envio");
+    } catch (error) { 
+      mostrarAlerta("❌ Error al recuperar tu contraseña ❌", error.response.data.msg, NoExisteUsuarioImg, "2 perros que con letrero no permiten perros");
+    
+    }
+
   }
 
 

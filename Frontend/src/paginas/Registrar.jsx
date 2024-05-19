@@ -51,15 +51,7 @@ const Registrar = () => {
       console.log(respuesta)
       mostrarAlerta("Registrado correctamente","Revisa tu email y confirma tu registro.",rExistoso,"Perrito sonriendo");
     } catch (error) {
-   
-        console.log(error)
-        console.log(error.response)
-        console.log('***');
-        console.log('Error:', error.message);
-      
-
-      mostrarAlerta("Error al registrarse", error.response.data.msg, uRepetido, "GatoConPan");
-    
+      mostrarAlerta("Error al registrarse", error.response.data.msg, uRepetido, "GatoConPan");    
     }
   }
 

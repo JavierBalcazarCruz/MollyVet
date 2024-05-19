@@ -1,6 +1,6 @@
 export const NuevoPassword = () => {
   return (
-    <div>Desde nuevo password</div>
+    <h1>Desde nuevo password</h1>
   )
 }
 
