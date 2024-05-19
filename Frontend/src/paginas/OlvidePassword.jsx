@@ -39,20 +39,19 @@ export const OlvidePassword = () => {
    const handleSubmit = async e =>{
     e.preventDefault();   
     if(email === ''){
-      mostrarAlerta("⚠️ Campo de email vacio ⚠️","El campo email se encuentra vacio, escribe tu email y restaura tu acceso",emailImg,"Perrito cafe se equivoca al entrar");      
+        mostrarAlerta("⚠️ Campo de email vacio ⚠️","El campo email se encuentra vacio, escribe tu email y restaura tu acceso",emailImg,"Perrito cafe se equivoca al entrar");      
       return;
     }
     if(email.length < 7){
-      mostrarAlerta("⚠️ Campo de email corto ⚠️","Creemos que tu email es muy corto, escribe tu email y restaura tu acceso",emailCImg,"Perrito cafe se equivoca al entrar");      
+        mostrarAlerta("⚠️ Campo de email corto ⚠️","Creemos que tu email es muy corto, escribe tu email y restaura tu acceso",emailCImg,"Perrito cafe se equivoca al entrar");      
       return;
     }
 
     try {
       const {data} = await clienteAxios.post('/veterinarios/olvide-password', {email});
-      mostrarAlerta("Instrucciones enviadas 📧",data.msg,EnvioInstruccionesImg,"Perrito con paquete de envio");
+        mostrarAlerta("Instrucciones enviadas 📧",data.msg,EnvioInstruccionesImg,"Perrito con paquete de envio");
     } catch (error) { 
-      mostrarAlerta("❌ Error al recuperar tu contraseña ❌", error.response.data.msg, NoExisteUsuarioImg, "2 perros que con letrero no permiten perros");
-    
+        mostrarAlerta("❌ Error al recuperar tu contraseña ❌", error.response.data.msg, NoExisteUsuarioImg, "2 perros que con letrero no permiten perros");    
     }
 
   }

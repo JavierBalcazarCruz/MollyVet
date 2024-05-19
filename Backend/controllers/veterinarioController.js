@@ -109,7 +109,7 @@ const olvidePassword = async (req,res) =>{
     const existeVeterinario = await Veterinario.findOne({email})
     if(!existeVeterinario)
     {
-        const error = new Error('El usuario no existe');
+        const error = new Error('Este usuario no esta registrado en MollyVet');
         return res.status(400).json({msg:error.message});
     }
     //Si el veterinario existe, se generara un token, se enviara por email, y se buscara el token en la BD
