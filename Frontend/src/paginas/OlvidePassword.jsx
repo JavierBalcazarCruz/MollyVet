@@ -28,8 +28,7 @@ export const OlvidePassword = () => {
   }, []);
 
   const handleSignInClick = () => {
-    // Evitar el comportamiento predeterminado del enlace
- 
+    // Evitar el comportamiento predeterminado del enlace 
      setSignUpMode(false);
      setTimeout(() => {
        navigate('/'); // Navegar a la ruta principal sin refresh
