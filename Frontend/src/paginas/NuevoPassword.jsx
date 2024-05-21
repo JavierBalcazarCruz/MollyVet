@@ -59,7 +59,7 @@ export const NuevoPassword = () => {
        }, 1800); // Espera a que termine la animación antes de navegar   
      };
 
-    const handleSubmit = async e =>{
+  const handleSubmit = async e =>{
         e.preventDefault();   
         if(password === ''){
             mostrarAlerta("⚠️ Campo de contraseña vacio ⚠️","El campo contraseña se encuentra vacio",passwordImg,"Perrito cafe se equivoca al entrar");      
@@ -77,7 +77,7 @@ export const NuevoPassword = () => {
         } catch (error) { 
             mostrarAlerta("❌ Error al recuperar tu contraseña ❌", error.response.data.msg, NoExisteUsuarioImg, "2 perros que con letrero no permiten perros");    
         }    
-      }
+}
 
   return (
     <>

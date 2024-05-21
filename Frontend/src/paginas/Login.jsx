@@ -3,6 +3,8 @@ import useAuth from '../hooks/useAuth';
 import { useEffect, useState  } from 'react';
 import '../assets/login/styles/style.css'; // Importa los estilos CSS
 import regImg from '../assets/login/images/log.svg';
+import clienteAxios from '../config/axios';
+import Swal from 'sweetalert2';
 
 const ScrollToTop = () => {
     const { pathname } = useLocation();  
@@ -13,6 +15,10 @@ const ScrollToTop = () => {
   };
   
 const Login = () => {
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
+
+
   const [signUpMode, setSignUpMode] = useState(false);
   useEffect(() => {  
   }, []);
@@ -20,6 +26,44 @@ const Login = () => {
   const handleSignUpClick = () => {
       setSignUpMode(true);
   };
+
+  const mostrarAlerta = (titulo,texto,rutaImg,altImg) =>{
+    Swal.fire({
+      title: titulo,
+      text: texto,
+      imageUrl: rutaImg,        
+      imageAlt: altImg
+    });
+  }
+  const handleSubmit = async e =>{
+    e.preventDefault();   
+    console.log('validacion del form')
+    if(password === ''){
+       // mostrarAlerta("⚠️ Campo de contraseña vacio ⚠️","El campo contraseña se encuentra vacio",passwordImg,"Perrito cafe se equivoca al entrar");      
+      return;
+    }
+    if(password.length < 6){
+      //  mostrarAlerta("⚠️ La contraseña es pequeña  ⚠️","Agrega un minimo 6 caracteres",cPeque,"Perrito  pequeño");     
+        return; 
+    }
+    if(email === ''){
+   //   mostrarAlerta("⚠️ Campo de email vacio ⚠️","El campo email se encuentra vacio, escribe tu email y restaura tu acceso",emailImg,"Perrito cafe se equivoca al entrar");      
+    return;
+  }
+  if(email.length < 7){
+    //  mostrarAlerta("⚠️ Campo de email corto ⚠️","Creemos que tu email es muy corto, escribe tu email y restaura tu acceso",emailCImg,"Perrito cafe se equivoca al entrar");      
+    return;
+  } 
+    try {
+        const url = `/veterinarios/olvide-password/${token}`;
+        const { data } =  await clienteAxios.post(url, {password});
+        console.log(data)
+        mostrarAlerta("Contraseña cambiada 🔒", data.msg, cPass,"Perrito feliz, con hojas verdes");
+    } catch (error) { 
+        mostrarAlerta("❌ Error al recuperar tu contraseña ❌", error.response.data.msg, NoExisteUsuarioImg, "2 perros que con letrero no permiten perros");    
+    }    
+}
+
 
 
   return(
@@ -29,21 +73,23 @@ const Login = () => {
   {/* Inicio Formulario de inicio de sesión */}
     <div className="forms-container">
       <div className="signin-signup">
-        <form action="#" className="sign-in-form">
+        <form onSubmit={handleSubmit} className="sign-in-form">
           <h2 className="title">Inicia sesión</h2>
           <div className="input-field">
             <i className="fas fa-user"></i>
-            <input type="email" placeholder="Email" />
+            <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}/>
           </div>
           <div className="input-field">
             <i className="fas fa-lock"></i>
-            <input type="password" placeholder="Contraseña" autoComplete="current-password" />
+            <input type="password" placeholder="Contraseña"value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password" />
           </div>
           <input type="submit" value="Iniciar  Sesión" className="btn solid" />
         </form>
+        
         <nav className='olvide-password'>
           <Link to="/olvide-password" className="olvide-password-link" id="">Olvide mi password</Link>
         </nav>
+
         <form action="#" className="sign-up-form">
           <h2 className="title">Registrate</h2>           
           <div className="input-field">
