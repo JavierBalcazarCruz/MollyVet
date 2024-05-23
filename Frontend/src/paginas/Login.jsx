@@ -3,7 +3,14 @@ import useAuth from '../hooks/useAuth';
 import { useEffect, useState  } from 'react';
 import '../assets/login/styles/style.css'; // Importa los estilos CSS
 import regImg from '../assets/login/images/log.svg';
+import cPeque from '../assets/login/images/password-peque.jpg';
+import passwordImg from '../assets/login/images/CampoVacio.png';
+import emailImg from '../assets/login/images/CampoVacio.png';
+import emailCImg from '../assets/login/images/emailCorto.png';
+import loginError from '../assets/login/images/loginError.png';
 import clienteAxios from '../config/axios';
+
+
 import Swal from 'sweetalert2';
 
 const ScrollToTop = () => {
@@ -38,29 +45,31 @@ const Login = () => {
   const handleSubmit = async e =>{
     e.preventDefault();   
     console.log('validacion del form')
-    if(password === ''){
-       // mostrarAlerta("⚠️ Campo de contraseña vacio ⚠️","El campo contraseña se encuentra vacio",passwordImg,"Perrito cafe se equivoca al entrar");      
+    if(email === ''){
+      mostrarAlerta("⚠️ Campo de email vacio ⚠️","El campo email se encuentra vacio, escribe tu email e inicia sesón",emailImg,"Perrito cafe se equivoca al entrar");      
       return;
     }
-    if(password.length < 6){
-      //  mostrarAlerta("⚠️ La contraseña es pequeña  ⚠️","Agrega un minimo 6 caracteres",cPeque,"Perrito  pequeño");     
-        return; 
+    if(password === ''){
+       mostrarAlerta("⚠️ Campo de contraseña vacio ⚠️","El campo contraseña se encuentra vacio",passwordImg,"Perrito cafe se equivoca al entrar");      
+      return;
     }
-    if(email === ''){
-   //   mostrarAlerta("⚠️ Campo de email vacio ⚠️","El campo email se encuentra vacio, escribe tu email y restaura tu acceso",emailImg,"Perrito cafe se equivoca al entrar");      
-    return;
-  }
-  if(email.length < 7){
-    //  mostrarAlerta("⚠️ Campo de email corto ⚠️","Creemos que tu email es muy corto, escribe tu email y restaura tu acceso",emailCImg,"Perrito cafe se equivoca al entrar");      
+    if(email.length < 7){
+      mostrarAlerta("⚠️ Campo de email corto ⚠️","Creemos que tu email es muy corto, escribe tu email e inicia sesión",emailCImg,"Perrito cafe se equivoca al entrar");      
     return;
   } 
+    if(password.length < 6){
+        mostrarAlerta("⚠️ La contraseña es pequeña  ⚠️","Agrega un minimo 6 caracteres",cPeque,"Perrito  pequeño");     
+        return; 
+    }  
+  
     try {
-        const url = `/veterinarios/olvide-password/${token}`;
-        const { data } =  await clienteAxios.post(url, {password});
+        const url = `/veterinarios/login/`;
+        const { data } =  await clienteAxios.post(url, {email, password});
         console.log(data)
-        mostrarAlerta("Contraseña cambiada 🔒", data.msg, cPass,"Perrito feliz, con hojas verdes");
+       // mostrarAlerta("Contraseña cambiada 🔒", data.msg, cPass,"Perrito feliz, con hojas verdes");
     } catch (error) { 
-        mostrarAlerta("❌ Error al recuperar tu contraseña ❌", error.response.data.msg, NoExisteUsuarioImg, "2 perros que con letrero no permiten perros");    
+      console.log(error.response.data.msg)
+        mostrarAlerta("❌ Detalle al iniciar sesión ❌", error.response.data.msg, loginError, "7 perros curiosos viendote");    
     }    
 }
 
