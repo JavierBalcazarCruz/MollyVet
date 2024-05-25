@@ -1,6 +1,7 @@
 //Los providers es donde nace todo ele stado global de la aplicacion
 //Sera la fuente de los datos del State Global
 import {useState, useEffect, createContext} from 'react';
+import clienteAxios from '../config/axios';
 
 const AuthContext = createContext()
 
@@ -11,6 +12,32 @@ const AuthContext = createContext()
 const AuthProvider = ({children}) => {
 
     const [auth, setAuth] = useState({});
+    //Cuando cargue la app revise si el usuario esta autenticado o no
+    useEffect(() => {
+        const autenticarUsuario = async () =>{
+            const token = localStorage.getItem('apv_token');
+            if(!token)
+                return;
+            const config ={
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+
+                }
+            }
+            
+            try {
+                const { data } =  await clienteAxios('/veterinarios/perfil',config);
+                setAuth(data);
+            } catch (error) {
+                setAuth({});
+                console.log(error.response.data.msg)
+            }
+        }
+        autenticarUsuario();
+    });
+
+
     return(
         <AuthContext.Provider
             value = {{

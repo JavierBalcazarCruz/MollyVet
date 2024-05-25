@@ -70,9 +70,7 @@ const confirmar = async(req, res)=>{
 const perfil = (req, res) =>{
     //Se contruye la respuesta del servidor
     const {veterinario} = req;
-    res.json({
-       perfil: veterinario
-    });
+    res.json(veterinario);
 }
 //Autentificar veterinario
 const autenticar = async(req,res)=>{

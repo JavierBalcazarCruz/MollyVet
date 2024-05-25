@@ -1,4 +1,4 @@
-import {Link,useLocation } from 'react-router-dom';
+import {Link,useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useEffect, useState  } from 'react';
 import '../assets/login/styles/style.css'; // Importa los estilos CSS
@@ -8,6 +8,7 @@ import passwordImg from '../assets/login/images/CampoVacio.png';
 import emailImg from '../assets/login/images/CampoVacio.png';
 import emailCImg from '../assets/login/images/emailCorto.png';
 import loginError from '../assets/login/images/loginError.png';
+import loginOK from '../assets/login/images/loginOK.jpg';
 import clienteAxios from '../config/axios';
 
 
@@ -24,6 +25,7 @@ const ScrollToTop = () => {
 const Login = () => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+  const navigate =  useNavigate();
 
 
   const [signUpMode, setSignUpMode] = useState(false);
@@ -61,12 +63,15 @@ const Login = () => {
         mostrarAlerta("⚠️ La contraseña es pequeña  ⚠️","Agrega un minimo 6 caracteres",cPeque,"Perrito  pequeño");     
         return; 
     }  
-  
+    //Inicio de sesión
     try {
-        const url = `/veterinarios/login/`;
-        const { data } =  await clienteAxios.post(url, {email, password});
-        console.log(data)
-       // mostrarAlerta("Contraseña cambiada 🔒", data.msg, cPass,"Perrito feliz, con hojas verdes");
+      const url = `/veterinarios/login/`;
+      const { data } =  await clienteAxios.post(url, {email, password});
+      localStorage.setItem('apv_token', data.token);
+      //Redireccion al administrador
+      navigate('/admin');
+      
+     
     } catch (error) { 
       console.log(error.response.data.msg)
         mostrarAlerta("❌ Detalle al iniciar sesión ❌", error.response.data.msg, loginError, "7 perros curiosos viendote");    
