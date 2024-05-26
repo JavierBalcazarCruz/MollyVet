@@ -68,6 +68,7 @@ const Login = () => {
       const url = `/veterinarios/login/`;
       const { data } =  await clienteAxios.post(url, {email, password});
       localStorage.setItem('apv_token', data.token);
+      console.log('Entra a Login');
       //Redireccion al administrador
       navigate('/admin');
       
