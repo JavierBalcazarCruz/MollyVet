@@ -4,7 +4,7 @@ export const AuthLayout = () => {
   return (
     <>
     {/*Este sera el master page de el front */}
-      
+      <h1></h1>
         <Outlet/>
     </>
   )
