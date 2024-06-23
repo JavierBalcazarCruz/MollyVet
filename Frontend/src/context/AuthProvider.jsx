@@ -28,6 +28,7 @@ const AuthProvider = ({ children }) => {
                 }
             };
             try {
+                //Aquí se setea el perfil del usuario
                 const { data } = await clienteAxios('/veterinarios/perfil', config);
                 setAuth(data);
             } catch (error) {

@@ -93,7 +93,16 @@ const autenticar = async(req,res)=>{
     if(await usuario.comprobarPassword(password)){
         console.log(usuario);
        //Proceso de autenticación con json web token.
-        res.json({token: generarJWT(usuario.id)});
+        //Se regresa todo el perfil del usuario, para que cuando se habra la ruta protegida exista   {auth?._id ? esa información
+      
+        res.json({
+            _id: usuario._id,
+            nombre: usuario.nombre,
+            email: usuario.email,
+            token: generarJWT(usuario.id),
+            
+
+        });
     }else{
         const error = new Error('El password es incorrecto');
         return res.status(400).json({msg:error.message});

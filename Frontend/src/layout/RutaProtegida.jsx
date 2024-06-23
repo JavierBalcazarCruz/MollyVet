@@ -12,7 +12,8 @@ const RutaProtegida = () => {
   return (
     <>
       {/*tiene algo muestra el outlet, de caso contrario mandalo al navigate, a iniciar sesión */}
-      {/*En caso de que exista el id del usuario (Este autenticado), entonces muestra el outlet(el contenido de cada uno de los componentes que se encuentran mapeados en aapp.jsx), de caso contrario llevalo a iniciar sesión  */}
+      {/*En caso de que exista el id del usuario (Este autenticado), entonces muestra el outlet(el contenido de cada uno de los componentes que se encuentran mapeados en aapp.jsx), de caso contrario llevalo a iniciar sesión, esta parte que se valida   {auth?._id ?  depende del veterinario controler que retornara el perfil del usuario  autenticado */}
+
       {auth?._id ? <Outlet/> :  <Navigate to="/"/>}
 
     </>

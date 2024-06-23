@@ -25,6 +25,7 @@ const ScrollToTop = () => {
 const Login = () => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+  const { setAuth } = useAuth();
   const navigate =  useNavigate();
 
 
@@ -68,7 +69,8 @@ const Login = () => {
       const url = `/veterinarios/login/`;
       const { data } =  await clienteAxios.post(url, {email, password});
       localStorage.setItem('apv_token', data.token);
-      console.log('Entra a Login');
+      //Una vez iniciado sesión  aqui hace que lo redirija al homeScreen.
+      setAuth(data);
       //Redireccion al administrador
       navigate('/admin');
       
