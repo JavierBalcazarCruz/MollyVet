@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 
 import logo from '../assets/homeScreen/images/logo.png';

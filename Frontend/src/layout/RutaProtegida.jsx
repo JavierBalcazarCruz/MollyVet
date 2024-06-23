@@ -1,11 +1,12 @@
 import { Outlet, Navigate } from "react-router-dom";
+import { Audio } from 'react-loader-spinner';
 import useAuth from "../hooks/useAuth";
 
 const RutaProtegida = () => {
   const {auth, cargando} = useAuth(); 
 
   if(cargando){
-     {/*Se podria poner un spninner para que el usuario vea que esta cargando el usuario (pendiente) */}
+     {/*Se podria poner un spninner para que el usuario vea que esta cargando el usuario (pendiente), entra siempre como false */}
     return 'cargando...'
   }
 
