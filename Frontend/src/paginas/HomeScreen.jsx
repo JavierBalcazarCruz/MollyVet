@@ -10,7 +10,7 @@ import WidgetCitasProgramadas from '../components/WidgetCitasProgramadas';
 import WidgetMetaDelMes from '../components/WidgetMetaDelMes';
 
 const HomeScreen = () => {
-  const { cerrarSesion } = useAuth();
+  const { cerrarSesion, auth } = useAuth();
   const [saludo, setSaludo] = useState('');
   
   useEffect(() => {
@@ -40,7 +40,7 @@ const HomeScreen = () => {
         <div className="logo-contain">
           <img src={logo} alt="Logo" className="logo" />
         </div>
-        <h1>{saludo} Javier.</h1>
+        <h1>{saludo} {auth.nombre}.</h1>
         <button className="logout-button" onClick={cerrarSesion}>Cerrar Sesión</button>
       </header>
       <div className="widgets">
