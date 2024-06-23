@@ -27,7 +27,7 @@ function App() {
 
            {/* Definicion de rutas privadas*/}
           <Route path="/admin" element={<RutaProtegida/>} >
-          <Route index element={<HomeScreen/>}/>
+            <Route index element={<HomeScreen/>}/>
 
           </Route>
         </Routes>

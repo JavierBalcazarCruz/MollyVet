@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+// HomeScreen.jsx
+import { useEffect } from 'react';
 import logo from '../assets/homeScreen/images/logo.png';
 import '../assets/homeScreen/styles/style.css';
+import AppIcon from '../components/AppIcon';
 
 const HomeScreen = () => {
   useEffect(() => {
-    // Agregar la clase al body cuando el componente se monte
+     // Agregar la clase al body cuando el componente se monte
     document.body.classList.add('home-screen-body');
-
-    // Eliminar la clase del body cuando el componente se desmonte
     return () => {
+      // Eliminar la clase del body cuando el componente se desmonte
       document.body.classList.remove('home-screen-body');
     };
   }, []);
@@ -45,40 +46,16 @@ const HomeScreen = () => {
           </div>
         </div>
       </div>
-      <div className="apps">
-        <div className="app">
-          <div className="icon" style={{ backgroundColor: '#FFDD00' }}></div>
-          <h3>Dashboard</h3>
-        </div>
-        <div className="app">
-          <div className="icon" style={{ backgroundColor: '#FFDD00' }}></div>
-          <h3>Pacientes</h3>
-        </div>
-        <div className="app">
-          <div className="icon" style={{ backgroundColor: '#3498DB' }}></div>
-          <h3>Calendario</h3>
-        </div>
-        <div className="app">
-          <div className="icon" style={{ backgroundColor: '#E74C3C' }}></div>
-          <h3>Inventario</h3>
-        </div>
-        <div className="app">
-          <div className="icon" style={{ backgroundColor: '#F39C12' }}></div>
-          <h3>Directorio</h3>
-        </div>
-        <div className="app">
-          <div className="icon" style={{ backgroundColor: '#8E44AD' }}></div>
-          <h3>Baños</h3>
-        </div>
-        <div className="app">
-          <div className="icon" style={{ backgroundColor: '#9B59B6' }}></div>
-          <h3>Registrar Clientes</h3>
-        </div>
-        <div className="app">
-          <div className="icon" style={{ backgroundColor: '#1ABC9C' }}></div>
-          <h3>Generador de recetas</h3>
-        </div>
-      </div>
+      <nav className="apps">
+        <AppIcon to="/dashboard" color="#FFDD00" name="Dashboard" />
+        <AppIcon to="/patients" color="#FFDD00" name="Pacientes" />
+        <AppIcon to="/calendar" color="#3498DB" name="Calendario" />
+        <AppIcon to="/inventory" color="#E74C3C" name="Inventario" />
+        <AppIcon to="/directory" color="#F39C12" name="Directorio" />
+        <AppIcon to="/bathrooms" color="#8E44AD" name="Baños" />
+        <AppIcon to="/register-clients" color="#9B59B6" name="Registrar Clientes" />
+        <AppIcon to="/recipe-generator" color="#1ABC9C" name="Generador de recetas" />
+      </nav>
     </div>
   );
 };
