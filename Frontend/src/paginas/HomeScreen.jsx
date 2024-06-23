@@ -1,10 +1,14 @@
 // HomeScreen.jsx
 import { useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
+
 import logo from '../assets/homeScreen/images/logo.png';
 import '../assets/homeScreen/styles/style.css';
 import AppIcon from '../components/AppIcon';
 
 const HomeScreen = () => {
+  const { cerrarSesion } = useAuth();
+
   useEffect(() => {
      // Agregar la clase al body cuando el componente se monte
     document.body.classList.add('home-screen-body');
@@ -21,7 +25,7 @@ const HomeScreen = () => {
           <img src={logo} alt="Logo" className="logo" />
         </div>
         <h1>Buenas noches, Javier.</h1>
-        <button className="logout-button">Cerrar Sesión</button>
+        <button className="logout-button" onClick={cerrarSesion}>Cerrar Sesión</button>
       </header>
       <div className="widgets">
         <div className="widget">
