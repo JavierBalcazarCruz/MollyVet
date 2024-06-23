@@ -1,21 +1,37 @@
-// HomeScreen.jsx
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 
 import logo from '../assets/homeScreen/images/logo.png';
 import '../assets/homeScreen/styles/style.css';
+
 import AppIcon from '../components/AppIcon';
+import WidgetHoraActual from '../components/WidgetHoraActual';
+import WidgetCitasProgramadas from '../components/WidgetCitasProgramadas';
+import WidgetMetaDelMes from '../components/WidgetMetaDelMes';
 
 const HomeScreen = () => {
   const { cerrarSesion } = useAuth();
-
+  const [saludo, setSaludo] = useState('');
+  
   useEffect(() => {
-     // Agregar la clase al body cuando el componente se monte
+    // Agregar la clase al body cuando el componente se monte
     document.body.classList.add('home-screen-body');
     return () => {
       // Eliminar la clase del body cuando el componente se desmonte
       document.body.classList.remove('home-screen-body');
     };
+  }, []);
+
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+
+    if (currentHour >= 0 && currentHour < 12) {
+      setSaludo('Buenos días');
+    } else if (currentHour >= 12 && currentHour < 19) {
+      setSaludo('Buenas tardes');
+    } else {
+      setSaludo('Buenas noches');
+    }
   }, []);
 
   return (
@@ -24,31 +40,13 @@ const HomeScreen = () => {
         <div className="logo-contain">
           <img src={logo} alt="Logo" className="logo" />
         </div>
-        <h1>Buenas noches, Javier.</h1>
+        <h1>{saludo} Javier.</h1>
         <button className="logout-button" onClick={cerrarSesion}>Cerrar Sesión</button>
       </header>
       <div className="widgets">
-        <div className="widget">
-          <h2>Hora Actual</h2>
-          <div className="time-contain">
-            <p id="time">9:03 PM</p>
-          </div>
-        </div>
-        <div className="widget">
-          <h2>Citas Programadas</h2>
-          <p>Pendientes: 4 clientes</p>
-          <p>Confirmadas: 10 clientes</p>
-          <p>Canceladas: 2 clientes</p>
-          <p>Pospuestas: 3 clientes</p>
-        </div>
-        <div className="widget">
-          <h2>Meta del mes</h2>
-          <p>50 Clientes / 100 clientes</p>
-          <p>50% de la meta cumplida</p>
-          <div className="progress-bar">
-            <div className="progress" style={{ '--progress-width': '50%' }}></div>
-          </div>
-        </div>
+        <WidgetHoraActual />
+        <WidgetCitasProgramadas />
+        <WidgetMetaDelMes />
       </div>
       <nav className="apps">
         <AppIcon to="/dashboard" color="#FFDD00" name="Dashboard" />
