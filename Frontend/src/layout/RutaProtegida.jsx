@@ -10,7 +10,7 @@ const RutaProtegida = () => {
 
   return (
     <>
-      <h1>Ruta protegida</h1>
+     
       {auth?._id ? <Outlet/> :  <Navigate to="/"/>}
 
     </>

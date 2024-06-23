@@ -39,10 +39,21 @@ const AuthProvider = ({ children }) => {
         autenticarUsuario();
     }, []);
 
-    const authValue = useMemo(() => ({ auth, setAuth, cargando  }), [auth, cargando ]);
+    const authValue = useMemo(() => ({ auth, setAuth, cargando
+
+    }), [auth, cargando ]);
+    //const authValue = useMemo(() => ({ auth, setAuth, cargando, cerrarSesion}), [auth, cargando ]);
+
+/*
+    const cerrarSesion = () =>{
+        localStorage.removeItem('apv_token');
+        setAuth({});
+    }
+*/.0
 
     return (
-        <AuthContext.Provider value={authValue}>
+        <AuthContext.Provider 
+        value={authValue}>
             {children}
         </AuthContext.Provider>
     );
