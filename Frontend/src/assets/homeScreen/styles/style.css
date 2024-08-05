@@ -13,7 +13,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-image: url('https://raw.githubusercontent.com/getumbrel/umbrel/fb31fb98e4088628c5de21357fbec8cff74a13d7/packages/dashboard/public/wallpapers/1.jpg');
+    background-image: url('https://raw.githubusercontent.com/getumbrel/umbrel/fb31fb98e4088628c5de21357fbec8cff74a13d7/packages/dashboard/public/wallpapers/4.jpg');
     background-size: cover;
     background-attachment: fixed;
     color: white;
@@ -25,6 +25,7 @@
     padding: 20px;
     max-width: 1200px;
     width: 100%;
+     min-width: 1200px;
 }
 
 header {
@@ -200,11 +201,20 @@ a.app {
     .widget {
         width: calc((100% - 40px) / 3);
     }
+    
+
 }
 
 @media (min-width: 576px) and (max-width: 991.98px) and (orientation: portrait) {
     .widget {
         width: calc((100% - 40px) / 3);
+    }
+    .contain {
+        text-align: center;
+        padding: 20px;
+        max-width: 1200px;
+        width: 100%;
+        min-width: 100%;
     }
 }
 
@@ -212,17 +222,38 @@ a.app {
     .widget {
         width: calc((100% - 40px) / 2);
     }
+    .contain {
+        text-align: center;
+        padding: 20px;
+        max-width: 1200px;
+        width: 100%;
+        min-width: 100%;
+    }
 }
 
 @media (max-width: 979px) and (min-width: 800px) {
     .widget {
         width: calc((100% - 40px) / 2);
     }
+    .contain {
+        text-align: center;
+        padding: 20px;
+        max-width: 1200px;
+        width: 100%;
+        min-width: 100%;
+    }
 }
 
 @media (max-width: 799px) and (min-width: 499px) {
     .widget {
         width: calc(100% - 40px);
+    }
+    .contain {
+        text-align: center;
+        padding: 20px;
+        max-width: 1200px;
+        width: 100%;
+        min-width: 100%;
     }
 }
 
@@ -233,6 +264,13 @@ a.app {
     .logo {
         max-width: 150px;
     }
+    .contain {
+        text-align: center;
+        padding: 20px;
+        max-width: 1200px;
+        width: 100%;
+        min-width: 100%;
+    }
 }
 
 @media (max-width: 380px) {
@@ -241,5 +279,12 @@ a.app {
     }
     .logo {
         max-width: 120px;
+    }
+    .contain {
+        text-align: center;
+        padding: 20px;
+        max-width: 1200px;
+        width: 100%;
+        min-width: 100%;
     }
 }
