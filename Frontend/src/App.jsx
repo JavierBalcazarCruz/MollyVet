@@ -9,6 +9,8 @@ import  OlvidePassword  from './paginas/OlvidePassword';
 import  NuevoPassword from './paginas/NuevoPassword';
 import  HomeScreen from './paginas/HomeScreen';
 import  ConfirmarCuenta  from './paginas/ConfirmarCuenta';
+import  RegistroCliente  from './paginas/RegistroCliente';
+
 function App() {
 
   return (
@@ -28,6 +30,7 @@ function App() {
            {/* Definicion de rutas privadas*/}
           <Route path="/admin" element={<RutaProtegida/>} >
             <Route index element={<HomeScreen/>}/>
+            <Route path="registro-cliente" element={<RegistroCliente/>}/>
 
           </Route>
         </Routes>

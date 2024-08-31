@@ -49,13 +49,13 @@ const HomeScreen = () => {
         <WidgetMetaDelMes />
       </div>
       <nav className="apps">
+        <AppIcon to="/admin/registro-cliente" color="#9B59B6" name="Registrar Clientes" />
         <AppIcon to="/dashboard" color="#FFDD00" name="Dashboard" />
         <AppIcon to="/patients" color="#FFDD00" name="Pacientes" />
         <AppIcon to="/calendar" color="#3498DB" name="Calendario" />
         <AppIcon to="/inventory" color="#E74C3C" name="Inventario" />
         <AppIcon to="/directory" color="#F39C12" name="Directorio" />
         <AppIcon to="/bathrooms" color="#8E44AD" name="Baños" />
-        <AppIcon to="/register-clients" color="#9B59B6" name="Registrar Clientes" />
         <AppIcon to="/recipe-generator" color="#1ABC9C" name="Generador de recetas" />
       </nav>
     </div>
