@@ -18,8 +18,8 @@ const RegistroCliente = () => {
     <div className="background-page">
       <div className="registro-cliente">
         <div className="contenedor">
-          <div className="form-box">
-            <div className="progreso glassmorphism">
+        <div className="form-box glassmorphism">
+        <div className="progreso glassmorphism">
               <div className="logo-registro">
                 <a href="#">
                   <img src={logo} alt="Logo" className="logo-reg" /> {/* Reemplaza el texto con la imagen */}
@@ -41,7 +41,7 @@ const RegistroCliente = () => {
               </ul>
             </div>
             <form action="">
-              <div className={`form-one form-step glassmorphism ${active === 1 ? 'active' : 'form-step-hidden'}`}>
+              <div className={`form-one form-step  ${active === 1 ? 'active' : 'form-step-hidden'}`}>
                 <div className="bg-svg"></div>
                 <h2 className='subtitulos'>Información del cliente</h2>
                 <p>Ingrese la información personal del cliente</p>
@@ -69,7 +69,7 @@ const RegistroCliente = () => {
 
              
               </div>
-              <div className={`form-two form-step glassmorphism ${active === 2 ? 'active' : 'form-step-hidden'}`}>
+              <div className={`form-two form-step  ${active === 2 ? 'active' : 'form-step-hidden'}`}>
               <div className="bg-svg"></div>
                 <h2 className='subtitulos'>Información del cliente</h2>
                 <p>Ingrese la información personal del cliente</p>
@@ -86,7 +86,7 @@ const RegistroCliente = () => {
                   <input type="email" className="form-input" placeholder="Escribe tu correo electrónico" />
                 </div>
               </div>
-              <div className={`form-three form-step glassmorphism ${active === 3 ? 'active' : 'form-step-hidden'}`}>
+              <div className={`form-three form-step  ${active === 3 ? 'active' : 'form-step-hidden'}`}>
                 <div className="bg-svg"></div>
                 <h2 className='subtitulos'>Datos de la mascota</h2>
               <div>
