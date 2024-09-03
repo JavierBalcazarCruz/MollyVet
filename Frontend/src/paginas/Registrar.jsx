@@ -10,7 +10,6 @@ import cPeque from '../assets/registrar/images/password-peque.jpg';
 import uRepetido from '../assets/registrar/images/usuarioRepetido.jpg';
 import rExistoso from '../assets/registrar/images/registroE.png';
 const Registrar = () => {
-  console.log("**** Registrar ****");
   const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
 
