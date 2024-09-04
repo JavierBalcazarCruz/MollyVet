@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 // Crear el esquema
 const pacientesSchema = mongoose.Schema({
-    nombre: {
+    nombreMascota: {
         type: String,
         required: true,
         trim: true

@@ -3,6 +3,8 @@ import { useState } from 'react';
 import logo from '../assets/registrarPaciente/images/logo.png';
 import Swal from 'sweetalert2';
 import cVacios from '../assets/registrarPaciente/images/CamposVacios.png';
+import usePacientes from '../hooks/usePacientes';
+
 const RegistroCliente = () => {
   const [active, setActive] = useState(1);
   const steps = 3;
@@ -18,8 +20,13 @@ const RegistroCliente = () => {
   const [nombreMascota, setNombreMascota] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState(Date.now());
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [sintomas, setSintomas] = useState('');
+
+
+//Lo que retorna el provider es un objeto , y guardarPaciente se tiene disponible en el provider
+  const {guardarPaciente } = usePacientes();
+
 
   const mostrarAlerta = (titulo,texto,rutaImg,altImg) =>{
     Swal.fire({
@@ -37,6 +44,10 @@ const RegistroCliente = () => {
       mostrarAlerta("⚠️ Los campos se encuentran vacios ⚠️","Alguno de los campos se encuentran vacios revisa la información que  ingresaste.",cVacios,"Gato observandote por que estan vacios los campos");
       return;
     }
+    
+    //Pasamos como objeto de tipo paciente y pasamos todo el arreglo
+    guardarPaciente({ nombreMascota, propietario, email, fechaNacimiento, sintomas})
+
   }
 
 
