@@ -3,6 +3,7 @@ import { useState } from 'react';
 import logo from '../assets/registrarPaciente/images/logo.png';
 import Swal from 'sweetalert2';
 import cVacios from '../assets/registrarPaciente/images/CamposVacios.png';
+import registroOk from '../assets/registrarPaciente/images/pacienteRegistrado.jpg';
 import usePacientes from '../hooks/usePacientes';
 
 const RegistroCliente = () => {
@@ -57,12 +58,34 @@ const RegistroCliente = () => {
     if([nombreMascota, propietario, email,celular,direccion,cPostal,colonia,telefonoCasa,raza, fechaNacimiento, edad, color,peso,especie,sexo,operado,vacunas,consentimiento,estado].includes('')){
       mostrarAlerta("⚠️ Los campos se encuentran vacios ⚠️","Alguno de los campos se encuentran vacios revisa la información que  ingresaste.",cVacios,"Gato observandote por que estan vacios los campos");
       return;
+    }else{
+      //Pasamos como objeto de tipo paciente y pasamos todo el arreglo
+     guardarPaciente({ nombreMascota, propietario, email, direccion,colonia,telefonoCasa,raza, cPostal,especie, celular,edad, fechaNacimiento,peso,color,sexo,operado,vacunas,estado,consentimiento});
+      //Mostrar mensaje de alerta de registro exitoso
+      mostrarAlerta("🎉 Registro exitoso🎉","Usted tiene un paciente nuevo",registroOk,"Gato observandote por que estan vacios los campos");
+     //limpiar los campos
+     setNombreMascota('');
+     setPropietario('');
+     setEmail('');
+     setCelular('');
+     setFechaNacimiento('');
+     setDireccion('');
+     setcPostal('');
+     setColonia('');
+     setTelefonoCasa('');
+     setRaza('');
+     setPeso('');
+     setEdad('');
+     setColor('');
+     setEspecie('');
+     setSexo('');
+     setOperado('');
+     setVacunas('');
+     setEstado('');
+     setConsentimiento(false);
+     setActive(1);
     }
-    
-    //Pasamos como objeto de tipo paciente y pasamos todo el arreglo
-    guardarPaciente({ nombreMascota, propietario, email, direccion,colonia,telefonoCasa,raza, cPostal,especie, celular,edad, fechaNacimiento,peso,color,sexo,operado,vacunas,estado,consentimiento})
-
-  }
+ }
 
   const handleConsentimientoChange = (e) => {
     setConsentimiento(e.target.checked);

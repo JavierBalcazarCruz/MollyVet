@@ -193,8 +193,14 @@ form > div > div:not(.checkbox) {
     color: #e0e0e7;
 }
 .select-color-text{
-    color: #000045;
+    color: #fff;
 }
+.select-color-text option {
+    color: #0303c3; /* Color del texto en las opciones del desplegable */
+    background-color: white; /* Fondo del desplegable */
+}
+
+
 form label {
     font-size: var(--font-smaller);
     margin-bottom: 0.5em;
