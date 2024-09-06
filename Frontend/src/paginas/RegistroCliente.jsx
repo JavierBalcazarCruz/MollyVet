@@ -20,8 +20,22 @@ const RegistroCliente = () => {
   const [nombreMascota, setNombreMascota] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
+  const [celular, setCelular] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [sintomas, setSintomas] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [cPostal, setcPostal] = useState('');
+  const [colonia, setColonia] = useState('');
+  const [telefonoCasa, setTelefonoCasa] = useState('');
+  const [raza, setRaza] = useState('');
+  const [color, setColor] = useState('');
+  const [peso, setPeso] = useState('');
+  const [edad, setEdad] = useState('');
+  const [especie, setEspecie] = useState('');
+  const [sexo, setSexo] = useState('');
+  const [vacunas, setVacunas] = useState('');
+  const [operado, setOperado] = useState('');
+  const [estado, setEstado] = useState('');
+  const [consentimiento, setConsentimiento] = useState(false);
 
 
 //Lo que retorna el provider es un objeto , y guardarPaciente se tiene disponible en el provider
@@ -40,17 +54,19 @@ const RegistroCliente = () => {
   const handleSubmit = async e =>{
     e.preventDefault();
    
-    if([nombreMascota, propietario, email, fechaNacimiento, sintomas].includes('')){
+    if([nombreMascota, propietario, email,celular,direccion,cPostal,colonia,telefonoCasa,raza, fechaNacimiento, edad, color,peso,especie,sexo,operado,vacunas,consentimiento,estado].includes('')){
       mostrarAlerta("⚠️ Los campos se encuentran vacios ⚠️","Alguno de los campos se encuentran vacios revisa la información que  ingresaste.",cVacios,"Gato observandote por que estan vacios los campos");
       return;
     }
     
     //Pasamos como objeto de tipo paciente y pasamos todo el arreglo
-    guardarPaciente({ nombreMascota, propietario, email, fechaNacimiento, sintomas})
+    guardarPaciente({ nombreMascota, propietario, email, direccion,colonia,telefonoCasa,raza, cPostal,especie, celular,edad, fechaNacimiento,peso,color,sexo,operado,vacunas,estado,consentimiento})
 
   }
 
-
+  const handleConsentimientoChange = (e) => {
+    setConsentimiento(e.target.checked);
+  };
 
   return (
     <div className="background-page">
@@ -88,20 +104,54 @@ const RegistroCliente = () => {
                   <input id='propietario' type="text" className="form-input" placeholder="Escribe tu nombre completo" value={propietario} onChange={e=> setPropietario(e.target.value)} required />
                 </div>
                 <div>
-                  {/* <label>Dirección</label>
-                  <input type="text" className="form-input" placeholder="Escribe tu dirección" required /> */}
+                  <label>Domicilio</label>
+                  <input type="text" className="form-input" placeholder="Escribe tu dirección" value={direccion} onChange={e=> setDireccion(e.target.value)} required />
                 </div>
                 <div>
-                  {/* <label>Estado</label>
-                  <input type="text" className="form-input" placeholder="Escribe tu estado" required /> */}
+                  <label>Estado</label>
+                  <select name="estado" className="form-input select-color-text" value={estado} onChange={e=> setEstado(e.target.value)} required>
+                    <option value="">Selecciona el estado</option>
+                    <option value="Aguascalientes">Aguascalientes</option>
+                    <option value="Baja California">Baja California</option>
+                    <option value="Baja California Sur">Baja California Sur</option>
+                    <option value="Campeche">Campeche</option>
+                    <option value="Chiapas">Chiapas</option>
+                    <option value="Chihuahua">Chihuahua</option>
+                    <option value="Ciudad de México">Ciudad de México</option>
+                    <option value="Coahuila">Coahuila</option>
+                    <option value="Colima">Colima</option>
+                    <option value="Durango">Durango</option>
+                    <option value="Estado de México">Estado de México</option>
+                    <option value="Guanajuato">Guanajuato</option>
+                    <option value="Guerrero">Guerrero</option>
+                    <option value="Hidalgo">Hidalgo</option>
+                    <option value="Jalisco">Jalisco</option>
+                    <option value="Michoacán">Michoacán</option>
+                    <option value="Morelos">Morelos</option>
+                    <option value="Nayarit">Nayarit</option>
+                    <option value="Nuevo León">Nuevo León</option>
+                    <option value="Oaxaca">Oaxaca</option>
+                    <option value="Puebla">Puebla</option>
+                    <option value="Querétaro">Querétaro</option>
+                    <option value="Quintana Roo">Quintana Roo</option>
+                    <option value="San Luis Potosí">San Luis Potosí</option>
+                    <option value="Sinaloa">Sinaloa</option>
+                    <option value="Sonora">Sonora</option>
+                    <option value="Tabasco">Tabasco</option>
+                    <option value="Tamaulipas">Tamaulipas</option>
+                    <option value="Tlaxcala">Tlaxcala</option>
+                    <option value="Veracruz">Veracruz</option>
+                    <option value="Yucatán">Yucatán</option>
+                    <option value="Zacatecas">Zacatecas</option>
+                  </select>
                 </div>
                 <div>
-                  {/* <label>CP</label>
-                  <input type="text" className="form-input" placeholder="Escribe tu código postal" required /> */}
+                  <label>Codigo Postal</label>
+                  <input type="text" className="form-input" placeholder="Escribe tu código postal"  value={cPostal} onChange={e=> setcPostal(e.target.value)} required />
                 </div>
                 <div>
-                  {/* <label>Colonia</label>
-                  <input type="text" className="form-input" placeholder="Escribe tu colonia" required /> */}
+                   <label>Colonia</label>
+                  <input type="text" className="form-input" placeholder="Escribe tu colonia"  value={colonia} onChange={e=> setColonia(e.target.value)} />
                 </div>
               </div>
               <div className={`form-two form-step  ${active === 2 ? 'active' : 'form-step-hidden'}`}>
@@ -109,12 +159,12 @@ const RegistroCliente = () => {
                 <h2 className='subtitulos'>Información del cliente</h2>
                 <p>Ingrese la información personal del cliente</p>
                 <div>
-                  {/* <label>Celular</label>
-                  <input type="tel" className="form-input" placeholder="Escribe tu número de celular" required /> */}
+                  <label>Celular</label>
+                  <input type="tel" className="form-input" placeholder="Escribe tu número de celular" value={celular} onChange={e=> setCelular(e.target.value)} required />
                 </div>
                 <div>
-                  {/* <label>Teléfono Casa</label>
-                  <input type="tel" className="form-input" placeholder="Escribe tu número de teléfono de casa" /> */}
+                  <label>Teléfono Casa</label>
+                  <input type="tel" className="form-input" placeholder="Escribe tu número de teléfono de casa" value={telefonoCasa} onChange={e=> setTelefonoCasa(e.target.value)} required />
                 </div>
                 <div>
                   <label htmlFor='email'>Correo electrónico</label>
@@ -129,37 +179,39 @@ const RegistroCliente = () => {
                   <input id='mascota' type="text" className="form-input" placeholder="Escribe el nombre de tu mascota" value={nombreMascota} onChange={e=> setNombreMascota(e.target.value)} required />
                 </div>
                 <div>
-                  {/* <label>Especie </label>
-                  <select name="especie" className="form-input" required>
+                  <label>Especie </label>
+                  <select name="especie" className="form-input select-color-text" value={especie} onChange={e=> setEspecie(e.target.value)} required>
                     <option value="">Selecciona la especie</option>
                     <option value="perro">Perro</option>
                     <option value="gato">Gato</option>
                     <option value="otro">Otro</option>
-                  </select> */}
+                  </select>
                 </div>
                 <div>
-                  {/* <label>Raza</label>
-                  <input type="text" className="form-input" placeholder="Escribe la raza de tu mascota" required /> */}
+                   <label>Raza</label>
+                  <input type="text" className="form-input" placeholder="Escribe la raza de tu mascota" value={raza} onChange={e=> setRaza(e.target.value)} required />
                 </div>
                 <div>
-                  {/* <label>Edad</label>
-                  <input type="number" className="form-input" placeholder="Escribe la edad de tu mascota" /> */}
+                 <label>Edad</label>
+                  <input type="number" className="form-input" value={edad} onChange={e=> setEdad(e.target.value)} placeholder="Escribe edad de tu mascota" /> 
+                
+                  
                 </div>
                 <div>
-                  {/* <label>Sexo</label>
-                  <select name="sexo" className="form-input" required>
+                  <label>Sexo</label>
+                  <select name="sexo" className="form-input select-color-text" value={sexo} onChange={e=> setSexo(e.target.value)} required>
                     <option value="">Selecciona el sexo</option>
                     <option value="hembra">Hembra</option>
                     <option value="macho">Macho</option>
-                  </select> */}
+                  </select>
                 </div>
                 <div>
-                  {/* <label>Color</label>
-                  <input type="text" className="form-input" placeholder="Escribe el color de tu mascota" /> */}
+                   <label>Color</label>
+                  <input type="text" className="form-input" value={color} onChange={e=> setColor(e.target.value)} placeholder="Escribe el color de tu mascota" />
                 </div>
                 <div>
-                  {/* <label>Peso</label>
-                  <input type="number" className="form-input" placeholder="Escribe el peso de tu mascota" step="0.01" required /> */}
+                  <label>Peso en Kg.</label>
+                  <input type="number" className="form-input" placeholder="Escribe el peso de tu mascota" value={peso} onChange={e=> setPeso(e.target.value)}  step="0.01" required />
                 </div>
                 <div className="birth">
                   <label htmlFor='fechaNacimiento'>Fecha de nacimiento</label>
@@ -170,29 +222,27 @@ const RegistroCliente = () => {
                     <input type="text" className="form-input" pattern="[0-9]*" name="year" placeholder="YYYY" />
                   </div> */}
                 </div>
+               
                 <div>
-                  <label htmlFor='sintomas'>Sintomas</label>
-                  <textarea id="sintomas" value={sintomas} onChange={e=> setSintomas(e.target.value)}/> 
-                </div>
-                <div>
-                  {/* <label>¿Cuenta con todas las vacunas?</label>
-                  <select name="vacunas" className="form-input" required>
+                  <label>¿Cuenta con todas las vacunas?</label>
+                  <select name="vacunas" value={vacunas} onChange={e=> setVacunas(e.target.value)} className="form-input select-color-text" required>
                     <option value="">Selecciona una opción</option>
                     <option value="si">Sí</option>
                     <option value="no">No</option>
-                  </select> */}
+                  </select>
                 </div>
                 <div>
-                  {/* <label>¿Ha sido operado?</label>
-                  <select name="operado" className="form-input" required>
+                  <label>¿Ha sido operado?</label>
+                  <select name="operado" className="form-input select-color-text" value={operado} onChange={e=> setOperado(e.target.value)} required>
                     <option value="">Selecciona una opción</option>
                     <option value="si">Sí</option>
                     <option value="no">No</option>
-                  </select> */}
+                  </select>
                 </div>
                 <div className="checkbox">
-                  {/* <input type="checkbox" id="consentimiento" required />
-                  <label htmlFor="consentimiento">Estoy de acuerdo con la recopilación de información mía y de mi mascota</label> */}
+                  <input type="checkbox" id="consentimiento"  checked={consentimiento}
+                  onChange={handleConsentimientoChange} required />
+                  <label htmlFor="consentimiento">Estoy de acuerdo con la recopilación de información mía y de mi mascota</label>
                 </div>
               </div>
               <div className="btn-group">

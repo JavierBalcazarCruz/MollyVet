@@ -190,9 +190,11 @@ form > div > div:not(.checkbox) {
     outline-color: var(--secondary-color);
     border: 1px solid var(--lighter-color);
     background-color: transparent;
-    color: rgb(255, 255, 255);
+    color: #e0e0e7;
 }
-
+.select-color-text{
+    color: #000045;
+}
 form label {
     font-size: var(--font-smaller);
     margin-bottom: 0.5em;
