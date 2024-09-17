@@ -46,6 +46,6 @@ app.use("/api/pacientes", pacienteRoutes);
 const PORT = process.env.PORT || 4000; 
 
 //Puerto 4000 ejecuta el backend
-app.listen(PORT, ()=>{ 
-    console.log("Server is running on port "+PORT);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor backend corriendo en el puerto ${PORT}`);
 });
