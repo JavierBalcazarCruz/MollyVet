@@ -12,6 +12,7 @@ import  NuevoPassword from './paginas/NuevoPassword';
 import  HomeScreen from './paginas/HomeScreen';
 import  ConfirmarCuenta  from './paginas/ConfirmarCuenta';
 import  RegistroCliente  from './paginas/RegistroCliente';
+import  DatosPacientes  from './paginas/DatosPacientes';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="/admin" element={<RutaProtegida/>} >
               <Route index element={<HomeScreen/>}/>
               <Route path="registro-cliente" element={<RegistroCliente/>}/>
+              <Route path="datosPacientes" element={<DatosPacientes/>}/>
 
             </Route>
           </Routes>
