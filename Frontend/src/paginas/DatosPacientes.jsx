@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calendar, Weight, Heart, UserCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import "../assets/datosPacientes/styles/style.css";
+import '../assets/homeScreen/styles/style.css';
+import WidgetHoraActual from '../components/WidgetHoraActual';
+import WidgetCitasProgramadas from '../components/WidgetCitasProgramadas';
+import WidgetMetaDelMes from '../components/WidgetMetaDelMes';
+
 
 const DatosPacientes = () => {
   const [contacts, setContacts] = useState([
@@ -351,50 +356,75 @@ const DatosPacientes = () => {
                 <h2>{selectedContact.name}</h2>
               </div>
               <div className="contact-info-details">
-  <div className="info-item">
-    <User size={20} />
-    <span><strong>Dueño:</strong> {selectedContact.owner}</span>
-  </div>
-  <div className="info-item">
-    <Phone size={20} />
-    <span><strong>Celular:</strong> {selectedContact.celular}</span>
-  </div>
-  <div className="info-item">
-    <Mail size={20} />
-    <span><strong>Email:</strong> {selectedContact.email}</span>
-  </div>
-  <div className="info-item">
-    <MapPin size={20} />
-    <span><strong>Dirección:</strong> {selectedContact.direccion}</span>
-  </div>
-  <div className="info-item">
-    <PawPrint size={20} />
-    <span><strong>Nombre:</strong> {selectedContact.name}</span>
-  </div>
-  <div className="info-item">
-    <Stethoscope size={20} />
-    <span><strong>Especie:</strong> {selectedContact.species}</span>
-  </div>
-  <div className="info-item">
-    <PawPrint size={20} />
-    <span><strong>Raza:</strong> {selectedContact.breed}</span>
-  </div>
-  <div className="info-item">
-    <Calendar size={20} />
-    <span><strong>Edad:</strong> {selectedContact.age} años</span>
-  </div>
-  <div className="info-item">
-    <Weight size={20} />
-    <span><strong>Peso:</strong> {selectedContact.weight} kg</span>
-  </div>
-  <div className="info-item">
-    <Heart size={20} />
-    <span><strong>Estado:</strong> {selectedContact.estado}</span>
-  </div>
-  <div className="info-item">
-    <UserCheck size={20} />
-    <span><strong>Veterinario:</strong> {selectedContact.veterinario}</span>
-  </div>
+              <div className="widgets">
+              <div className="widget">
+                <h2>Información del Dueño</h2>
+                <br></br>
+                <div className="info-item">
+                  <User size={20} />
+                  <span><strong>Dueño:</strong> {selectedContact.owner}</span>
+                </div>
+                <div className="info-item">
+                  <Phone size={20} />
+                  <span><strong>Celular:</strong> {selectedContact.celular}</span>
+                </div>
+                <div className="info-item">
+                  <Mail size={20} />
+                  <span><strong>Email:</strong> {selectedContact.email}</span>
+                </div>  
+                <div className="info-item">
+                  <MapPin size={20} />
+                  <span><strong>Dirección:</strong> {selectedContact.direccion}</span>         
+                </div>
+                <br></br>
+                <br></br>
+                <br></br>
+                    
+              </div>
+              <div className="widget">
+              <h2>Información de la mascota</h2>
+              <br></br>
+              <div className="info-item">
+              <PawPrint size={20} />
+              <span><strong>Nombre:</strong> {selectedContact.name}</span>
+            </div>
+            <div className="info-item">
+              <Stethoscope size={20} />
+              <span><strong>Especie:</strong> {selectedContact.species}</span>
+            </div>
+            <div className="info-item">
+              <PawPrint size={20} />
+              <span><strong>Raza:</strong> {selectedContact.breed}</span>
+            </div>
+            <div className="info-item">
+              <Calendar size={20} />
+              <span><strong>Edad:</strong> {selectedContact.age} años</span>
+            </div>
+            <div className="info-item">
+              <Weight size={20} />
+              <span><strong>Peso:</strong> {selectedContact.weight} kg</span>
+            </div>
+            <div className="info-item">
+              <Heart size={20} />
+              <span><strong>Estado:</strong> {selectedContact.estado}</span>
+            </div>
+            <div className="info-item">
+              <UserCheck size={20} />
+              <span><strong>Veterinario:</strong> {selectedContact.veterinario}</span>
+            </div>
+              </div>
+              <div className="widget">
+              <h2>Información reciente de la mascota</h2>
+              </div>
+                
+       
+      </div>
+
+ 
+
+
+
+
 </div>
             </>
           ) : (

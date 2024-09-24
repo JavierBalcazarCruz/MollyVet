@@ -11,6 +11,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    overflow: auto;
   }
   .titPacientes{
     color: #ffffff;
@@ -20,13 +21,13 @@
   .veterinary-contacts {
     display: flex;
     height: 100vh;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    
+
   }
   
   .contacts-list {
     width: 300px;
-    background: rgba(255, 255, 255, 0.25);
+   
     border-right: 1px solid rgba(255, 255, 255, 0.18);
     overflow-y: auto;
     backdrop-filter: blur(4px);
@@ -158,7 +159,7 @@
   
   .contact-info-details {
     width: 100%;
-    max-width: 400px;
+    /*max-width: 400px;*/
   }
   
   .info-item {
@@ -218,6 +219,7 @@
       left: 0;
       height: 100%;
       width: 80%;
+      backdrop-filter: blur(26px);
       max-width: 300px;
       transform: translateX(-100%);
       transition: transform 0.3s ease-in-out;
