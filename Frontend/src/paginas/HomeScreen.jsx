@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 
 import logo from '../assets/homeScreen/images/logo.png';
+import rgpacientes from '../assets/homeScreen/images/registrarPacientes.jpg';
+import vPacientes from '../assets/homeScreen/images/verPacientes.jpg';
+import vDashboard from '../assets/homeScreen/images/verDashboard.jpg';
+import vCalendario from '../assets/homeScreen/images/verCalendario.jpg';
+import vInventario from '../assets/homeScreen/images/verInventario.jpg';
 import '../assets/homeScreen/styles/style.css';
 
 import AppIcon from '../components/AppIcon';
@@ -49,14 +54,15 @@ const HomeScreen = () => {
         <WidgetMetaDelMes />
       </div>
       <nav className="apps">
-        <AppIcon to="/admin/registro-cliente" color="#9B59B6" name="Registrar Clientes" />
-        <AppIcon to="/admin/datosPacientes" color="#FFDD00" name="Pacientes" />
-        <AppIcon to="/dashboard" color="#FFDD00" name="Dashboard" />
-        <AppIcon to="/calendar" color="#3498DB" name="Calendario" />
-        <AppIcon to="/inventory" color="#E74C3C" name="Inventario" />
-        <AppIcon to="/directory" color="#F39C12" name="Directorio" />
-        <AppIcon to="/bathrooms" color="#8E44AD" name="Baños" />
-        <AppIcon to="/recipe-generator" color="#1ABC9C" name="Generador de recetas" />
+        <AppIcon to="/admin/registro-cliente" imageUrl={rgpacientes} name="Registrar Clientes" />
+        <AppIcon to="/admin/datosPacientes" imageUrl={vPacientes} name="Pacientes" />
+        <AppIcon to="/dashboard"imageUrl={vDashboard} name="Dashboard" />
+        <AppIcon to="/calendar" imageUrl={vCalendario} name="Calendario" />
+        <AppIcon to="/inventory" imageUrl={vInventario} name="Inventario" />
+        {/* <AppIcon to="/directory" color="#F39C12" name="Directorio" /> */}
+        {/* <AppIcon to="/bathrooms" color="#8E44AD" name="Baños" /> */}
+        {/* <AppIcon to="/recipe-generator" color="#1ABC9C" name="Generador de recetas" /> */}
+
       </nav>
     </div>
   );
