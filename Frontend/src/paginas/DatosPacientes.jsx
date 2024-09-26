@@ -193,8 +193,22 @@ const DatosPacientes = () => {
             </>
           ) : (
             <div className="no-selection">
-              <h2>Revisa tus pacientes</h2>
-            </div>
+              { pacientes.length ? 
+              (
+                <>
+                  <h2>Listado de pacientes</h2>
+                  <p className='tit-datosPacientes'>Administra tus pacientes </p>
+                </>
+              ):
+              (
+                <>
+                    <h2>No hay pacientes</h2>
+                    <p>Comienza agregando pacientes y aparecerán en este lugar</p>
+                </>
+              )
+
+              }
+          </div>
           )}
         </div>
       </div>
