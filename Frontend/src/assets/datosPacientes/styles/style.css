@@ -17,6 +17,9 @@
     color: #ffffff;
     letter-spacing: 1px;
   }
+  .tit-datosPacientes{
+    text-align: center;
+  }
   
   .veterinary-contacts {
     display: flex;
@@ -204,7 +207,7 @@
     margin: 0;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .veterinary-contacts {
       flex-direction: column;
     }
