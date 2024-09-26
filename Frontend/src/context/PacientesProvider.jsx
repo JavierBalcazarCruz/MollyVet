@@ -8,6 +8,31 @@ const PacientesContext = createContext();
 export const PacientesProvider = ({children}) =>{
     const [pacientes, setPacientes] = useState([]);
 
+    //Cuando cargue el componente se va llamar la API para poder recuperar los datos
+    useEffect(() =>{
+        const obtenerPacientes = async () =>{
+            try {
+                const token = localStorage.getItem('apv_token');
+                if (!token) return;
+                const config = {
+                    headers:{
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+                //Petición get para obtener los pacientes
+                const { data } = await clienteAxios.get('/pacientes',config);
+                //Se seteea el data en pacientes para que se pueda usar en cualquier componente
+                console.log(data)
+                setPacientes(data);
+
+               } catch (error) {
+                console.log(error.response.data.msg);
+               }
+        }
+        obtenerPacientes()
+    }, [])
+
     //Función guardarPaciente aquí se va insertar en la api
     const guardarPaciente = async (paciente) =>{
        try {
@@ -25,9 +50,6 @@ export const PacientesProvider = ({children}) =>{
         console.log(error.response.data.msg);
        }
     }
-
-
-
     return(
         //Van todos los componentes hijos de pacientesContext.provider, ya se pueden extraer en diferentes componentes
         <PacientesContext.Provider

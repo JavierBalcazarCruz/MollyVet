@@ -3,266 +3,26 @@ import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calend
 import { useNavigate } from 'react-router-dom';
 import "../assets/datosPacientes/styles/style.css";
 import '../assets/homeScreen/styles/style.css';
-import WidgetHoraActual from '../components/WidgetHoraActual';
-import WidgetCitasProgramadas from '../components/WidgetCitasProgramadas';
-import WidgetMetaDelMes from '../components/WidgetMetaDelMes';
+import usePacientes from "../hooks/usePacientes";
 
 
 const DatosPacientes = () => {
-  const [contacts, setContacts] = useState([
-    {
-      id: 1,
-      name: 'Max',
-      owner: 'John Doe',
-      email: 'johndoe@gmail.com',
-      celular: '123-456-7890',
-      direccion: '123 Pet Street, Animalia 12345',
-      telefonoCasa: '098-765-4321',
-      codigoPostal: '12345',
-      fecha: '2022-01-01',
-      color: 'Golden',
-      colonia: 'Animal Town',
-      breed: 'Golden Retriever',
-      weight: 30,
-      species: 'Dog',
-      estado: 'Healthy',
-      age: 5,
-      consentimiento: true,
-      veterinario: 'Dr. Vet'
-    },
-    {
-      id: 2,
-      name: 'Whiskers',
-      owner: 'Jane Smith',
-      email: 'janesmith@gmail.com',
-      celular: '234-567-8901',
-      direccion: '456 Cat Lane, Feline City 67890',
-      telefonoCasa: '123-456-7890',
-      codigoPostal: '67890',
-      fecha: '2021-05-15',
-      color: 'White and Brown',
-      colonia: 'Feline Town',
-      breed: 'Siamese',
-      weight: 4,
-      species: 'Cat',
-      estado: 'Healthy',
-      age: 3,
-      consentimiento: true,
-      veterinario: 'Dr. Cat'
-    },
-    {
-      id: 3,
-      name: 'Buddy',
-      owner: 'Mike Johnson',
-      email: 'mikejohnson@gmail.com',
-      celular: '345-678-9012',
-      direccion: '789 Dog Avenue, Canine City 34567',
-      telefonoCasa: '234-567-8901',
-      codigoPostal: '34567',
-      fecha: '2020-08-20',
-      color: 'Black',
-      colonia: 'Canine Town',
-      breed: 'Labrador',
-      weight: 35,
-      species: 'Dog',
-      estado: 'Healthy',
-      age: 7,
-      consentimiento: true,
-      veterinario: 'Dr. Dog'
-    },
-    {
-      id: 4,
-      name: 'Luna',
-      owner: 'Emily Davis',
-      email: 'emilydavis@gmail.com',
-      celular: '456-789-0123',
-      direccion: '101 Cat Street, Feline City 45678',
-      telefonoCasa: '345-678-9012',
-      codigoPostal: '45678',
-      fecha: '2019-11-11',
-      color: 'Gray',
-      colonia: 'Feline Town',
-      breed: 'Persian',
-      weight: 5,
-      species: 'Cat',
-      estado: 'Healthy',
-      age: 4,
-      consentimiento: true,
-      veterinario: 'Dr. Cat'
-    },
-    {
-      id: 5,
-      name: 'Rocky',
-      owner: 'Chris Wilson',
-      email: 'chriswilson@gmail.com',
-      celular: '567-890-1234',
-      direccion: '202 Dog Lane, Canine City 56789',
-      telefonoCasa: '456-789-0123',
-      codigoPostal: '56789',
-      fecha: '2018-03-22',
-      color: 'Brown and Black',
-      colonia: 'Canine Town',
-      breed: 'German Shepherd',
-      weight: 40,
-      species: 'Dog',
-      estado: 'Healthy',
-      age: 6,
-      consentimiento: true,
-      veterinario: 'Dr. Dog'
-    },
-    {
-      id: 6,
-      name: 'Milo',
-      owner: 'Sarah Thompson',
-      email: 'sarahthompson@gmail.com',
-      celular: '678-901-2345',
-      direccion: '303 Cat Avenue, Feline City 67890',
-      telefonoCasa: '567-890-1234',
-      codigoPostal: '67890',
-      fecha: '2021-07-07',
-      color: 'Orange',
-      colonia: 'Feline Town',
-      breed: 'Maine Coon',
-      weight: 6,
-      species: 'Cat',
-      estado: 'Healthy',
-      age: 2,
-      consentimiento: true,
-      veterinario: 'Dr. Cat'
-    },
-    {
-      id: 7,
-      name: 'Charlie',
-      owner: 'Alex Rodriguez',
-      email: 'alexrodriguez@gmail.com',
-      celular: '789-012-3456',
-      direccion: '404 Dog Street, Canine City 78901',
-      telefonoCasa: '678-901-2345',
-      codigoPostal: '78901',
-      fecha: '2017-09-09',
-      color: 'Tricolor',
-      colonia: 'Canine Town',
-      breed: 'Beagle',
-      weight: 10,
-      species: 'Dog',
-      estado: 'Healthy',
-      age: 4,
-      consentimiento: true,
-      veterinario: 'Dr. Dog'
-    },
-    {
-      id: 8,
-      name: 'Simba',
-      owner: 'Lisa Brown',
-      email: 'lisabrown@gmail.com',
-      celular: '890-123-4567',
-      direccion: '505 Cat Lane, Feline City 89012',
-      telefonoCasa: '789-012-3456',
-      codigoPostal: '89012',
-      fecha: '2016-12-12',
-      color: 'Spotted',
-      colonia: 'Feline Town',
-      breed: 'Bengal',
-      weight: 7,
-      species: 'Cat',
-      estado: 'Healthy',
-      age: 5,
-      consentimiento: true,
-      veterinario: 'Dr. Cat'
-    },
-    {
-      id: 9,
-      name: 'Lucy',
-      owner: 'David Miller',
-      email: 'davidmiller@gmail.com',
-      celular: '901-234-5678',
-      direccion: '606 Dog Avenue, Canine City 90123',
-      telefonoCasa: '890-123-4567',
-      codigoPostal: '90123',
-      fecha: '2015-04-04',
-      color: 'White',
-      colonia: 'Canine Town',
-      breed: 'Poodle',
-      weight: 8,
-      species: 'Dog',
-      estado: 'Healthy',
-      age: 8,
-      consentimiento: true,
-      veterinario: 'Dr. Dog'
-    },
-    {
-      id: 10,
-      name: 'Oliver',
-      owner: 'Emma Wilson',
-      email: 'emmawilson@gmail.com',
-      celular: '012-345-6789',
-      direccion: '707 Cat Street, Feline City 01234',
-      telefonoCasa: '901-234-5678',
-      codigoPostal: '01234',
-      fecha: '2020-02-02',
-      color: 'Blue',
-      colonia: 'Feline Town',
-      breed: 'British Shorthair',
-      weight: 5,
-      species: 'Cat',
-      estado: 'Healthy',
-      age: 3,
-      consentimiento: true,
-      veterinario: 'Dr. Cat'
-    },
-    {
-      id: 11,
-      name: 'Bella',
-      owner: 'James Lee',
-      email: 'jameslee@gmail.com',
-      celular: '123-456-7890',
-      direccion: '808 Dog Lane, Canine City 12345',
-      telefonoCasa: '012-345-6789',
-      codigoPostal: '12345',
-      fecha: '2019-06-06',
-      color: 'Fawn',
-      colonia: 'Canine Town',
-      breed: 'Pug',
-      weight: 9,
-      species: 'Dog',
-      estado: 'Healthy',
-      age: 6,
-      consentimiento: true,
-      veterinario: 'Dr. Dog'
-    },
-    {
-      id: 12,
-      name: 'Shadow',
-      owner: 'Ava Taylor',
-      email: 'avataylor@gmail.com',
-      celular: '234-567-8901',
-      direccion: '909 Cat Avenue, Feline City 23456',
-      telefonoCasa: '123-456-7890',
-      codigoPostal: '23456',
-      fecha: '2018-10-10',
-      color: 'Gray',
-      colonia: 'Feline Town',
-      breed: 'Russian Blue',
-      weight: 4,
-      species: 'Cat',
-      estado: 'Healthy',
-      age: 5,
-      consentimiento: true,
-      veterinario: 'Dr. Cat'
-    }
-  ]);
-  
-
+  const { pacientes } = usePacientes();
+  const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [searchTerm, setSearchTerm] = useState('');
 
   const navigate = useNavigate();
   
   useEffect(() => {
+    setContacts(pacientes);
+  }, [pacientes]);
+
+  useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 1024);
     };
     const handleClickOutside = (event) => {
       if (!document.querySelector('.contacts-list').contains(event.target) && isMenuOpen) {
@@ -291,9 +51,9 @@ const DatosPacientes = () => {
   };
 
   const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    contact.owner.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    contact.breed.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    contact.nombreMascota.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    contact.propietario.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    contact.raza.toLowerCase().includes(searchTerm.toLowerCase()) ||
     contact.color.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -321,20 +81,20 @@ const DatosPacientes = () => {
           />
           {filteredContacts.map((contact) => (
             <div
-              key={contact.id}
-              className={`contact-item ${selectedContact && selectedContact.id === contact.id ? 'selected' : ''}`}
+              key={contact._id}
+              className={`contact-item ${selectedContact && selectedContact._id === contact._id ? 'selected' : ''}`}
               onClick={() => selectContact(contact)}
             >
               <div className="contact-avatar">
-                {contact.species === 'Dog' ? (
-                  <img src="https://pampermut.com/blog/wp-content/uploads/2020/05/Como-es-el-caracter-de-tu-perro-segun-su-horoscopo-scaled.jpg" alt="Dog Avatar" />
+                {contact.especie.toLowerCase() === 'perro' ? (
+                  <img src="https://pampermut.com/blog/wp-content/uploads/2020/05/Como-es-el-caracter-de-tu-perro-segun-su-horoscopo-scaled.jpg" alt="Perro Avatar" />
                 ) : (
                   <img src="https://s1.elespanol.com/2020/05/18/como/gatos-mascotas-trucos_490961518_152142875_1706x960.jpg" alt="Cat Avatar" />
                 )}
               </div>
               <div className="contact-info">
-                <div className="contact-name">{contact.name}</div>
-                <div className="contact-species">{contact.species} - {contact.breed}</div>
+                <div className="contact-name">{contact.nombreMascota}</div>
+                <div className="contact-species">{contact.especie} - {contact.raza}</div>
               </div>
             </div>
           ))}
@@ -346,27 +106,31 @@ const DatosPacientes = () => {
                 <div className="contact-avatar large">
                   <img
                     src={
-                      selectedContact.species === 'Dog'
+                      selectedContact.especie.toLowerCase() === 'perro'
                         ? 'https://pampermut.com/blog/wp-content/uploads/2020/05/Como-es-el-caracter-de-tu-perro-segun-su-horoscopo-scaled.jpg'
                         : 'https://s1.elespanol.com/2020/05/18/como/gatos-mascotas-trucos_490961518_152142875_1706x960.jpg'
                     }
-                    alt={selectedContact.species}
+                    alt={selectedContact.especie}
                   />
                 </div>
-                <h2>{selectedContact.name}</h2>
+                <h2>{selectedContact.nombreMascota}</h2>
               </div>
               <div className="contact-info-details">
               <div className="widgets">
               <div className="widget">
-                <h2>Información del Dueño</h2>
-                <br></br>
+                <h2 className='tit-datosPacientes'>Información del Dueño</h2>
+                <br />
                 <div className="info-item">
                   <User size={20} />
-                  <span><strong>Dueño:</strong> {selectedContact.owner}</span>
+                  <span><strong>Dueño:</strong> {selectedContact.propietario}</span>
                 </div>
                 <div className="info-item">
                   <Phone size={20} />
                   <span><strong>Celular:</strong> {selectedContact.celular}</span>
+                </div>
+                <div className="info-item">
+                  <Phone size={20} />
+                  <span><strong>Teléfono de casa:</strong> {selectedContact.telefonoCasa}</span>
                 </div>
                 <div className="info-item">
                   <Mail size={20} />
@@ -376,60 +140,60 @@ const DatosPacientes = () => {
                   <MapPin size={20} />
                   <span><strong>Dirección:</strong> {selectedContact.direccion}</span>         
                 </div>
-                <br></br>
-                <br></br>
-                <br></br>
-                    
+                <div className="info-item">
+                  <Heart size={20} />
+                  <span><strong>Estado:</strong> {selectedContact.estado}</span>
+                </div>
+                <div className="info-item">
+                  <MapPin size={20} />
+                  <span><strong>Colonia:</strong> {selectedContact.colonia}</span>
+                </div>                       
               </div>
               <div className="widget">
-              <h2>Información de la mascota</h2>
-              <br></br>
+              <h2 className='tit-datosPacientes'>Información de la mascota</h2>
+              <br />
               <div className="info-item">
-              <PawPrint size={20} />
-              <span><strong>Nombre:</strong> {selectedContact.name}</span>
-            </div>
-            <div className="info-item">
-              <Stethoscope size={20} />
-              <span><strong>Especie:</strong> {selectedContact.species}</span>
-            </div>
-            <div className="info-item">
-              <PawPrint size={20} />
-              <span><strong>Raza:</strong> {selectedContact.breed}</span>
-            </div>
-            <div className="info-item">
-              <Calendar size={20} />
-              <span><strong>Edad:</strong> {selectedContact.age} años</span>
-            </div>
-            <div className="info-item">
-              <Weight size={20} />
-              <span><strong>Peso:</strong> {selectedContact.weight} kg</span>
-            </div>
-            <div className="info-item">
-              <Heart size={20} />
-              <span><strong>Estado:</strong> {selectedContact.estado}</span>
-            </div>
-            <div className="info-item">
-              <UserCheck size={20} />
-              <span><strong>Veterinario:</strong> {selectedContact.veterinario}</span>
-            </div>
+                <PawPrint size={20} />
+                <span><strong>Nombre:</strong> {selectedContact.nombreMascota}</span>
+              </div>
+              <div className="info-item">
+                <Stethoscope size={20} />
+                <span><strong>Especie:</strong> {selectedContact.especie}</span>
+              </div>
+              <div className="info-item">
+                <Calendar size={20} />
+                <span><strong>Fecha de nacimiento:</strong> {new Date(selectedContact.fecha).toLocaleDateString()}</span>
+              </div>
+              <div className="info-item">
+                <PawPrint size={20} />
+                <span><strong>Raza:</strong> {selectedContact.raza}</span>
+              </div>
+              <div className="info-item">
+                <PawPrint size={20} />
+                <span><strong>Color:</strong> {selectedContact.color}</span>
+              </div>
+              <div className="info-item">
+                <Calendar size={20} />
+                <span><strong>Edad:</strong> {selectedContact.edad} años</span>
+              </div>
+              <div className="info-item">
+                <Weight size={20} />
+                <span><strong>Peso:</strong> {selectedContact.peso} kg</span>
+              </div>
+              <div className="info-item">
+                <UserCheck size={20} />
+                <span><strong>Veterinario:</strong> {selectedContact.veterinario}</span>
+              </div>
               </div>
               <div className="widget">
-              <h2>Información reciente de la mascota</h2>
-              </div>
-                
-       
+              <h2 className='tit-datosPacientes'>Información reciente de la mascota</h2>
+              </div>        
       </div>
-
- 
-
-
-
-
 </div>
             </>
           ) : (
             <div className="no-selection">
-              <p>Selecciona un paciente para ver sus detalles</p>
+              <h2>Revisa tus pacientes</h2>
             </div>
           )}
         </div>
