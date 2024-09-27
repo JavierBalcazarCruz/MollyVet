@@ -24,9 +24,31 @@
   .veterinary-contacts {
     display: flex;
     height: 100vh;
-    
-
   }
+
+  .widget {
+    position: relative;
+    /* ... (otros estilos existentes) */
+  }
+  
+  .widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .edit-icon {
+    cursor: pointer;
+    color: white;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  
+  .edit-icon:hover {
+    opacity: 1;
+  }
+  
   
   .contacts-list {
     width: 300px;
@@ -206,6 +228,184 @@
     flex-grow: 1;
     margin: 0;
   }
+  
+/* ... (estilos existentes) */
+
+.blur-background {
+ 
+  transition: filter 0.5s ease-out;
+}
+
+.edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease, backdrop-filter 0.5s ease;
+}
+
+.edit-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.edit-modal.closing {
+  opacity: 0;
+  backdrop-filter: blur(0px);
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%; /* __Ajustado__ para que use todo el ancho disponible */
+  max-width: 700px; /* __Ajustado__ incrementa el tamaño máximo del modal */
+  transform: scale(0.8);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.edit-modal.open .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.modal-content h2 {
+  color: white;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+.input-group svg {
+  color: white;
+  margin-right: 10px;
+}
+
+.input-group input {
+  flex-grow: 1;
+  padding: 8px; /* Ajustado */
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  width: 100%;
+  max-width: 100%; /* Asegurarse de que el input no exceda el contenedor */
+  box-sizing: border-box; /* Asegura que el padding no altere el ancho */
+  min-width: 70%; /* __Nuevo__ hace que los inputs sean más largos de manera responsive */
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.modal-actions button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 16px;
+}
+
+.modal-actions button:first-child {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.modal-actions button:last-child {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.modal-actions button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.edit-modal.open .modal-content {
+  animation: modalFadeIn 0.5s ease forwards;
+}
+
+.edit-modal.closing .modal-content {
+  animation: modalFadeOut 0.5s ease forwards;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 30px;
+    max-width: 90%; /* __Ajustado__ reduce el ancho en pantallas pequeñas */
+  }
+
+  .modal-content h2 {
+    font-size: 20px;
+  }
+
+  .input-group input {
+    font-size: 14px;
+    min-width: 100%; /* __Nuevo__ inputs ocupan todo el ancho en pantallas pequeñas */
+  }
+
+  .modal-actions button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* ... (otros estilos existentes) */
+  
   
   @media (max-width: 1024px) {
     .veterinary-contacts {

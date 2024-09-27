@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calendar, Weight, Heart, UserCheck } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calendar, Weight, Heart, UserCheck,Edit  } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import "../assets/datosPacientes/styles/style.css";
 import '../assets/homeScreen/styles/style.css';
@@ -57,8 +57,105 @@ const DatosPacientes = () => {
     contact.color.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingType, setEditingType] = useState(null);
+  const [isClosing, setIsClosing] = useState(false);
+  
+  const openEditModal = (type) => {
+    setEditingType(type);
+    setIsEditModalOpen(true);
+    setIsClosing(false);
+  };
+
+  const closeEditModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+
+      setIsEditModalOpen(false);
+      setEditingType(null);
+      setIsClosing(false);
+    }, 500); // Duración de la animación de cierre
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Aquí iría la lógica para guardar los cambios
+    closeEditModal();
+  };
+
+  const EditModal = ({ type }) => {
+    return (
+      <div className={`edit-modal ${isEditModalOpen && !isClosing ? 'open' : ''} ${isClosing ? 'closing' : ''}`}>
+
+        <div className="modal-content">
+          <h2>Editar {type === 'owner' ? 'Información del Dueño' : 'Información de la Mascota'}</h2>
+          <form onSubmit={handleSubmit}>
+            {type === 'owner' ? (
+              <>
+                <div className="input-group">
+                  <User size={20} />
+                  <input type="text" placeholder="Nombre del dueño" defaultValue={selectedContact.propietario} />
+                </div>
+                <div className="input-group">
+                  <Phone size={20} />
+                  <input type="tel" placeholder="Celular" defaultValue={selectedContact.celular} />
+                </div>
+                <div className="input-group">
+                  <Phone size={20} />
+                  <input type="tel" placeholder="Teléfono de casa" defaultValue={selectedContact.telefonoCasa} />
+                </div>
+                <div className="input-group">
+                  <Mail size={20} />
+                  <input type="email" placeholder="Email" defaultValue={selectedContact.email} />
+                </div>
+                <div className="input-group">
+                  <MapPin size={20} />
+                  <input type="text" placeholder="Dirección" defaultValue={selectedContact.direccion} />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="input-group">
+                  <PawPrint size={20} />
+                  <input type="text" placeholder="Nombre de la mascota" defaultValue={selectedContact.nombreMascota} />
+                </div>
+                <div className="input-group">
+                  <Stethoscope size={20} />
+                  <input type="text" placeholder="Especie" defaultValue={selectedContact.especie} />
+                </div>
+                <div className="input-group">
+                  <Calendar size={20} />
+                  <input type="date" placeholder="Fecha de nacimiento" defaultValue={selectedContact.fecha} />
+                </div>
+                <div className="input-group">
+                  <PawPrint size={20} />
+                  <input type="text" placeholder="Raza" defaultValue={selectedContact.raza} />
+                </div>
+                <div className="input-group">
+                  <PawPrint size={20} />
+                  <input type="text" placeholder="Color" defaultValue={selectedContact.color} />
+                </div>
+                <div className="input-group">
+                  <Calendar size={20} />
+                  <input type="number" placeholder="Edad" defaultValue={selectedContact.edad} />
+                </div>
+                <div className="input-group">
+                  <Weight size={20} />
+                  <input type="number" placeholder="Peso" defaultValue={selectedContact.peso} />
+                </div>
+              </>
+            )}
+            <div className="modal-actions">
+              <button type="button" onClick={closeEditModal}>Cancelar</button>
+              <button type="submit" onClick={closeEditModal}>Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="full-height-container background-cover">
+    <div className={`full-height-container background-cover ${isEditModalOpen ? 'blur-background' : ''}`}>
       <div className="veterinary-contacts">
         {isMobile && (
           <button className="menu-button" onClick={toggleMenu}>
@@ -118,8 +215,11 @@ const DatosPacientes = () => {
               <div className="contact-info-details">
               <div className="widgets">
               <div className="widget">
-                <h2 className='tit-datosPacientes'>Información del Dueño</h2>
-                <br />
+              <div className="widget-header">
+                    <h2 className='tit-datosPacientes'>Información del Dueño</h2>
+                    <Edit size={20} className="edit-icon" onClick={() => openEditModal('owner')} />
+                  </div>
+              
                 <div className="info-item">
                   <User size={20} />
                   <span><strong>Dueño:</strong> {selectedContact.propietario}</span>
@@ -147,11 +247,14 @@ const DatosPacientes = () => {
                 <div className="info-item">
                   <MapPin size={20} />
                   <span><strong>Colonia:</strong> {selectedContact.colonia}</span>
-                </div>                       
+                </div>    
+                <br />                   
               </div>
               <div className="widget">
-              <h2 className='tit-datosPacientes'>Información de la mascota</h2>
-              <br />
+              <div className="widget-header">
+                    <h2 className='tit-datosPacientes'>Información de la mascota</h2>
+                    <Edit size={20} className="edit-icon" onClick={() => openEditModal('pet')} />
+                  </div>
               <div className="info-item">
                 <PawPrint size={20} />
                 <span><strong>Nombre:</strong> {selectedContact.nombreMascota}</span>
@@ -179,11 +282,7 @@ const DatosPacientes = () => {
               <div className="info-item">
                 <Weight size={20} />
                 <span><strong>Peso:</strong> {selectedContact.peso} kg</span>
-              </div>
-              <div className="info-item">
-                <UserCheck size={20} />
-                <span><strong>Veterinario:</strong> {selectedContact.veterinario}</span>
-              </div>
+              </div>  <br />
               </div>
               <div className="widget">
               <h2 className='tit-datosPacientes'>Información reciente de la mascota</h2>
@@ -212,6 +311,7 @@ const DatosPacientes = () => {
           )}
         </div>
       </div>
+      {isEditModalOpen && <EditModal type={editingType} />}
     </div>
   );
 };
