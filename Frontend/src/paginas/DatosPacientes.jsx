@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calendar, Weight, Heart, UserCheck,Edit  } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calendar, Weight, Heart, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import "../assets/datosPacientes/styles/style.css";
 import '../assets/homeScreen/styles/style.css';
 import usePacientes from "../hooks/usePacientes";
-
 
 const DatosPacientes = () => {
   const { pacientes } = usePacientes();
@@ -70,12 +69,12 @@ const DatosPacientes = () => {
   const closeEditModal = () => {
     setIsClosing(true);
     setTimeout(() => {
-
       setIsEditModalOpen(false);
       setEditingType(null);
       setIsClosing(false);
     }, 500); // Duración de la animación de cierre
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aquí iría la lógica para guardar los cambios
@@ -85,7 +84,6 @@ const DatosPacientes = () => {
   const EditModal = ({ type }) => {
     return (
       <div className={`edit-modal ${isEditModalOpen && !isClosing ? 'open' : ''} ${isClosing ? 'closing' : ''}`}>
-
         <div className="modal-content">
           <h2>Editar {type === 'owner' ? 'Información del Dueño' : 'Información de la Mascota'}</h2>
           <form onSubmit={handleSubmit}>
@@ -213,101 +211,100 @@ const DatosPacientes = () => {
                 <h2>{selectedContact.nombreMascota}</h2>
               </div>
               <div className="contact-info-details">
-              <div className="widgets">
-              <div className="widget">
-              <div className="widget-header">
-                    <h2 className='tit-datosPacientes'>Información del Dueño</h2>
-                    <Edit size={20} className="edit-icon" onClick={() => openEditModal('owner')} />
+                <div className="widgets">
+                  <div className="widget">
+                    <div className="widget-header">
+                      <h2 className='tit-datosPacientes'>Información del Dueño</h2>
+                      <Edit size={20} className="edit-icon" onClick={() => openEditModal('owner')} />
+                    </div>
+                    <div className="info-item">
+                      <User size={20} />
+                      <span><strong>Dueño:</strong> {selectedContact.propietario}</span>
+                    </div>
+                    <div className="info-item">
+                      <Phone size={20} />
+                      <span><strong>Celular:</strong> {selectedContact.celular}</span>
+                    </div>
+                    <div className="info-item">
+                      <Phone size={20} />
+                      <span><strong>Teléfono de casa:</strong> {selectedContact.telefonoCasa}</span>
+                    </div>
+                    <div className="info-item">
+                      <Mail size={20} />
+                      <span><strong>Email:</strong> {selectedContact.email}</span>
+                    </div>  
+                    <div className="info-item">
+                      <MapPin size={20} />
+                      <span><strong>Dirección:</strong> {selectedContact.direccion}</span>         
+                    </div>
+                    <div className="info-item">
+                      <Heart size={20} />
+                      <span><strong>Estado:</strong> {selectedContact.estado}</span>
+                    </div>
+                    <div className="info-item">
+                      <MapPin size={20} />
+                      <span><strong>Colonia:</strong> {selectedContact.colonia}</span>
+                    </div>    
+                    <br />                   
                   </div>
-              
-                <div className="info-item">
-                  <User size={20} />
-                  <span><strong>Dueño:</strong> {selectedContact.propietario}</span>
-                </div>
-                <div className="info-item">
-                  <Phone size={20} />
-                  <span><strong>Celular:</strong> {selectedContact.celular}</span>
-                </div>
-                <div className="info-item">
-                  <Phone size={20} />
-                  <span><strong>Teléfono de casa:</strong> {selectedContact.telefonoCasa}</span>
-                </div>
-                <div className="info-item">
-                  <Mail size={20} />
-                  <span><strong>Email:</strong> {selectedContact.email}</span>
-                </div>  
-                <div className="info-item">
-                  <MapPin size={20} />
-                  <span><strong>Dirección:</strong> {selectedContact.direccion}</span>         
-                </div>
-                <div className="info-item">
-                  <Heart size={20} />
-                  <span><strong>Estado:</strong> {selectedContact.estado}</span>
-                </div>
-                <div className="info-item">
-                  <MapPin size={20} />
-                  <span><strong>Colonia:</strong> {selectedContact.colonia}</span>
-                </div>    
-                <br />                   
-              </div>
-              <div className="widget">
-              <div className="widget-header">
-                    <h2 className='tit-datosPacientes'>Información de la mascota</h2>
-                    <Edit size={20} className="edit-icon" onClick={() => openEditModal('pet')} />
+                  <div className="widget">
+                    <div className="widget-header">
+                      <h2 className='tit-datosPacientes'>Información de la mascota</h2>
+                      <Edit size={20} className="edit-icon" onClick={() => openEditModal('pet')} />
+                    </div>
+                    <div className="info-item">
+                      <PawPrint size={20} />
+                      <span><strong>Nombre:</strong> {selectedContact.nombreMascota}</span>
+                    </div>
+                    <div className="info-item">
+                      <Stethoscope size={20} />
+                      <span><strong>Especie:</strong> {selectedContact.especie}</span>
+                    </div>
+                    <div className="info-item">
+                      <Calendar size={20} />
+                      <span><strong>Fecha de nacimiento:</strong> {new Date(selectedContact.fecha).toLocaleDateString()}</span>
+                    </div>
+                    <div className="info-item">
+                      <PawPrint size={20} />
+                      <span><strong>Raza:</strong> {selectedContact.raza}</span>
+                    </div>
+                    <div className="info-item">
+                      <PawPrint size={20} />
+                      <span><strong>Color:</strong> {selectedContact.color}</span>
+                    </div>
+                    <div className="info-item">
+                      <Calendar size={20} />
+                      <span><strong>Edad:</strong> {selectedContact.edad} años</span>
+                    </div>
+                    <div className="info-item">
+                      <Weight size={20} />
+                      <span><strong>Peso:</strong> {selectedContact.peso} kg</span>
+                    </div>  
+                    <br />
                   </div>
-              <div className="info-item">
-                <PawPrint size={20} />
-                <span><strong>Nombre:</strong> {selectedContact.nombreMascota}</span>
+                  <div className="widget">
+                    <h2 className='tit-datosPacientes'>Información reciente de la mascota</h2>
+                  </div>        
+                </div>
               </div>
-              <div className="info-item">
-                <Stethoscope size={20} />
-                <span><strong>Especie:</strong> {selectedContact.especie}</span>
-              </div>
-              <div className="info-item">
-                <Calendar size={20} />
-                <span><strong>Fecha de nacimiento:</strong> {new Date(selectedContact.fecha).toLocaleDateString()}</span>
-              </div>
-              <div className="info-item">
-                <PawPrint size={20} />
-                <span><strong>Raza:</strong> {selectedContact.raza}</span>
-              </div>
-              <div className="info-item">
-                <PawPrint size={20} />
-                <span><strong>Color:</strong> {selectedContact.color}</span>
-              </div>
-              <div className="info-item">
-                <Calendar size={20} />
-                <span><strong>Edad:</strong> {selectedContact.edad} años</span>
-              </div>
-              <div className="info-item">
-                <Weight size={20} />
-                <span><strong>Peso:</strong> {selectedContact.peso} kg</span>
-              </div>  <br />
-              </div>
-              <div className="widget">
-              <h2 className='tit-datosPacientes'>Información reciente de la mascota</h2>
-              </div>        
-      </div>
-</div>
             </>
           ) : (
             <div className="no-selection">
               { pacientes.length ? 
-              (
-                <>
-                  <h2>Listado de pacientes</h2>
-                  <p className='tit-datosPacientes'>Administra tus pacientes </p>
-                </>
-              ):
-              (
-                <>
+                (
+                  <>
+                    <h2>Listado de pacientes</h2>
+                    <p className='tit-datosPacientes'>Administra tus pacientes </p>
+                  </>
+                ):
+                (
+                  <>
                     <h2>No hay pacientes</h2>
                     <p>Comienza agregando pacientes y aparecerán en este lugar</p>
-                </>
-              )
-
+                  </>
+                )
               }
-          </div>
+            </div>
           )}
         </div>
       </div>
