@@ -90,67 +90,100 @@ const DatosPacientes = () => {
             {type === 'owner' ? (
               <>
                 <div className="input-group">
+                  <label htmlFor="owner-name">Nombre del dueño</label>
                   <User size={20} />
-                  <input type="text" placeholder="Nombre del dueño" defaultValue={selectedContact.propietario} />
+                  <input id="owner-name" type="text" placeholder="Nombre del dueño" defaultValue={selectedContact.propietario} required />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="owner-cell">Celular</label>
                   <Phone size={20} />
-                  <input type="tel" placeholder="Celular" defaultValue={selectedContact.celular} />
+                  <input id="owner-cell" type="tel" placeholder="Celular" defaultValue={selectedContact.celular} required />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="owner-home-phone">Teléfono de casa</label>
                   <Phone size={20} />
-                  <input type="tel" placeholder="Teléfono de casa" defaultValue={selectedContact.telefonoCasa} />
+                  <input id="owner-home-phone" type="tel" placeholder="Teléfono de casa" defaultValue={selectedContact.telefonoCasa} />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="owner-email">Email</label>
                   <Mail size={20} />
-                  <input type="email" placeholder="Email" defaultValue={selectedContact.email} />
+                  <input id="owner-email" type="email" placeholder="Email" defaultValue={selectedContact.email} />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="owner-address">Dirección</label>
                   <MapPin size={20} />
-                  <input type="text" placeholder="Dirección" defaultValue={selectedContact.direccion} />
+                  <input id="owner-address" type="text" placeholder="Dirección" defaultValue={selectedContact.direccion} />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="owner-colony">Colonia</label>
+                  <MapPin size={20} />
+                  <input id="owner-colony" type="text" placeholder="Colonia" defaultValue={selectedContact.colonia} />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="owner-state">Estado</label>
+                  <Heart size={20} />
+                  <input id="owner-state" type="text" placeholder="Estado" defaultValue={selectedContact.estado} />
+                </div>
+                {/* Campos adicionales para el dueño */}
+                <div className="input-group">
+                  <label htmlFor="owner-lastname">Apellido</label>
+                  <input id="owner-lastname" type="text" placeholder="Apellido" defaultValue={selectedContact.apellido} />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="pet-name">Nombre de la mascota</label>
+                  <input id="pet-name" type="text" placeholder="Nombre de la mascota" defaultValue={selectedContact.nombreMascota} />
                 </div>
               </>
             ) : (
               <>
                 <div className="input-group">
+                  <label htmlFor="pet-name">Nombre de la mascota</label>
                   <PawPrint size={20} />
-                  <input type="text" placeholder="Nombre de la mascota" defaultValue={selectedContact.nombreMascota} />
+                  <input id="pet-name" type="text" placeholder="Nombre de la mascota" defaultValue={selectedContact.nombreMascota} required />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="pet-species">Especie</label>
                   <Stethoscope size={20} />
-                  <input type="text" placeholder="Especie" defaultValue={selectedContact.especie} />
+                  <input id="pet-species" type="text" placeholder="Especie" defaultValue={selectedContact.especie} required />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="pet-birthdate">Fecha de nacimiento</label>
                   <Calendar size={20} />
-                  <input type="date" placeholder="Fecha de nacimiento" defaultValue={selectedContact.fecha} />
+                  <input id="pet-birthdate" type="date" placeholder="Fecha de nacimiento" defaultValue={selectedContact.fecha ? new Date(selectedContact.fecha).toISOString().split('T')[0] : ''} />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="pet-breed">Raza</label>
                   <PawPrint size={20} />
-                  <input type="text" placeholder="Raza" defaultValue={selectedContact.raza} />
+                  <input id="pet-breed" type="text" placeholder="Raza" defaultValue={selectedContact.raza} />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="pet-color">Color</label>
                   <PawPrint size={20} />
-                  <input type="text" placeholder="Color" defaultValue={selectedContact.color} />
+                  <input id="pet-color" type="text" placeholder="Color" defaultValue={selectedContact.color} />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="pet-age">Edad</label>
                   <Calendar size={20} />
-                  <input type="number" placeholder="Edad" defaultValue={selectedContact.edad} />
+                  <input id="pet-age" type="number" placeholder="Edad" defaultValue={selectedContact.edad} min="0" />
                 </div>
                 <div className="input-group">
+                  <label htmlFor="pet-weight">Peso</label>
                   <Weight size={20} />
-                  <input type="number" placeholder="Peso" defaultValue={selectedContact.peso} />
+                  <input id="pet-weight" type="number" placeholder="Peso" defaultValue={selectedContact.peso} min="0" />
                 </div>
               </>
             )}
             <div className="modal-actions">
               <button type="button" onClick={closeEditModal}>Cancelar</button>
-              <button type="submit" onClick={closeEditModal}>Guardar</button>
+              <button type="submit">Guardar</button>
             </div>
           </form>
         </div>
       </div>
     );
   };
+  
+  
 
   return (
     <div className={`full-height-container background-cover ${isEditModalOpen ? 'blur-background' : ''}`}>

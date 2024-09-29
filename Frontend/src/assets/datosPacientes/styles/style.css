@@ -6,7 +6,7 @@
   }
   
   .background-cover {
-    background-image: url('https://github.com/getumbrel/umbrel/raw/fb31fb98e4088628c5de21357fbec8cff74a13d7/packages/dashboard/public/wallpapers/7.jpg');
+    background-image: url('../images/fondoDP.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -265,13 +265,17 @@
   background: rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 40px;
-  width: 100%; /* __Ajustado__ para que use todo el ancho disponible */
-  max-width: 700px; /* __Ajustado__ incrementa el tamaño máximo del modal */
+  width: 100%;
+  max-width: 700px;
   transform: scale(0.8);
   opacity: 0;
   transition: transform 0.5s ease, opacity 0.5s ease;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Cambiado a center */
+  justify-content: center; /* Cambiado a center */
 }
 
 .edit-modal.open .modal-content {
@@ -283,12 +287,19 @@
   color: white;
   margin-bottom: 30px;
   font-size: 24px;
+  position: sticky; /* Fijo al hacer scroll */
+  top: 0; /* Posición fija */
+  background: rgba(255, 255, 255, 0.2); /* Fondo del título */
+  z-index: 1; /* Asegura que esté por encima del contenido */
 }
 
 .modal-content form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 20px; /* Espacio entre los grupos de input */
+  overflow-y: auto; /* Habilita el scroll en el formulario */
+  max-height: 60vh; /* Ajusta según sea necesario */
+ 
 }
 
 .input-group {
@@ -298,6 +309,14 @@
   border-radius: 8px;
   padding: 5px;
   margin-bottom: 15px;
+  width: 100%; /* Asegúrate de que ocupe todo el ancho disponible */
+}
+
+
+.input-group label {
+  width: 30%; /* Ajusta el tamaño del label */
+  margin-bottom: 5px;
+  font-size: 16px; /* Ajusta el tamaño de la fuente del label */
 }
 
 .input-group svg {
@@ -307,15 +326,13 @@
 
 .input-group input {
   flex-grow: 1;
-  padding: 8px; /* Ajustado */
+  padding: 10px; /* Aumentar el padding para un tamaño adecuado */
   border: none;
   background: transparent;
   color: white;
   font-size: 16px;
-  width: 100%;
-  max-width: 100%; /* Asegurarse de que el input no exceda el contenedor */
+  width: 100%; /* Asegúrate de que el input ocupe todo el ancho disponible */
   box-sizing: border-box; /* Asegura que el padding no altere el ancho */
-  min-width: 70%; /* __Nuevo__ hace que los inputs sean más largos de manera responsive */
 }
 
 .input-group input::placeholder {
@@ -352,6 +369,51 @@
   opacity: 0.9;
   transform: translateY(-2px);
 }
+
+
+
+.modal-actions .submit {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-actions .submit:hover {
+  background-color: #0056b3;
+}
+
+::-webkit-scrollbar {
+  width: 8px; /* Ancho del scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5); /* Color del thumb */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.7); /* Color del thumb al pasar el mouse */
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.2); /* Color de la pista del scrollbar */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @keyframes modalFadeIn {
   from {
@@ -403,6 +465,7 @@
     font-size: 14px;
   }
 }
+
 
 /* ... (otros estilos existentes) */
   
@@ -461,4 +524,5 @@
   .contacts-list.closed {
     animation: slideOut 0.3s forwards;
   }
+  
   
