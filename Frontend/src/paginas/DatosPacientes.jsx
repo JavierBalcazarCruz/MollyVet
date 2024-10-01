@@ -124,15 +124,8 @@ const DatosPacientes = () => {
                   <Heart size={20} />
                   <input id="owner-state" type="text" placeholder="Estado" defaultValue={selectedContact.estado} />
                 </div>
-                {/* Campos adicionales para el dueño */}
-                <div className="input-group">
-                  <label htmlFor="owner-lastname">Apellido</label>
-                  <input id="owner-lastname" type="text" placeholder="Apellido" defaultValue={selectedContact.apellido} />
-                </div>
-                <div className="input-group">
-                  <label htmlFor="pet-name">Nombre de la mascota</label>
-                  <input id="pet-name" type="text" placeholder="Nombre de la mascota" defaultValue={selectedContact.nombreMascota} />
-                </div>
+             
+               
               </>
             ) : (
               <>
