@@ -24,7 +24,7 @@ const DatosPacientes = () => {
       setIsMobile(window.innerWidth < 1024);
     };
     const handleClickOutside = (event) => {
-      if (!document.querySelector('.contacts-list').contains(event.target) && isMenuOpen) {
+      if (selectedContact && isMenuOpen && !document.querySelector('.contacts-list').contains(event.target)) {
         setIsMenuOpen(false);
       }
     };
@@ -36,7 +36,7 @@ const DatosPacientes = () => {
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, selectedContact]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -75,94 +75,311 @@ const DatosPacientes = () => {
     }, 500); // Duración de la animación de cierre
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, updatedData) => {
     e.preventDefault();
-    // Aquí iría la lógica para guardar los cambios
+    // Aquí iría la lógica para guardar los cambios, por ejemplo:
+    // actualizarContacto(selectedContact._id, updatedData);
+    console.log('Datos actualizados:', updatedData);
     closeEditModal();
   };
 
+  // Arreglo con todos los estados de la República Mexicana
+  const mexicanStates = [
+    'Aguascalientes',
+    'Baja California',
+    'Baja California Sur',
+    'Campeche',
+    'Chiapas',
+    'Chihuahua',
+    'Ciudad de México',
+    'Coahuila',
+    'Colima',
+    'Durango',
+    'Estado de México',
+    'Guanajuato',
+    'Guerrero',
+    'Hidalgo',
+    'Jalisco',
+    'Michoacán',
+    'Morelos',
+    'Nayarit',
+    'Nuevo León',
+    'Oaxaca',
+    'Puebla',
+    'Querétaro',
+    'Quintana Roo',
+    'San Luis Potosí',
+    'Sinaloa',
+    'Sonora',
+    'Tabasco',
+    'Tamaulipas',
+    'Tlaxcala',
+    'Veracruz',
+    'Yucatán',
+    'Zacatecas',
+];
+
+
   const EditModal = ({ type }) => {
+    const [formData, setFormData] = useState({
+      propietario: '',
+      celular: '',
+      telefonoCasa: '',
+      email: '',
+      direccion: '',
+      colonia: '',
+      estado: '',
+      nombreMascota: '',
+      especie: '',
+      fecha: '',
+      raza: '',
+      color: '',
+      edad: '',
+      peso: '',
+    });
+
+    useEffect(() => {
+      if (selectedContact) {
+        if (type === 'owner') {
+          setFormData({
+            propietario: selectedContact.propietario || '',
+            celular: selectedContact.celular || '',
+            telefonoCasa: selectedContact.telefonoCasa || '',
+            email: selectedContact.email || '',
+            direccion: selectedContact.direccion || '',
+            colonia: selectedContact.colonia || '',
+            estado: selectedContact.estado || '',
+            // Mascota fields remain empty
+            nombreMascota: '',
+            especie: '',
+            fecha: '',
+            raza: '',
+            color: '',
+            edad: '',
+            peso: '',
+          });
+        } else if (type === 'pet') {
+          setFormData({
+            // Owner fields remain empty
+            propietario: '',
+            celular: '',
+            telefonoCasa: '',
+            email: '',
+            direccion: '',
+            colonia: '',
+            estado: '',
+            nombreMascota: selectedContact.nombreMascota || '',
+            especie: selectedContact.especie || '',
+            fecha: selectedContact.fecha ? new Date(selectedContact.fecha).toISOString().split('T')[0] : '',
+            raza: selectedContact.raza || '',
+            color: selectedContact.color || '',
+            edad: selectedContact.edad || '',
+            peso: selectedContact.peso || '',
+          });
+        }
+      }
+    }, [type, selectedContact]);
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prevData => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
+
+    const handleFormSubmit = (e) => {
+      const updatedData = { ...formData };
+      handleSubmit(e, updatedData);
+    };
+
     return (
       <div className={`edit-modal ${isEditModalOpen && !isClosing ? 'open' : ''} ${isClosing ? 'closing' : ''}`}>
         <div className="modal-content">
           <h2>Editar {type === 'owner' ? 'Información del Dueño' : 'Información de la Mascota'}</h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleFormSubmit}>
             {type === 'owner' ? (
               <>
                 <div className="input-group">
-                  <label htmlFor="owner-name">Nombre del dueño</label>
+                  <label htmlFor="propietario">Nombre del dueño</label>
                   <User size={20} />
-                  <input id="owner-name" type="text" placeholder="Nombre del dueño" defaultValue={selectedContact.propietario} required />
+                  <input
+                    id="propietario"
+                    name="propietario"
+                    type="text"
+                    placeholder="Dueño"
+                    value={formData.propietario}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="owner-cell">Celular</label>
+                  <label htmlFor="celular">Celular</label>
                   <Phone size={20} />
-                  <input id="owner-cell" type="tel" placeholder="Celular" defaultValue={selectedContact.celular} required />
+                  <input
+                    id="celular"
+                    name="celular"
+                    type="tel"
+                    placeholder="Celular"
+                    value={formData.celular}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="owner-home-phone">Teléfono de casa</label>
+                  <label htmlFor="telefonoCasa">Teléfono de casa</label>
                   <Phone size={20} />
-                  <input id="owner-home-phone" type="tel" placeholder="Teléfono de casa" defaultValue={selectedContact.telefonoCasa} />
+                  <input
+                    id="telefonoCasa"
+                    name="telefonoCasa"
+                    type="tel"
+                    placeholder="Teléfono de casa"
+                    value={formData.telefonoCasa}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="owner-email">Email</label>
+                  <label htmlFor="email">Email</label>
                   <Mail size={20} />
-                  <input id="owner-email" type="email" placeholder="Email" defaultValue={selectedContact.email} />
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="owner-address">Dirección</label>
+                  <label htmlFor="direccion">Domicilio</label>
                   <MapPin size={20} />
-                  <input id="owner-address" type="text" placeholder="Dirección" defaultValue={selectedContact.direccion} />
+                  <input
+                    id="direccion"
+                    name="direccion"
+                    type="text"
+                    placeholder="Domicilio"
+                    value={formData.direccion}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="owner-colony">Colonia</label>
+                  <label htmlFor="colonia">Colonia</label>
                   <MapPin size={20} />
-                  <input id="owner-colony" type="text" placeholder="Colonia" defaultValue={selectedContact.colonia} />
+                  <input
+                    id="colonia"
+                    name="colonia"
+                    type="text"
+                    placeholder="Colonia"
+                    value={formData.colonia}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="owner-state">Estado</label>
-                  <Heart size={20} />
-                  <input id="owner-state" type="text" placeholder="Estado" defaultValue={selectedContact.estado} />
+                  <label htmlFor="estado">Estado</label>
+                  <MapPin size={20} />
+                  <select
+                    id="estado"
+                    name="estado"
+                    value={formData.estado}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="" disabled>Selecciona un estado</option>
+                    {mexicanStates.map((state) => (
+                      <option key={state} value={state}>{state}</option>
+                    ))}
+                  </select>
                 </div>
-             
-               
               </>
             ) : (
               <>
                 <div className="input-group">
-                  <label htmlFor="pet-name">Nombre de la mascota</label>
+                  <label htmlFor="nombreMascota">Mascota</label>
                   <PawPrint size={20} />
-                  <input id="pet-name" type="text" placeholder="Nombre de la mascota" defaultValue={selectedContact.nombreMascota} required />
+                  <input
+                    id="nombreMascota"
+                    name="nombreMascota"
+                    type="text"
+                    placeholder="Nombre de la mascota"
+                    value={formData.nombreMascota}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="pet-species">Especie</label>
+                  <label htmlFor="especie">Especie</label>
                   <Stethoscope size={20} />
-                  <input id="pet-species" type="text" placeholder="Especie" defaultValue={selectedContact.especie} required />
+                  <input
+                    id="especie"
+                    name="especie"
+                    type="text"
+                    placeholder="Especie"
+                    value={formData.especie}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="pet-birthdate">Fecha de nacimiento</label>
+                  <label htmlFor="fecha">Fecha de nacimiento</label>
                   <Calendar size={20} />
-                  <input id="pet-birthdate" type="date" placeholder="Fecha de nacimiento" defaultValue={selectedContact.fecha ? new Date(selectedContact.fecha).toISOString().split('T')[0] : ''} />
+                  <input
+                    id="fecha"
+                    name="fecha"
+                    type="date"
+                    placeholder="Fecha de nacimiento"
+                    value={formData.fecha}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="pet-breed">Raza</label>
+                  <label htmlFor="raza">Raza</label>
                   <PawPrint size={20} />
-                  <input id="pet-breed" type="text" placeholder="Raza" defaultValue={selectedContact.raza} />
+                  <input
+                    id="raza"
+                    name="raza"
+                    type="text"
+                    placeholder="Raza"
+                    value={formData.raza}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="pet-color">Color</label>
+                  <label htmlFor="color">Color</label>
                   <PawPrint size={20} />
-                  <input id="pet-color" type="text" placeholder="Color" defaultValue={selectedContact.color} />
+                  <input
+                    id="color"
+                    name="color"
+                    type="text"
+                    placeholder="Color"
+                    value={formData.color}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="pet-age">Edad</label>
+                  <label htmlFor="edad">Edad</label>
                   <Calendar size={20} />
-                  <input id="pet-age" type="number" placeholder="Edad" defaultValue={selectedContact.edad} min="0" />
+                  <input
+                    id="edad"
+                    name="edad"
+                    type="number"
+                    placeholder="Edad"
+                    value={formData.edad}
+                    onChange={handleChange}
+                    min="0"
+                  />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="pet-weight">Peso</label>
+                  <label htmlFor="peso">Peso</label>
                   <Weight size={20} />
-                  <input id="pet-weight" type="number" placeholder="Peso" defaultValue={selectedContact.peso} min="0" />
+                  <input
+                    id="peso"
+                    name="peso"
+                    type="number"
+                    placeholder="Peso"
+                    value={formData.peso}
+                    onChange={handleChange}
+                    min="0"
+                  />
                 </div>
               </>
             )}
@@ -175,8 +392,6 @@ const DatosPacientes = () => {
       </div>
     );
   };
-  
-  
 
   return (
     <div className={`full-height-container background-cover ${isEditModalOpen ? 'blur-background' : ''}`}>
@@ -264,7 +479,7 @@ const DatosPacientes = () => {
                       <span><strong>Dirección:</strong> {selectedContact.direccion}</span>         
                     </div>
                     <div className="info-item">
-                      <Heart size={20} />
+                      <MapPin size={20} />
                       <span><strong>Estado:</strong> {selectedContact.estado}</span>
                     </div>
                     <div className="info-item">

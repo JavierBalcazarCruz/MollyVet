@@ -273,13 +273,12 @@ h2.pacientes-title {
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   border: 1px solid rgba(255, 255, 255, 0.18);
   
-  /* Cambios realizados */
   display: flex;
   flex-direction: column;
-  align-items: stretch; /* Cambiado de center a stretch */
-  justify-content: flex-start; /* Cambiado de center a flex-start */
-  max-height: 90vh; /* Añadido para limitar la altura del modal */
-  overflow: hidden; /* Eliminado si estaba presente */
+  align-items: stretch;
+  justify-content: flex-start;
+  max-height: 90vh;
+  overflow: hidden;
 }
 
 .edit-modal.open .modal-content {
@@ -300,11 +299,11 @@ h2.pacientes-title {
 .modal-content form {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Espacio entre los grupos de input */
-  overflow-y: auto; /* Habilita el scroll en el formulario */
-   max-height: 60vh; /* Eliminado para permitir crecimiento */
-  flex-grow: 1; /* Permite que el formulario ocupe el espacio disponible */
-  padding-top: 150px;
+  gap: 20px;
+  overflow-y: auto;
+  flex-grow: 1;
+  /*padding-top: 80px;*/ /* baja los elementos del formulario*/
+  -webkit-overflow-scrolling: touch;
 }
 
 .input-group {
@@ -322,6 +321,7 @@ h2.pacientes-title {
   margin-bottom: 5px;
   font-size: 16px; /* Ajusta el tamaño de la fuente del label */
   color: darkblue;
+  margin-left: 15px;
 }
 
 .input-group svg {
@@ -335,11 +335,27 @@ h2.pacientes-title {
   padding: 10px; /* Aumentar el padding para un tamaño adecuado */
   border: none;
   background: transparent;
-  color: white;
+  color: rgb(86, 84, 84);
   font-size: 16px;
   /* flex: 1; */ /* Opcional: asegurar que el input ocupe el espacio restante */
   box-sizing: border-box; /* Asegura que el padding no altere el ancho */
+  border: solid 1px rgba(255, 255, 255, 0.279);
+  border-radius: 5px;
 }
+.input-group select {
+  flex-grow: 1;
+  /* width: 100%; */ /* Eliminado para evitar conflictos con flex-grow */
+  padding: 10px; /* Aumentar el padding para un tamaño adecuado */
+  border: none;
+  background: transparent;
+  color: rgb(86, 84, 84);
+  font-size: 16px;
+  /* flex: 1; */ /* Opcional: asegurar que el input ocupe el espacio restante */
+  box-sizing: border-box; /* Asegura que el padding no altere el ancho */
+  border: solid 1px rgba(255, 255, 255, 0.279);
+  border-radius: 5px;
+}
+
 
 .input-group input::placeholder {
   color: rgba(255, 255, 255, 0.7);
@@ -349,7 +365,6 @@ h2.pacientes-title {
   display: flex;
   justify-content: flex-end;
   gap: 15px;
-  margin-top: 30px;
 }
 
 .modal-actions button {
@@ -434,22 +449,48 @@ h2.pacientes-title {
 
 @media (max-width: 768px) {
   .modal-content {
-      padding: 30px;
-      max-width: 90%; /* __Ajustado__ reduce el ancho en pantallas pequeñas */
+    padding: 20px;
+    max-width: 90%;
+  }
+  
+  .modal-content form {
+    padding-top: 180px;
+  }
+  
+  .modal-content h2 {
+    font-size: 20px;
   }
 
-  .modal-content h2 {
-      font-size: 10px;
+  .input-group {
+    display: block;
+    padding: 10px;
+  }
+
+  .input-group label {
+    display: inline-block;
+    width: auto;
+    margin-right: 10px;
+    font-size: 14px;
+    margin-left: 0;
+  }
+
+  .input-group svg {
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .input-group input {
-      font-size: 14px;
-      min-width: 100%; /* __Nuevo__ inputs ocupan todo el ancho en pantallas pequeñas */
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+    margin-top: 5px;
+   
   }
 
   .modal-actions button {
-      padding: 10px 20px;
-      font-size: 14px;
+    padding: 10px 20px;
+    font-size: 14px;
   }
 }
 
