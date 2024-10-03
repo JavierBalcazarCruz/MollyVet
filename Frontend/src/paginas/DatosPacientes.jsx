@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import "../assets/datosPacientes/styles/style.css";
 import '../assets/homeScreen/styles/style.css';
 import usePacientes from "../hooks/usePacientes";
-
+import Swal from "sweetalert2";
+import cVacios from "../assets/registrarPaciente/images/CamposVacios.png";
 const DatosPacientes = () => {
-  const { pacientes } = usePacientes();
+  const { pacientes,setEdicion } = usePacientes();
   const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,6 +18,7 @@ const DatosPacientes = () => {
   
   useEffect(() => {
     setContacts(pacientes);
+    console.log(pacientes)
   }, [pacientes]);
 
   useEffect(() => {
@@ -74,11 +76,38 @@ const DatosPacientes = () => {
       setIsClosing(false);
     }, 500); // Duración de la animación de cierre
   };
-
+  const mostrarAlerta = (titulo, texto, rutaImg, altImg) => {
+    Swal.fire({
+      title: titulo,
+      text: texto,
+      imageUrl: rutaImg,
+      imageAlt: altImg,
+    });
+  };
   const handleSubmit = (e, updatedData) => {
     e.preventDefault();
+    //Se comenzo A validar los campos que estan en el formulario que no vayan vacios
+    const { _id, propietario, celular, telefonoCasa, email, colonia, color, direccion, edad, especie, estado, fecha, nombreMascota, peso, raza } = updatedData;
+    if (
+      [
+        _id, propietario, celular, telefonoCasa, email, colonia, color, direccion, edad, especie, estado, fecha, nombreMascota, peso, raza
+      ].includes("")
+    ) {
+      mostrarAlerta(
+        "⚠️ Los campos se encuentran vacios ⚠️",
+        "Alguno de los campos se encuentran vacios revisa la información que  ingresaste.",
+        cVacios,
+        "Gato observandote por que estan vacios los campos"
+      );
+      return;
+    }
+
+
+
     // Aquí iría la lógica para guardar los cambios, por ejemplo:
     // actualizarContacto(selectedContact._id, updatedData);
+    debugger
+    
     console.log('Datos actualizados:', updatedData);
     closeEditModal();
   };
@@ -122,6 +151,7 @@ const DatosPacientes = () => {
 
   const EditModal = ({ type }) => {
     const [formData, setFormData] = useState({
+      _id:'',
       propietario: '',
       celular: '',
       telefonoCasa: '',
@@ -142,6 +172,7 @@ const DatosPacientes = () => {
       if (selectedContact) {
         if (type === 'owner') {
           setFormData({
+            _id: selectedContact._id,
             propietario: selectedContact.propietario || '',
             celular: selectedContact.celular || '',
             telefonoCasa: selectedContact.telefonoCasa || '',
@@ -150,24 +181,25 @@ const DatosPacientes = () => {
             colonia: selectedContact.colonia || '',
             estado: selectedContact.estado || '',
             // Mascota fields remain empty
-            nombreMascota: '',
-            especie: '',
-            fecha: '',
-            raza: '',
-            color: '',
-            edad: '',
-            peso: '',
+            nombreMascota: selectedContact.nombreMascota || '',
+            especie: selectedContact.especie || '',
+            fecha: selectedContact.fecha ? new Date(selectedContact.fecha).toISOString().split('T')[0] : '',
+            raza: selectedContact.raza || '',
+            color: selectedContact.color || '',
+            edad: selectedContact.edad || '',
+            peso: selectedContact.peso || '',
           });
         } else if (type === 'pet') {
           setFormData({
-            // Owner fields remain empty
-            propietario: '',
-            celular: '',
-            telefonoCasa: '',
-            email: '',
-            direccion: '',
-            colonia: '',
-            estado: '',
+            _id: selectedContact._id,
+            propietario: selectedContact.propietario || '',
+            celular: selectedContact.celular || '',
+            telefonoCasa: selectedContact.telefonoCasa || '',
+            email: selectedContact.email || '',
+            direccion: selectedContact.direccion || '',
+            colonia: selectedContact.colonia || '',
+            estado: selectedContact.estado || '',
+            // Mascota fields remain empty
             nombreMascota: selectedContact.nombreMascota || '',
             especie: selectedContact.especie || '',
             fecha: selectedContact.fecha ? new Date(selectedContact.fecha).toISOString().split('T')[0] : '',
@@ -181,6 +213,7 @@ const DatosPacientes = () => {
     }, [type, selectedContact]);
 
     const handleChange = (e) => {
+ 
       const { name, value } = e.target;
       setFormData(prevData => ({
         ...prevData,
@@ -189,6 +222,7 @@ const DatosPacientes = () => {
     };
 
     const handleFormSubmit = (e) => {
+
       const updatedData = { ...formData };
       handleSubmit(e, updatedData);
     };

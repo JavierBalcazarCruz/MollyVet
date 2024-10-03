@@ -50,12 +50,20 @@ export const PacientesProvider = ({children}) =>{
         console.log(error.response.data.msg);
        }
     }
+
+    //Funcion para Editar Pacientes
+    const setEdicion = (updatedData) => {
+        setPacientes(updatedData)
+    }
+
+
     return(
         //Van todos los componentes hijos de pacientesContext.provider, ya se pueden extraer en diferentes componentes
         <PacientesContext.Provider
             value={{
                 pacientes,
-                guardarPaciente
+                guardarPaciente,
+                setEdicion
             }}
         >
             {children}
