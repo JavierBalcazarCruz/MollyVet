@@ -7,7 +7,7 @@ const PacientesContext = createContext();
 //Donde vienen los datos
 export const PacientesProvider = ({children}) =>{
     const [pacientes, setPacientes] = useState([]);
-
+    const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
     //Cuando cargue el componente se va llamar la API para poder recuperar los datos
     useEffect(() =>{
         const obtenerPacientes = async () =>{
@@ -35,26 +35,53 @@ export const PacientesProvider = ({children}) =>{
 
     //Función guardarPaciente aquí se va insertar en la api
     const guardarPaciente = async (paciente) =>{
-       try {
+
         const token = localStorage.getItem('apv_token');
-        const config = {
-            headers:{
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+            const config = {
+                headers:{
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
             }
+
+        
+            if(paciente._id){
+                let id = paciente._id;
+                // Va editar un paciente existente
+                try {            
+                    const { data } = await clienteAxios.put(`/pacientes/${id}`, paciente, config);
+            
+                    // Actualiza el elemento modificado en la lista
+                    const pacienteActualizado = pacientes.map( pacienteState => pacienteState._id === data._id ? data : pacienteState)
+                    setPacientes(pacienteActualizado);
+            
+                    // Si el paciente modificado es el seleccionado, actualízalo
+                    if (pacienteSeleccionado && pacienteSeleccionado._id === data._id) {
+                        setPacienteSeleccionado(data);
+                    }
+            
+                } catch (error) {
+                    console.log(error);
+                }
+            }else{
+           //Dar de alta un nuevo registro
+           try {       
+                
+            const { data } = await clienteAxios.post('/pacientes', paciente,config);
+            const { __v, ...pacienteAlmacenado } = data;
+            setPacientes([pacienteAlmacenado, ...pacientes])
+           } catch (error) {
+            console.log(error.response.data.msg);
+           }
+       
         }
-        const { data } = await clienteAxios.post('/pacientes', paciente,config);
-        const { __v, ...pacienteAlmacenado } = data;
-        setPacientes([pacienteAlmacenado, ...pacientes])
-       } catch (error) {
-        console.log(error.response.data.msg);
-       }
+
+
+
+     
     }
 
-    //Funcion para Editar Pacientes
-    const setEdicion = (updatedData) => {
-        setPacientes(updatedData)
-    }
+
 
 
     return(
@@ -63,7 +90,7 @@ export const PacientesProvider = ({children}) =>{
             value={{
                 pacientes,
                 guardarPaciente,
-                setEdicion
+                setPacienteSeleccionado
             }}
         >
             {children}

@@ -6,8 +6,9 @@ import '../assets/homeScreen/styles/style.css';
 import usePacientes from "../hooks/usePacientes";
 import Swal from "sweetalert2";
 import cVacios from "../assets/registrarPaciente/images/CamposVacios.png";
+
 const DatosPacientes = () => {
-  const { pacientes,setEdicion } = usePacientes();
+  const { pacientes, guardarPaciente } = usePacientes();
   const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,8 +75,9 @@ const DatosPacientes = () => {
       setIsEditModalOpen(false);
       setEditingType(null);
       setIsClosing(false);
-    }, 500); // Duración de la animación de cierre
+    }, 500);
   };
+
   const mostrarAlerta = (titulo, texto, rutaImg, altImg) => {
     Swal.fire({
       title: titulo,
@@ -84,74 +86,40 @@ const DatosPacientes = () => {
       imageAlt: altImg,
     });
   };
+
   const handleSubmit = (e, updatedData) => {
     e.preventDefault();
-    //Se comenzo A validar los campos que estan en el formulario que no vayan vacios
-    const { _id, propietario, celular, telefonoCasa, email, colonia, color, direccion, edad, especie, estado, fecha, nombreMascota, peso, raza } = updatedData;
+    const { _id, propietario, celular, telefonoCasa, email, colonia, color, direccion, edad, especie, estado, fechaNacimiento, nombreMascota, peso, raza } = updatedData;
     if (
       [
-        _id, propietario, celular, telefonoCasa, email, colonia, color, direccion, edad, especie, estado, fecha, nombreMascota, peso, raza
+        _id, propietario, celular, telefonoCasa, email, colonia, color, direccion, edad, especie, estado, fechaNacimiento, nombreMascota, peso, raza
       ].includes("")
     ) {
       mostrarAlerta(
         "⚠️ Los campos se encuentran vacios ⚠️",
-        "Alguno de los campos se encuentran vacios revisa la información que  ingresaste.",
+        "Alguno de los campos se encuentran vacios revisa la información que ingresaste.",
         cVacios,
-        "Gato observandote por que estan vacios los campos"
+        "Gato observándote porque están vacíos los campos"
       );
       return;
     }
+    console.log('Enviando datos al backend:', updatedData);
+    guardarPaciente({ _id, propietario, celular, telefonoCasa, email, colonia, color, direccion, edad, especie, estado, fechaNacimiento, nombreMascota, peso, raza })
 
-
-
-    // Aquí iría la lógica para guardar los cambios, por ejemplo:
-    // actualizarContacto(selectedContact._id, updatedData);
-    debugger
-    
-    console.log('Datos actualizados:', updatedData);
     closeEditModal();
   };
 
-  // Arreglo con todos los estados de la República Mexicana
   const mexicanStates = [
-    'Aguascalientes',
-    'Baja California',
-    'Baja California Sur',
-    'Campeche',
-    'Chiapas',
-    'Chihuahua',
-    'Ciudad de México',
-    'Coahuila',
-    'Colima',
-    'Durango',
-    'Estado de México',
-    'Guanajuato',
-    'Guerrero',
-    'Hidalgo',
-    'Jalisco',
-    'Michoacán',
-    'Morelos',
-    'Nayarit',
-    'Nuevo León',
-    'Oaxaca',
-    'Puebla',
-    'Querétaro',
-    'Quintana Roo',
-    'San Luis Potosí',
-    'Sinaloa',
-    'Sonora',
-    'Tabasco',
-    'Tamaulipas',
-    'Tlaxcala',
-    'Veracruz',
-    'Yucatán',
-    'Zacatecas',
-];
-
+    'Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas',
+    'Chihuahua', 'Ciudad de México', 'Coahuila', 'Colima', 'Durango', 'Estado de México',
+    'Guanajuato', 'Guerrero', 'Hidalgo', 'Jalisco', 'Michoacán', 'Morelos', 'Nayarit',
+    'Nuevo León', 'Oaxaca', 'Puebla', 'Querétaro', 'Quintana Roo', 'San Luis Potosí',
+    'Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatán', 'Zacatecas'
+  ];
 
   const EditModal = ({ type }) => {
     const [formData, setFormData] = useState({
-      _id:'',
+      _id: '',
       propietario: '',
       celular: '',
       telefonoCasa: '',
@@ -161,59 +129,38 @@ const DatosPacientes = () => {
       estado: '',
       nombreMascota: '',
       especie: '',
-      fecha: '',
+      fechaNacimiento: '',
       raza: '',
       color: '',
       edad: '',
       peso: '',
+      cPostal: '',
     });
 
     useEffect(() => {
       if (selectedContact) {
-        if (type === 'owner') {
-          setFormData({
-            _id: selectedContact._id,
-            propietario: selectedContact.propietario || '',
-            celular: selectedContact.celular || '',
-            telefonoCasa: selectedContact.telefonoCasa || '',
-            email: selectedContact.email || '',
-            direccion: selectedContact.direccion || '',
-            colonia: selectedContact.colonia || '',
-            estado: selectedContact.estado || '',
-            // Mascota fields remain empty
-            nombreMascota: selectedContact.nombreMascota || '',
-            especie: selectedContact.especie || '',
-            fecha: selectedContact.fecha ? new Date(selectedContact.fecha).toISOString().split('T')[0] : '',
-            raza: selectedContact.raza || '',
-            color: selectedContact.color || '',
-            edad: selectedContact.edad || '',
-            peso: selectedContact.peso || '',
-          });
-        } else if (type === 'pet') {
-          setFormData({
-            _id: selectedContact._id,
-            propietario: selectedContact.propietario || '',
-            celular: selectedContact.celular || '',
-            telefonoCasa: selectedContact.telefonoCasa || '',
-            email: selectedContact.email || '',
-            direccion: selectedContact.direccion || '',
-            colonia: selectedContact.colonia || '',
-            estado: selectedContact.estado || '',
-            // Mascota fields remain empty
-            nombreMascota: selectedContact.nombreMascota || '',
-            especie: selectedContact.especie || '',
-            fecha: selectedContact.fecha ? new Date(selectedContact.fecha).toISOString().split('T')[0] : '',
-            raza: selectedContact.raza || '',
-            color: selectedContact.color || '',
-            edad: selectedContact.edad || '',
-            peso: selectedContact.peso || '',
-          });
-        }
+        setFormData({
+          _id: selectedContact._id,
+          propietario: selectedContact.propietario || '',
+          celular: selectedContact.celular || '',
+          telefonoCasa: selectedContact.telefonoCasa || '',
+          email: selectedContact.email || '',
+          direccion: selectedContact.direccion || '',
+          colonia: selectedContact.colonia || '',
+          estado: selectedContact.estado || '',
+          nombreMascota: selectedContact.nombreMascota || '',
+          especie: selectedContact.especie || '',
+          fechaNacimiento: selectedContact.fechaNacimiento ? new Date(selectedContact.fechaNacimiento).toISOString().split('T')[0] : '',
+          raza: selectedContact.raza || '',
+          color: selectedContact.color || '',
+          edad: selectedContact.edad || '',
+          peso: selectedContact.peso || '',
+          cPostal: selectedContact.cPostal || '',
+        });
       }
     }, [type, selectedContact]);
 
     const handleChange = (e) => {
- 
       const { name, value } = e.target;
       setFormData(prevData => ({
         ...prevData,
@@ -222,7 +169,6 @@ const DatosPacientes = () => {
     };
 
     const handleFormSubmit = (e) => {
-
       const updatedData = { ...formData };
       handleSubmit(e, updatedData);
     };
@@ -324,6 +270,24 @@ const DatosPacientes = () => {
                     ))}
                   </select>
                 </div>
+                {/*
+                <div className="input-group">
+                  <label htmlFor="cPostal">Código Postal</label>
+                  <MapPin size={20} />
+                  <input
+                    id="cPostal"
+                    name="cPostal"
+                    type="text"
+                    placeholder="Código Postal"
+                    value={formData.cPostal}
+                    onChange={handleChange}
+                    maxLength={5}
+                    pattern="\d{5}"
+                    title="El código postal debe contener 5 dígitos"
+                  />
+                </div>
+                */}
+
               </>
             ) : (
               <>
@@ -354,14 +318,14 @@ const DatosPacientes = () => {
                   />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="fecha">Fecha de nacimiento</label>
+                  <label htmlFor="fechaNacimiento">Fecha de nacimiento</label>
                   <Calendar size={20} />
                   <input
-                    id="fecha"
-                    name="fecha"
+                    id="fechaNacimiento"
+                    name="fechaNacimiento"
                     type="date"
                     placeholder="Fecha de nacimiento"
-                    value={formData.fecha}
+                    value={formData.fechaNacimiento}
                     onChange={handleChange}
                   />
                 </div>
@@ -426,7 +390,15 @@ const DatosPacientes = () => {
       </div>
     );
   };
-
+  useEffect(() => {
+    // Actualiza el contacto seleccionado si el paciente ha sido editado
+    if (selectedContact) {
+      const updatedContact = pacientes.find(contact => contact._id === selectedContact._id);
+      if (updatedContact) {
+        setSelectedContact(updatedContact);
+      }
+    }
+  }, [pacientes, selectedContact]);
   return (
     <div className={`full-height-container background-cover ${isEditModalOpen ? 'blur-background' : ''}`}>
       <div className="veterinary-contacts">
@@ -520,6 +492,13 @@ const DatosPacientes = () => {
                       <MapPin size={20} />
                       <span><strong>Colonia:</strong> {selectedContact.colonia}</span>
                     </div>    
+                  {/* 
+                    <div className="info-item">
+                      <MapPin size={20} />
+                      <span><strong>Codigo postal:</strong> {selectedContact.cPostal}</span>
+                    </div>
+                    */}
+
                     <br />                   
                   </div>
                   <div className="widget">

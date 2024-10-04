@@ -302,7 +302,7 @@ h2.pacientes-title {
   gap: 20px;
   overflow-y: auto;
   flex-grow: 1;
-  /*padding-top: 80px;*/ /* baja los elementos del formulario*/
+  padding-top: 80px; /* baja los elementos del formulario*/
   -webkit-overflow-scrolling: touch;
 }
 
@@ -454,7 +454,7 @@ h2.pacientes-title {
   }
   
   .modal-content form {
-    padding-top: 180px;
+    padding-top: 250px;
   }
   
   .modal-content h2 {
@@ -549,4 +549,10 @@ h2.pacientes-title {
 
 .contacts-list.closed {
   animation: slideOut 0.3s forwards;
+}
+
+@media (max-width: 441px) {
+  .modal-content form {
+    padding-top: 260px;
+  }
 }

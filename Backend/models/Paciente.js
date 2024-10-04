@@ -27,11 +27,12 @@ const pacientesSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    codigoPostal: {
+    cPostal: {
         type: String,
         required: false
     },
-    fecha: {
+    
+    fechaNacimiento: {
         type: Date,
         required: true,
         default:Date.now()
@@ -56,7 +57,7 @@ const pacientesSchema = mongoose.Schema({
         type: String,
         required: true
       },
-      estado: {
+    estado: {
         type: String,
         required: true
       },

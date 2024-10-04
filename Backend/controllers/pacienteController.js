@@ -42,37 +42,62 @@ const obtenerPaciente = async (req, res) => {
 }
 
 const actualizarPaciente = async (req, res) => {
-    //Se va pasar el id de cada paciente
-        const {id} = req.params;
-        const paciente = await Paciente.findById(id);
-        //Validar que ese paciente fue agregado por el doctor que esta autenticado, solo el puede verlo
-        //Si el medico que inicio sesion es diferente de la busqueda de el veterinario validado por el token entonces no tiene permisos
-        if(!paciente)
-        {
-           return res.status(404).json({msg:'Paciente no encontrado'});
-        }
+    const { id } = req.params;
+    const paciente = await Paciente.findById(id).populate('veterinario');
 
-        if(paciente.veterinario._id.toString() !== req.veterinario._id.toString())
-        {
-            return res.json({msg: 'No tienes permiso para acceder a este paciente'});
+    console.log('******************************');
+    console.log(paciente);
+
+    // Validaciones de permisos...
+    if (!paciente) {
+        return res.status(404).json({ msg: 'Paciente no encontrado' });
+    }
+
+    if (paciente.veterinario._id.toString() !== req.veterinario._id.toString()) {
+        return res.status(403).json({ msg: 'No tienes permiso para acceder a este paciente' });
+    }
+
+    if (paciente) {
+        // Actualización correcta de campos
+        paciente.nombreMascota = req.body.nombreMascota || paciente.nombreMascota;
+        paciente.propietario = req.body.propietario || paciente.propietario;
+        paciente.email = req.body.email || paciente.email;
+        paciente.celular = req.body.celular || paciente.celular;
+        paciente.direccion = req.body.direccion || paciente.direccion;
+        paciente.telefonoCasa = req.body.telefonoCasa || paciente.telefonoCasa;
+        paciente.cPostal = req.body.cPostal || paciente.cPostal;
+        paciente.fechaNacimiento = req.body.fechaNacimiento || paciente.fechaNacimiento;
+        paciente.color = req.body.color || paciente.color;
+        paciente.colonia = req.body.colonia || paciente.colonia;
+        paciente.raza = req.body.raza || paciente.raza;
+        paciente.peso = req.body.peso || paciente.peso;
+        paciente.especie = req.body.especie || paciente.especie;
+        paciente.estado = req.body.estado || paciente.estado;
+        paciente.edad = req.body.edad || paciente.edad;
+        // consentimiento y veterinario generalmente no se actualizan desde el front-end
+
+        try {
+            const pacienteActualizado = await paciente.save();
+            console.log('Paciente Actualizado:', pacienteActualizado);
+            res.json(pacienteActualizado);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: 'Error al actualizar el paciente' });
         }
-        if(paciente)
-        {
-            //Actualizar paciente
-            //si esta precente req.body.nombre o si no ponle paciente.nombre
-            paciente.nombre = req.body.nombre || paciente.nombre;
-            paciente.propietario = req.body.propietario || paciente.propietario;
-            paciente.email = req.body.email || paciente.email;
-            paciente.fecha = req.body.fecha || paciente.fecha;
-            paciente.sintomas = req.body.sintomas || paciente.sintomas;
-            try {
-                const pacienteActualizado = await paciente.save();
-                res.json(pacienteActualizado);
-            } catch (error) {
-                console.log(error);
-            }
         }    
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 const eliminarPaciente = async (req, res) => {
         //Se va pasar el id de cada paciente
