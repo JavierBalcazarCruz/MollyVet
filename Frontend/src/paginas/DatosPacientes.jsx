@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calendar, Weight, Heart, Edit } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calendar, Weight , Edit, EllipsisVertical  } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import "../assets/datosPacientes/styles/style.css";
 import '../assets/homeScreen/styles/style.css';
 import usePacientes from "../hooks/usePacientes";
 import Swal from "sweetalert2";
 import cVacios from "../assets/registrarPaciente/images/CamposVacios.png";
-
+import registroOk from "../assets/registrarPaciente/images/pacienteRegistrado.jpg";
 const DatosPacientes = () => {
   const { pacientes, guardarPaciente } = usePacientes();
   const [contacts, setContacts] = useState([]);
@@ -86,6 +86,44 @@ const DatosPacientes = () => {
       imageAlt: altImg,
     });
   };
+const mostrarAlertaEliminar = (titulo, texto, rutaImg, altImg, onConfirm) => {
+  Swal.fire({
+    title: titulo,
+    text: texto,
+    imageUrl: rutaImg,
+    imageAlt: altImg,
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar',
+  
+   
+  
+  }).then((result) => {
+    if (result.isConfirmed) {
+      onConfirm();
+    }
+  });
+};
+  const handleEllipsisClick = (e, contact) => {
+    e.stopPropagation();
+    mostrarAlertaEliminar(
+      "⚠️ ¿Estás seguro de eliminar este registro? ⚠️",
+      `¿Deseas eliminar el registro de ${contact.nombreMascota}?`,
+      cVacios,
+      "Gato observándote porque estás a punto de eliminar un registro",
+      () => {
+        // Aquí deberías llamar a la función que elimina el contacto de tu backend
+        // Por ejemplo: deleteContact(contact._id);
+        Swal.fire(
+          '¡Paciente liminado con éxito !',
+          'El registro ha sido eliminado.',
+          'success'
+        );
+      }
+    );
+  };
 
   const handleSubmit = (e, updatedData) => {
     e.preventDefault();
@@ -105,7 +143,12 @@ const DatosPacientes = () => {
     }
     console.log('Enviando datos al backend:', updatedData);
     guardarPaciente({ _id, propietario, celular, telefonoCasa, email, colonia, color, direccion, edad, especie, estado, fechaNacimiento, nombreMascota, peso, raza })
-
+    mostrarAlerta(
+      "🎉 Actualización exitosa 🎉",
+      "La información del paciente ha sido actualizada",
+      registroOk,
+      "Actualización exitosa"
+    );
     closeEditModal();
   };
 
@@ -162,10 +205,18 @@ const DatosPacientes = () => {
 
     const handleChange = (e) => {
       const { name, value } = e.target;
-      setFormData(prevData => ({
-        ...prevData,
-        [name]: value,
-      }));
+      if (name === 'celular' || name === 'telefonoCasa') {
+        const numericValue = value.replace(/\D/g, '').slice(0, 10);
+        setFormData(prevData => ({
+          ...prevData,
+          [name]: numericValue,
+        }));
+      } else {
+        setFormData(prevData => ({
+          ...prevData,
+          [name]: value,
+        }));
+      }
     };
 
     const handleFormSubmit = (e) => {
@@ -421,25 +472,36 @@ const DatosPacientes = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {filteredContacts.map((contact) => (
-            <div
-              key={contact._id}
-              className={`contact-item ${selectedContact && selectedContact._id === contact._id ? 'selected' : ''}`}
-              onClick={() => selectContact(contact)}
-            >
-              <div className="contact-avatar">
-                {contact.especie.toLowerCase() === 'perro' ? (
-                  <img src="https://pampermut.com/blog/wp-content/uploads/2020/05/Como-es-el-caracter-de-tu-perro-segun-su-horoscopo-scaled.jpg" alt="Perro Avatar" />
-                ) : (
-                  <img src="https://s1.elespanol.com/2020/05/18/como/gatos-mascotas-trucos_490961518_152142875_1706x960.jpg" alt="Cat Avatar" />
-                )}
-              </div>
-              <div className="contact-info">
-                <div className="contact-name">{contact.nombreMascota}</div>
-                <div className="contact-species">{contact.especie} - {contact.raza}</div>
-              </div>
-            </div>
-          ))}
+{filteredContacts.map((contact) => (
+  <div
+    key={contact._id}
+    className={`contact-item ${selectedContact && selectedContact._id === contact._id ? 'selected' : ''}`}
+  >
+    <div className="contact-content" onClick={() => selectContact(contact)}>
+      <div className="contact-avatar">
+        {contact.especie.toLowerCase() === 'perro' ? (
+          <img src="https://pampermut.com/blog/wp-content/uploads/2020/05/Como-es-el-caracter-de-tu-perro-segun-su-horoscopo-scaled.jpg" alt="Perro Avatar" />
+        ) : (
+          <img src="https://s1.elespanol.com/2020/05/18/como/gatos-mascotas-trucos_490961518_152142875_1706x960.jpg" alt="Cat Avatar" />
+        )}
+      </div>
+      <div className="contact-info">
+        <div className="contact-name">{contact.nombreMascota}</div>
+        <div className="contact-species">{contact.especie} - {contact.raza}</div>
+      </div>
+    </div>
+    <div className="contact-actions">
+      <EllipsisVertical 
+        size={20} 
+        className="ellipsis-icon" 
+        onClick={(e) => {
+          e.stopPropagation();
+          handleEllipsisClick(e, contact);
+        }}
+      />
+    </div>
+  </div>
+))}
         </div>
         <div className={`contact-details ${selectedContact ? 'open' : ''}`}>
           {selectedContact ? (

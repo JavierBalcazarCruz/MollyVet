@@ -556,3 +556,46 @@ h2.pacientes-title {
     padding-top: 260px;
   }
 }
+
+/*Modifica el icono de el menu ellipsis-icon*/
+.contact-item {
+  position: relative;
+}
+
+.contact-content {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.contact-actions {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ellipsis-icon {
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.ellipsis-icon:hover {
+  color: #ffffff;
+}
+/*Fin el icono de el menu ellipsis-icon*/
+
+.swal2-title, .swal2-content {
+  color: #b40e0e !important;
+}
+
+.swal2-actions button:hover {
+  background: rgb(40, 75, 0) !important;
+}
+
+.swal2-container.swal2-backdrop-show {
+  background: rgba(253, 184, 184, 0.227) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
