@@ -8,11 +8,13 @@ import vDashboard from '../assets/homeScreen/images/verDashboard.jpg';
 import vCalendario from '../assets/homeScreen/images/verCalendario.jpg';
 import vInventario from '../assets/homeScreen/images/verInventario.jpg';
 import '../assets/homeScreen/styles/style.css';
+import '../assets/TopMenu/styles/style.css';
 
 import AppIcon from '../components/AppIcon';
 import WidgetHoraActual from '../components/WidgetHoraActual';
 import WidgetCitasProgramadas from '../components/WidgetCitasProgramadas';
 import WidgetMetaDelMes from '../components/WidgetMetaDelMes';
+import TopMenu  from '../components/TopMenu';
 
 const HomeScreen = () => {
   const { cerrarSesion, auth } = useAuth();
@@ -41,12 +43,13 @@ const HomeScreen = () => {
 
   return (
     <div className="contain">
+       <TopMenu />
       <header>
         <div className="logo-contain">
           <img src={logo} alt="Logo" className="logo" />
         </div>
         <h1>{saludo} {auth.nombre}.</h1>
-        <button className="logout-button" onClick={cerrarSesion}>Cerrar Sesión</button>
+    
       </header>
       <div className="widgets">
         <WidgetHoraActual />

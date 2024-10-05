@@ -13,6 +13,8 @@ import  HomeScreen from './paginas/HomeScreen';
 import  ConfirmarCuenta  from './paginas/ConfirmarCuenta';
 import  RegistroCliente  from './paginas/RegistroCliente';
 import  DatosPacientes  from './paginas/DatosPacientes';
+import  EditarPerfilDoc  from './paginas/EditarPerfilDoc';
+
 
 function App() {
 
@@ -36,6 +38,7 @@ function App() {
               <Route index element={<HomeScreen/>}/>
               <Route path="registro-cliente" element={<RegistroCliente/>}/>
               <Route path="datosPacientes" element={<DatosPacientes/>}/>
+              <Route path="EditarPerfilDoc" element={<EditarPerfilDoc />} />
 
             </Route>
           </Routes>
