@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import cVacios from "../assets/registrarPaciente/images/CamposVacios.png";
 import registroOk from "../assets/registrarPaciente/images/pacienteRegistrado.jpg";
 const DatosPacientes = () => {
-  const { pacientes, guardarPaciente } = usePacientes();
+  const { pacientes, guardarPaciente,eliminarPacientes } = usePacientes();
   const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,7 +19,6 @@ const DatosPacientes = () => {
   
   useEffect(() => {
     setContacts(pacientes);
-    console.log(pacientes)
   }, [pacientes]);
 
   useEffect(() => {
@@ -106,24 +105,28 @@ const mostrarAlertaEliminar = (titulo, texto, rutaImg, altImg, onConfirm) => {
     }
   });
 };
-  const handleEllipsisClick = (e, contact) => {
-    e.stopPropagation();
-    mostrarAlertaEliminar(
-      "⚠️ ¿Estás seguro de eliminar este registro? ⚠️",
-      `¿Deseas eliminar el registro de ${contact.nombreMascota}?`,
-      cVacios,
-      "Gato observándote porque estás a punto de eliminar un registro",
-      () => {
-        // Aquí deberías llamar a la función que elimina el contacto de tu backend
-        // Por ejemplo: deleteContact(contact._id);
-        Swal.fire(
-          '¡Paciente liminado con éxito !',
-          'El registro ha sido eliminado.',
-          'success'
-        );
+const handleEllipsisClick = (e, contact) => {
+  e.stopPropagation();
+  mostrarAlertaEliminar(
+    "⚠️ ¿Estás seguro de eliminar este registro? ⚠️",
+    `¿Deseas eliminar el registro de ${contact.nombreMascota}?`,
+    cVacios,
+    "Gato observándote porque estás a punto de eliminar un registro",
+    () => {
+      eliminarPacientes(contact._id);
+      // Actualiza el estado local después de eliminar
+      setContacts(prevContacts => prevContacts.filter(c => c._id !== contact._id));
+      if (selectedContact && selectedContact._id === contact._id) {
+        setSelectedContact(null);
       }
-    );
-  };
+      Swal.fire(
+        '¡Paciente eliminado!',
+        'El registro ha sido eliminado exitosamente',
+        'success'
+      );
+    }
+  );
+};
 
   const handleSubmit = (e, updatedData) => {
     e.preventDefault();
@@ -141,7 +144,7 @@ const mostrarAlertaEliminar = (titulo, texto, rutaImg, altImg, onConfirm) => {
       );
       return;
     }
-    console.log('Enviando datos al backend:', updatedData);
+
     guardarPaciente({ _id, propietario, celular, telefonoCasa, email, colonia, color, direccion, edad, especie, estado, fechaNacimiento, nombreMascota, peso, raza })
     mostrarAlerta(
       "🎉 Actualización exitosa 🎉",

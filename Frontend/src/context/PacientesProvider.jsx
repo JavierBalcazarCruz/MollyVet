@@ -23,7 +23,7 @@ export const PacientesProvider = ({children}) =>{
                 //Petición get para obtener los pacientes
                 const { data } = await clienteAxios.get('/pacientes',config);
                 //Se seteea el data en pacientes para que se pueda usar en cualquier componente
-                console.log(data)
+              
                 setPacientes(data);
 
                } catch (error) {
@@ -81,6 +81,24 @@ export const PacientesProvider = ({children}) =>{
      
     }
 
+    //Funcion para eliminar pacientes
+    const eliminarPacientes = async id => {
+        try {
+            const token = localStorage.getItem('apv_token');
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            await clienteAxios.delete(`/pacientes/${id}`, config);
+            const pacientesActualizados = pacientes.filter(pacienteState => pacienteState._id !== id);
+            setPacientes(pacientesActualizados);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
 
 
@@ -90,7 +108,8 @@ export const PacientesProvider = ({children}) =>{
             value={{
                 pacientes,
                 guardarPaciente,
-                setPacienteSeleccionado
+                setPacienteSeleccionado,
+                eliminarPacientes
             }}
         >
             {children}
