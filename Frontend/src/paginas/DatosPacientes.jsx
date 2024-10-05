@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calendar, Weight , Edit, EllipsisVertical  } from 'lucide-react';
+import { Menu, X, Phone, Mail, MapPin, User, Plus, Stethoscope, PawPrint, Calendar, Weight , Edit, EllipsisVertical,ArrowLeft  } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import "../assets/datosPacientes/styles/style.css";
 import '../assets/homeScreen/styles/style.css';
@@ -458,13 +458,16 @@ const mostrarAlertaEliminar = (titulo, texto, rutaImg, altImg, onConfirm) => {
             {isMenuOpen ? <X size={18} /> : <Menu size={24} />}
           </button>
         )}
-        <div className={`contacts-list ${isMobile && isMenuOpen ? 'open' : ''}`}>
-          <div className="contacts-header">
-            <h2 className='titPacientes'>Pacientes</h2>
-            <button className="add-contact" onClick={() => navigate('/admin/registro-cliente')}>
-              <Plus size={24} />
-            </button>
-          </div>
+      <div className={`contacts-list ${isMobile && isMenuOpen ? 'open' : ''}`}>
+        <div className="contacts-header">
+          <button to="/admin" className="back-button" onClick={() => navigate('/admin')}>
+            <ArrowLeft size={24} />
+          </button>
+          <h2 className='titPacientes'>Pacientes</h2>
+          <button className="add-contact" onClick={() => navigate('/admin/registro-cliente')}>
+            <Plus size={24} />
+          </button>
+        </div>
           <input
             type="text"
             placeholder="Buscar paciente"
