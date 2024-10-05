@@ -12,8 +12,19 @@ const RegistroCliente = () => {
   const steps = 3;
 
   const nextStep = () => {
-    setActive((prev) => (prev < steps ? prev + 1 : steps));
+    const camposVacios = validarCampos(active);
+    if (camposVacios.length > 0) {
+      mostrarAlerta(
+        "⚠️ Campos vacíos ⚠️",
+        `Los siguientes campos están vacíos: ${camposVacios.join(", ")}. Por favor, completa todos los campos antes de continuar.`,
+        cVacios,
+        "Gato observándote porque hay campos vacíos"
+      );
+    } else {
+      setActive((prev) => (prev < steps ? prev + 1 : steps));
+    }
   };
+
 
   const prevStep = () => {
     setActive((prev) => (prev > 1 ? prev - 1 : 1));
@@ -57,42 +68,64 @@ const RegistroCliente = () => {
       text: texto,
       imageUrl: rutaImg,
       imageAlt: altImg,
+      customClass: {
+        popup: 'swal2-popup',
+        title: 'swal2-title',
+        content: 'swal2-content',
+        confirmButton: 'swal2-actions button'
+      },
+      backdrop: `
+        rgba(0,0,0,0.4)
+        url(${rutaImg})
+        left top
+        no-repeat
+      `,
+      background: 'rgba(255, 255, 255, 0.25)',
+      backdropFilter: 'blur(10px)'
     });
+  };
+  const validarCampos = (paso) => {
+    let camposVacios = [];
+    switch(paso) {
+      case 1:
+        if (!propietario) camposVacios.push("Nombre del propietario");
+        if (!direccion) camposVacios.push("Domicilio");
+        if (!estado) camposVacios.push("Estado");
+        if (!cPostal) camposVacios.push("Código Postal");
+        if (!colonia) camposVacios.push("Colonia");
+        break;
+      case 2:
+        if (!celular) camposVacios.push("Celular");
+        if (!telefonoCasa) camposVacios.push("Teléfono Casa");
+        if (!email) camposVacios.push("Correo electrónico");
+        break;
+      case 3:
+        if (!nombreMascota) camposVacios.push("Nombre de la mascota");
+        if (!especie) camposVacios.push("Especie");
+        if (!raza) camposVacios.push("Raza");
+        if (!edad) camposVacios.push("Edad");
+        if (!sexo) camposVacios.push("Sexo");
+        if (!color) camposVacios.push("Color");
+        if (!peso) camposVacios.push("Peso");
+        if (!fechaNacimiento) camposVacios.push("Fecha de nacimiento");
+        if (!vacunas) camposVacios.push("Vacunas");
+        if (!operado) camposVacios.push("Operado");
+        if (!consentimiento) camposVacios.push("Consentimiento");
+        break;
+    }
+    return camposVacios;
   };
   //Validacion donde todos los campos son obligatorios para el registro del cliente
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (
-      [
-        nombreMascota,
-        propietario,
-        email,
-        celular,
-        direccion,
-        cPostal,
-        colonia,
-        telefonoCasa,
-        raza,
-        fechaNacimiento,
-        edad,
-        color,
-        peso,
-        especie,
-        sexo,
-        operado,
-        vacunas,
-        consentimiento,
-        estado,
-      ].includes("")
-    ) {
+    const camposVacios = validarCampos(3);
+    if (camposVacios.length > 0) {
       mostrarAlerta(
-        "⚠️ Los campos se encuentran vacios ⚠️",
-        "Alguno de los campos se encuentran vacios revisa la información que  ingresaste.",
+        "⚠️ Campos vacíos ⚠️",
+        `Los siguientes campos están vacíos: ${camposVacios.join(", ")}. Por favor, completa todos los campos antes de registrar al paciente.`,
         cVacios,
-        "Gato observandote por que estan vacios los campos"
+        "Gato observándote porque hay campos vacíos"
       );
-      return;
     } else {
       //Pasamos como objeto de tipo paciente y pasamos todo el arreglo
       guardarPaciente({
@@ -484,33 +517,32 @@ const RegistroCliente = () => {
                 </div>
               </div>
               <div className="btn-group">
-                {active === 1 && (
-                  <Link to="/admin" className="btn-prev app">
-                    Home
-                  </Link>
-                )}
+      {active === 1 && (
+        <Link to="/admin" className="btn-prev app">
+          Home
+        </Link>
+      )}
 
-                {(active === 2 || active === 3) && (
-                  <button type="button" className="btn-prev" onClick={prevStep}>
-                    Regresar
-                  </button>
-                )}
+      {(active === 2 || active === 3) && (
+        <button type="button" className="btn-prev" onClick={prevStep}>
+          Regresar
+        </button>
+      )}
 
-                {active < steps && (
-                  <button
-                    type="button"
-                    className="btn-next"
-                    onClick={nextStep}
-                    disabled={active === steps}
-                  >
-                    Siguiente
-                  </button>
-                )}
+      {active < steps && (
+        <button
+          type="button"
+          className="btn-next"
+          onClick={nextStep}
+        >
+          Siguiente
+        </button>
+      )}
 
-                {active === steps && (
-                  <button type="submit" className="btn-submit">
-                    Registrar paciente
-                  </button>
+      {active === steps && (
+        <button type="submit" className="btn-submit">
+          Registrar paciente
+        </button>
                 )}
               </div>
             </form>
