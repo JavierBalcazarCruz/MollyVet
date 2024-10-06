@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Edit2 } from 'lucide-react';
+import { Edit, Home, Check, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import Swal from "sweetalert2";
+import cVacios from "../assets/registrarPaciente/images/CamposVacios.png";
+import registroOk from "../assets/registrarPaciente/images/pacienteRegistrado.jpg";
 import "../assets/EditarPerfilDoc/styles/style.css";
 
 const EditarPerfilDoc = () => {
-  const { auth, actualizarPerfil } = useAuth();
+  const { auth, actualizaPerfil } = useAuth();
   const [perfil, setPerfil] = useState(auth);
-  const [editando, setEditando] = useState({});
+  const [perfilOriginal, setPerfilOriginal] = useState(auth);
+  const [editando, setEditando] = useState(false);
   const [hayCambios, setHayCambios] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleEditar = (campo) => {
-    setEditando(prev => {
-      const newEditando = { ...prev, [campo]: !prev[campo] };
-      const hayAlgunCampoEditando = Object.values(newEditando).some(value => value);
-      setHayCambios(hayAlgunCampoEditando);
-      return newEditando;
-    });
+  const toggleEditar = () => {
+    setEditando(!editando);
+    setHayCambios(false);
+    if (!editando) {
+      setPerfilOriginal({...perfil});
+    } else {
+      setPerfil({...perfilOriginal});
+    }
   };
 
   const handleChange = (e) => {
@@ -24,19 +31,73 @@ const EditarPerfilDoc = () => {
     setHayCambios(true);
   };
 
+  const mostrarAlerta = (titulo, texto, rutaImg, altImg) => {
+    return Swal.fire({
+      title: titulo,
+      text: texto,
+      imageUrl: rutaImg,
+      imageAlt: altImg,
+    });
+  };
+
   const handleGuardarTodo = async () => {
+    if (perfil.nombre === "" || perfil.email === "") {
+      await mostrarAlerta(
+        "⚠️ Campos obligatorios vacíos ⚠️",
+        "Los campos de Nombre y Email son obligatorios. Por favor, rellénalos.",
+        cVacios,
+        "Gato observándote porque están vacíos los campos"
+      );
+      return;
+    }
+
+    // Preparar los datos para enviar, convirtiendo campos vacíos a null
+    const perfilParaEnviar = {
+      ...perfil,
+      telefono: perfil.telefono.trim() === "" ? null : perfil.telefono,
+      web: perfil.web.trim() === "" ? null : perfil.web
+    };
+
     try {
-      await actualizarPerfil(perfil);
-      setEditando({});
+      const resultado = await actualizaPerfil(perfilParaEnviar);
+      if(resultado.error){
+        await mostrarAlerta(
+          "⚠️ Error al actualizar ⚠️",
+          resultado.msg,
+          cVacios,
+          "Gato observándote porque hubo un error al actualizar"
+        );
+        // Restaurar solo el email original, manteniendo los demás cambios
+        setPerfil(prevPerfil => ({
+          ...prevPerfil,
+          email: perfilOriginal.email
+        }));
+        return;
+      }
+      setEditando(false);
       setHayCambios(false);
+      setPerfilOriginal({...perfil});
+      await mostrarAlerta(
+        "Información actualizada",
+        'Sus datos han sido actualizados correctamente.',
+        registroOk,
+        "Perro feliz por que actualizaste tu información"
+      );
+      
     } catch (error) {
-      console.error("Error al actualizar el perfil", error);
+      console.error("Error al actualizar el perfil:", error);
+      await mostrarAlerta(
+        "⚠️ Error inesperado ⚠️",
+        "Ocurrió un error al actualizar el perfil. Por favor, inténtalo de nuevo.",
+        cVacios,
+        "Gato observándote porque hubo un error inesperado"
+      );
     }
   };
 
   const handleCancelarTodo = () => {
-    setPerfil(auth);
-    setEditando({});
+    setPerfil({...perfilOriginal});
+    setEditando(false);
     setHayCambios(false);
   };
 
@@ -47,9 +108,27 @@ const EditarPerfilDoc = () => {
     { nombre: 'web', label: 'Sitio Web', tipo: 'url' },
   ];
 
+  useEffect(() => {
+    if (editando) {
+      document.getElementById('nombre').focus();
+    }
+  }, [editando]);
+
   return (
     <div className="perfil-veterinario-container">
       <div className="perfil-card">
+        <div className="iconos-superiores">
+          <Home 
+            className="icono-home" 
+            size={24} 
+            onClick={() => navigate('/admin')}
+          />
+          <Edit 
+            className="icono-editar" 
+            size={24} 
+            onClick={toggleEditar}
+          />
+        </div>
         <h1>Perfil del Veterinario</h1>
         <div className="avatar">
           <img src={`https://api.dicebear.com/6.x/initials/svg?seed=${perfil.nombre}`} alt="Avatar" />
@@ -57,9 +136,10 @@ const EditarPerfilDoc = () => {
         {campos.map(campo => (
           <div key={campo.nombre} className="campo-perfil">
             <label>{campo.label}</label>
-            <div className={`campo-valor ${editando[campo.nombre] ? 'campo-edicion' : ''}`}>
-              {editando[campo.nombre] ? (
+            <div className={`campo-valor ${editando ? 'campo-edicion' : ''}`}>
+              {editando ? (
                 <input
+                  id={campo.nombre}
                   type={campo.tipo}
                   name={campo.nombre}
                   value={perfil[campo.nombre] || ''}
@@ -69,19 +149,18 @@ const EditarPerfilDoc = () => {
               ) : (
                 <span>{perfil[campo.nombre] || 'No especificado'}</span>
               )}
-              <button onClick={() => toggleEditar(campo.nombre)} className="btn-editar">
-                <Edit2 size={20} />
-              </button>
             </div>
           </div>
         ))}
-        {hayCambios && (
+        {editando && (
           <div className="botones-accion">
-            <button onClick={handleGuardarTodo} className="btn-guardar">
-              Guardar
+            <button onClick={handleGuardarTodo} className="btn-accion btn-guardar">
+              <Check size={18} />
+              <span>Guardar</span>
             </button>
-            <button onClick={handleCancelarTodo} className="btn-cancelar">
-              Cancelar 
+            <button onClick={handleCancelarTodo} className="btn-accion btn-cancelar">
+              <X size={18} />
+              <span>Cancelar</span>
             </button>
           </div>
         )}

@@ -47,7 +47,43 @@ const AuthProvider = ({ children }) => {
         setAuth({});
     }
 
-    const authValue = useMemo(() => ({ auth, setAuth, cargando, cerrarSesion}), [auth, cargando ]);
+    //Actualiza el perfil del médico
+    const actualizaPerfil = async datos =>{
+        const token = localStorage.getItem('apv_token');
+        if (!token) {
+            setCargando(false);
+            return;
+        }
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+        try {
+            const url = `/veterinarios/perfil/${auth._id}`;
+            const { data } = await clienteAxios.put(url , datos, config);
+            console.log(data)
+         //   setAuth(data);
+        //    return data;
+            return{
+                msg:'Almacenado correctamente'
+            }
+        } catch (error) {
+          return{
+            msg: error.response.data.msg,
+            error:true
+          }
+        }       
+    }
+
+    const authValue = useMemo(() => ({ 
+        auth, 
+        setAuth, 
+        cargando, 
+        cerrarSesion, 
+        actualizaPerfil  // Incluimos actualizaPerfil aquí
+    }), [auth, cargando]);  // Las dependencias siguen siendo las mismas
 
     return (
         <AuthContext.Provider 

@@ -180,6 +180,38 @@ const nuevoPassword = async (req,res) =>{
         console.log(error)
     }    
 };
+const actualizarPerfil = async (req, res) => {
+    const veterinario = await Veterinario.findById(req.params.id);
+    if(!veterinario){
+        const error = new Error('Hubo un error');
+        return res.status(400).json({msg:error.message})
+    }
+
+    const {email, nombre, telefono, web} = req.body;
+
+    if(veterinario.email !== email){
+        const existeEmail = await Veterinario.findOne({email});
+        if(existeEmail){
+            const error = new Error('Ese email ya se encuentra en uso, si el error persiste comunicate a soporte.');
+            return res.status(400).json({msg:error.message})
+        }
+    }
+
+    try {
+        veterinario.nombre = nombre;
+        veterinario.email = email;
+        veterinario.telefono = telefono === null ? null : telefono;
+        veterinario.web = web === null ? null : web;
+
+        const veterinarioActualizado = await veterinario.save();
+        res.json({veterinarioActualizado});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "Error interno del servidor"});
+    }
+}
+
 export{
     registrar,
     perfil,
@@ -187,5 +219,6 @@ export{
     autenticar,
     olvidePassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
+    actualizarPerfil
 }
