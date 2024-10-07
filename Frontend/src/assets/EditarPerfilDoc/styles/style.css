@@ -42,7 +42,7 @@
 .icono-home, .icono-editar {
   cursor: pointer;
   transition: all 0.3s ease;
-  color: white;
+  color: #ff7600;
 }
 
 .icono-home:hover, .icono-editar:hover {

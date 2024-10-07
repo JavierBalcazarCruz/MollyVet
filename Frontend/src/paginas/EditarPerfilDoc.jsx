@@ -27,7 +27,13 @@ const EditarPerfilDoc = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setPerfil(prev => ({ ...prev, [name]: value }));
+    if (name === 'telefono') {
+      // Solo permitir dígitos y limitar a 10 caracteres
+      const numeroLimpio = value.replace(/\D/g, '').slice(0, 10);
+      setPerfil(prev => ({ ...prev, [name]: numeroLimpio }));
+    } else {
+      setPerfil(prev => ({ ...prev, [name]: value }));
+    }
     setHayCambios(true);
   };
 
@@ -38,6 +44,20 @@ const EditarPerfilDoc = () => {
       imageUrl: rutaImg,
       imageAlt: altImg,
     });
+  };
+
+  const validarTelefono = (telefono) => {
+    if (telefono === "" || telefono === null) return true; // Permitir campo vacío
+    if (telefono.length > 0 && telefono.length !== 10) {
+      mostrarAlerta(
+        "⚠️ Número de teléfono inválido ⚠️",
+        "El número de teléfono debe tener exactamente 10 dígitos o estar vacío.",
+        cVacios,
+        "Alerta de número de teléfono inválido"
+      );
+      return false;
+    }
+    return true;
   };
 
   const handleGuardarTodo = async () => {
@@ -51,11 +71,14 @@ const EditarPerfilDoc = () => {
       return;
     }
 
-    // Preparar los datos para enviar, convirtiendo campos vacíos a null
+    if (!validarTelefono(perfil.telefono)) {
+      return;
+    }
+
     const perfilParaEnviar = {
       ...perfil,
-      telefono: perfil.telefono.trim() === "" ? null : perfil.telefono,
-      web: perfil.web.trim() === "" ? null : perfil.web
+      telefono: perfil.telefono === "" ? null : perfil.telefono,
+      web: perfil.web?.trim() || null
     };
 
     try {
@@ -67,7 +90,6 @@ const EditarPerfilDoc = () => {
           cVacios,
           "Gato observándote porque hubo un error al actualizar"
         );
-        // Restaurar solo el email original, manteniendo los demás cambios
         setPerfil(prevPerfil => ({
           ...prevPerfil,
           email: perfilOriginal.email
