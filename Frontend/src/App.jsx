@@ -14,6 +14,7 @@ import  ConfirmarCuenta  from './paginas/ConfirmarCuenta';
 import  RegistroCliente  from './paginas/RegistroCliente';
 import  DatosPacientes  from './paginas/DatosPacientes';
 import  EditarPerfilDoc  from './paginas/EditarPerfilDoc';
+import  CambiarPassword  from './paginas/CambiarPassword';
 
 
 function App() {
@@ -39,6 +40,8 @@ function App() {
               <Route path="registro-cliente" element={<RegistroCliente/>}/>
               <Route path="datosPacientes" element={<DatosPacientes/>}/>
               <Route path="EditarPerfilDoc" element={<EditarPerfilDoc />} />
+              <Route path="datosPacientes" element={<DatosPacientes/>}/>
+              <Route path="CambiarPassword" element={<CambiarPassword />} />
 
             </Route>
           </Routes>

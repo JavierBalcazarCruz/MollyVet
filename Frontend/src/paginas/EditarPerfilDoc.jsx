@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import cVacios from "../assets/registrarPaciente/images/CamposVacios.png";
 import registroOk from "../assets/registrarPaciente/images/pacienteRegistrado.jpg";
 import "../assets/EditarPerfilDoc/styles/style.css";
+import { Link } from "react-router-dom";
 
 const EditarPerfilDoc = () => {
   const { auth, actualizaPerfil } = useAuth();
@@ -174,6 +175,11 @@ const EditarPerfilDoc = () => {
             </div>
           </div>
         ))}
+         {!editando && (
+        <div className="campo-perfil">
+        <Link to="/admin/CambiarPassword" className="modificar-password-link">Modificar Password</Link>
+      </div>
+      )}
         {editando && (
           <div className="botones-accion">
             <button onClick={handleGuardarTodo} className="btn-accion btn-guardar">

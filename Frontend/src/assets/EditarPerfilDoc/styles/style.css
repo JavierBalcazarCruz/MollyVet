@@ -219,3 +219,31 @@
     width: 100%;
   }
 }
+
+.modificar-password-link {
+  display: inline-block;
+  color: #ffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.modificar-password-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: #ff7600;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+.modificar-password-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
