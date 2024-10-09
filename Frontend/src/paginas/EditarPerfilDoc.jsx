@@ -137,6 +137,10 @@ const EditarPerfilDoc = () => {
     }
   }, [editando]);
 
+  useEffect(() => {
+    console.log("Estado de edición:", editando);
+  }, [editando]);
+
   return (
     <div className="perfil-veterinario-container">
       <div className="perfil-card">
@@ -175,18 +179,18 @@ const EditarPerfilDoc = () => {
             </div>
           </div>
         ))}
-         {!editando && (
-        <div className="campo-perfil">
-        <Link to="/admin/CambiarPassword" className="modificar-password-link">Modificar Password</Link>
-      </div>
-      )}
-        {editando && (
-          <div className="botones-accion">
-            <button onClick={handleGuardarTodo} className="btn-accion btn-guardar">
+        {!editando && (
+          <div className="campo-perfil">
+            <Link to="/admin/CambiarPassword" className="modificar-password-link">Modificar Password</Link>
+          </div>
+        )}
+        {editando === true && (
+          <div className="botones-accion-perfil">
+            <button onClick={handleGuardarTodo} className="btn-accion-perfil btn-guardar-perfil">
               <Check size={18} />
               <span>Guardar</span>
             </button>
-            <button onClick={handleCancelarTodo} className="btn-accion btn-cancelar">
+            <button onClick={handleCancelarTodo} className="btn-accion-perfil btn-cancelar-perfil">
               <X size={18} />
               <span>Cancelar</span>
             </button>
