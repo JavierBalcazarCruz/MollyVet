@@ -1,6 +1,4 @@
-
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Edit, Home, Check, X, Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
@@ -10,6 +8,7 @@ import registroOk from "../assets/registrarPaciente/images/pacienteRegistrado.jp
 import "../assets/cambiarPassword/styles/style.css";
 
 const CambiarPassword = () => {
+  const { guardarPassword } = useAuth();
   const { auth, actualizaPassword } = useAuth();
   const [passwords, setPasswords] = useState({
     actual: '',
@@ -53,6 +52,15 @@ const CambiarPassword = () => {
       );
       return false;
     }
+    if (passwords.nueva.length < 6 || passwords.confirmar.length < 6 ) {
+      mostrarAlerta(
+        "⚠️ Contraseña muy corta ⚠️",
+        "La nueva contraseña debe tener al menos 6 caracteres. revisa nueva contraseña o la confirmación",
+        cVacios,
+        "Alerta de contraseña corta"
+      );
+      return false;
+    }
     if (passwords.nueva === passwords.actual) {
       mostrarAlerta(
         "⚠️ Contraseña igual ⚠️",
@@ -76,9 +84,9 @@ const CambiarPassword = () => {
 
   const handleGuardar = async () => {
     if (!validarPasswords()) return;
-
+    const resultado = await guardarPassword(passwords);
+    console.log(resultado)
     try {
-      const resultado = await actualizaPassword(passwords);
       if (resultado.error) {
         await mostrarAlerta(
           "⚠️ Error al actualizar ⚠️",

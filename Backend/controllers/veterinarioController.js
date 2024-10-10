@@ -212,6 +212,35 @@ const actualizarPerfil = async (req, res) => {
     }
 }
 
+//Actualiza el password del usuario cuando esta iniciada la sesion
+const actualizarPassword = async (req, res) =>{
+   //Leer los datos
+   const { id } = req.veterinario;
+   const { actual, nueva } = req.body;
+
+   const veterinario = await Veterinario.findById(id);
+   if(!veterinario){
+       const error = new Error('Hubo un error');
+       return res.status(400).json({msg:error.message})
+   }
+
+   //Comprobar que el veterinario existe
+   if(await veterinario.comprobarPassword(actual)){
+    //Comprobar su password
+    //Almacenar su nuevo password
+    veterinario.password = nueva;
+    await veterinario.save();
+    res.json({msg: "Password almacenado correctamente"})
+   }else{
+    //incorrecto
+    const error = new Error("El password actual es incorrecto")
+    return res.status(400).json({msg:error.message})
+   }
+   
+
+
+}
+
 export{
     registrar,
     perfil,
@@ -220,5 +249,6 @@ export{
     olvidePassword,
     comprobarToken,
     nuevoPassword,
-    actualizarPerfil
+    actualizarPerfil,
+    actualizarPassword
 }

@@ -77,12 +77,42 @@ const AuthProvider = ({ children }) => {
         }       
     }
 
+    //Guarda la contraseña actualizada cuando esta iniciado la sesion
+    const guardarPassword = async datos =>{
+        const token = localStorage.getItem('apv_token');
+        if (!token) {
+            setCargando(false);
+            return;
+        }
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+      
+        try {
+            const url = `/veterinarios/actualizar-password`; //el actualizar-password esta  definido en el routes del backend
+            const { data } = await clienteAxios.put(url , datos, config);
+            return{
+                msg: data.msg
+            }
+        } catch (error) {
+          return{
+            msg: error.response.data.msg,
+            error:true
+          }
+        }       
+
+    }
+
     const authValue = useMemo(() => ({ 
         auth, 
         setAuth, 
         cargando, 
         cerrarSesion, 
-        actualizaPerfil  // Incluimos actualizaPerfil aquí
+        actualizaPerfil,  // Incluimos actualizaPerfil aquí
+        guardarPassword
     }), [auth, cargando]);  // Las dependencias siguen siendo las mismas
 
     return (
