@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, Children } from "react";
 import clienteAxios from '../config/axios';
+import useAuth from "../hooks/useAuth";
 
 //Este se importa y se crea el hook PacientesProviders 
 const PacientesContext = createContext();
@@ -8,6 +9,8 @@ const PacientesContext = createContext();
 export const PacientesProvider = ({children}) =>{
     const [pacientes, setPacientes] = useState([]);
     const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
+    const { auth } = useAuth();
+
     //Cuando cargue el componente se va llamar la API para poder recuperar los datos
     useEffect(() =>{
         const obtenerPacientes = async () =>{
@@ -31,7 +34,7 @@ export const PacientesProvider = ({children}) =>{
                }
         }
         obtenerPacientes()
-    }, [])
+    }, [auth])
 
     //Función guardarPaciente aquí se va insertar en la api
     const guardarPaciente = async (paciente) =>{
@@ -72,13 +75,8 @@ export const PacientesProvider = ({children}) =>{
             setPacientes([pacienteAlmacenado, ...pacientes])
            } catch (error) {
             console.log(error.response.data.msg);
-           }
-       
-        }
-
-
-
-     
+           }       
+        }     
     }
 
     //Funcion para eliminar pacientes
