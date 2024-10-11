@@ -15,6 +15,19 @@ const DatosPacientes = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [searchTerm, setSearchTerm] = useState('');
 
+  const formatearFecha = (fecha) => {
+    if (!fecha) return 'No disponible';
+    const nuevaFecha = new Date(fecha);
+    if (isNaN(nuevaFecha.getTime())) return 'Fecha inválida';
+    
+    // Ajustamos la fecha para que siempre se muestre en la zona horaria local
+    const fechaLocal = new Date(nuevaFecha.getTime() + nuevaFecha.getTimezoneOffset() * 60000);
+    return new Intl.DateTimeFormat('es-MX', { 
+      dateStyle: 'long',
+      timeZone: 'UTC'  // Esto asegura que la fecha se interprete como UTC
+    }).format(fechaLocal);
+  };
+
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -196,7 +209,9 @@ const handleEllipsisClick = (e, contact) => {
           estado: selectedContact.estado || '',
           nombreMascota: selectedContact.nombreMascota || '',
           especie: selectedContact.especie || '',
-          fechaNacimiento: selectedContact.fechaNacimiento ? new Date(selectedContact.fechaNacimiento).toISOString().split('T')[0] : '',
+          fechaNacimiento: selectedContact.fechaNacimiento 
+            ? new Date(new Date(selectedContact.fechaNacimiento).getTime() + new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0]
+            : '',
           raza: selectedContact.raza || '',
           color: selectedContact.color || '',
           edad: selectedContact.edad || '',
@@ -226,6 +241,8 @@ const handleEllipsisClick = (e, contact) => {
       const updatedData = { ...formData };
       handleSubmit(e, updatedData);
     };
+
+   
 
     return (
       <div className={`edit-modal ${isEditModalOpen && !isClosing ? 'open' : ''} ${isClosing ? 'closing' : ''}`}>
@@ -584,7 +601,7 @@ const handleEllipsisClick = (e, contact) => {
                     </div>
                     <div className="info-item">
                       <Calendar size={20} />
-                      <span><strong>Fecha de nacimiento:</strong> {new Date(selectedContact.fecha).toLocaleDateString()}</span>
+                      <span><strong>Fecha de nacimiento:</strong> {formatearFecha(selectedContact.fechaNacimiento)}</span>
                     </div>
                     <div className="info-item">
                       <PawPrint size={20} />
