@@ -59,8 +59,8 @@ const HomeScreen = () => {
       <nav className="apps">
         <AppIcon to="/admin/registro-cliente" imageUrl={rgpacientes} name="Registrar Clientes" />
         <AppIcon to="/admin/datosPacientes" imageUrl={vPacientes} name="Pacientes" />
+        <AppIcon to="/admin/citas" imageUrl={vCalendario} name="Citas" />
         <AppIcon to="/dashboard"imageUrl={vDashboard} name="Dashboard" />
-        <AppIcon to="/calendar" imageUrl={vCalendario} name="Calendario" />
         <AppIcon to="/inventory" imageUrl={vInventario} name="Inventario" />
         {/* <AppIcon to="/directory" color="#F39C12" name="Directorio" /> */}
         {/* <AppIcon to="/bathrooms" color="#8E44AD" name="Baños" /> */}

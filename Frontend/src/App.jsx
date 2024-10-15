@@ -15,6 +15,7 @@ import  RegistroCliente  from './paginas/RegistroCliente';
 import  DatosPacientes  from './paginas/DatosPacientes';
 import  EditarPerfilDoc  from './paginas/EditarPerfilDoc';
 import  CambiarPassword  from './paginas/CambiarPassword';
+import  Citas  from './paginas/Citas';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
               <Route path="EditarPerfilDoc" element={<EditarPerfilDoc />} />
               <Route path="datosPacientes" element={<DatosPacientes/>}/>
               <Route path="CambiarPassword" element={<CambiarPassword />} />
+              <Route path="Citas" element={<Citas />} />
 
             </Route>
           </Routes>
